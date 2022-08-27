@@ -1817,6 +1817,7 @@ __metadata:
     "@openzeppelin/contracts-upgradeable": ^4.7.3
     "@openzeppelin/hardhat-upgrades": ^1.20.0
     "@openzeppelin/test-helpers": ^0.5.15
+    "@tableland/evm": ^2.0.4
     "@trivago/prettier-plugin-sort-imports": ^3.3.0
     "@typechain/ethers-v5": ^10.1.0
     "@typechain/hardhat": ^6.1.2
@@ -1832,6 +1833,7 @@ __metadata:
     cz-conventional-changelog: ^3.3.0
     dotenv: ^16.0.1
     erc721a: ^4.2.2
+    erc721a-upgradeable: ^4.2.2
     eslint: ^8.21.0
     eslint-config-prettier: ^8.5.0
     ethers: ^5.6.9
@@ -2004,6 +2006,13 @@ __metadata:
   dependencies:
     defer-to-connect: ^2.0.1
   checksum: fc9cb993e808806692e4a3337c90ece0ec00c89f4b67e3652a356b89730da98bc824273a6d67ca84d5f33cd85f317dcd5ce39d8cc0a2f060145a608a7cb8ce92
+  languageName: node
+  linkType: hard
+
+"@tableland/evm@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@tableland/evm@npm:2.0.4"
+  checksum: 19cd5828b0a6db89755d17707aab0f03dd506b6f2c1f1d7fe9f938b145c79117b8886d1466bf33fce513e8a70ea3c17d8c14ba0e6350810f276dd1ab0e5da498
   languageName: node
   linkType: hard
 
@@ -5246,6 +5255,13 @@ __metadata:
   version: 2.2.1
   resolution: "env-paths@npm:2.2.1"
   checksum: 65b5df55a8bab92229ab2b40dad3b387fad24613263d103a97f91c9fe43ceb21965cd3392b1ccb5d77088021e525c4e0481adb309625d0cb94ade1d1fb8dc17e
+  languageName: node
+  linkType: hard
+
+"erc721a-upgradeable@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "erc721a-upgradeable@npm:4.2.2"
+  checksum: 1d91ee399c3a507b5a7d14296423eccfffc5ec6052a7a043136a798c13cec13f0d065ca167ebe78db16c6e46ed1ff52b47d2bfae38ffce61720f3c769d375fca
   languageName: node
   linkType: hard
 
