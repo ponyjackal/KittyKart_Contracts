@@ -20,7 +20,7 @@ Facebook: https://www.facebook.com/profile.php?id=100073769243131
 
 */
 
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.12;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
