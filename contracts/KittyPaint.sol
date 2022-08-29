@@ -31,7 +31,7 @@ import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
 
-contract KittyKart is
+contract KittyPaint is
   ERC721AUpgradeable,
   Initializable,
   ReentrancyGuardUpgradeable,
@@ -51,7 +51,7 @@ contract KittyKart is
   string private _externalURL;
 
   // -----------------------------------------
-  // KittyKart Initializer
+  // KittyPaint Initializer
   // -----------------------------------------
 
   /**
@@ -65,7 +65,7 @@ contract KittyKart is
     string memory externalURL,
     address payable royaltyReceiver
   ) external onlyInitializingERC721A initializer {
-    __ERC721A_init("Kitty Kart", "KKart");
+    __ERC721A_init("Kitty Paint", "KPaint");
     __Context_init();
     __Ownable_init();
     __ReentrancyGuard_init();
@@ -73,7 +73,7 @@ contract KittyKart is
     __ERC2981_init();
 
     _baseURIString = baseURI;
-    _tablePrefix = "kitty_kart_test";
+    _tablePrefix = "kitty_paint_test";
     _externalURL = externalURL;
 
     // Use ERC2981 to set royalty receiver and fee
@@ -81,7 +81,7 @@ contract KittyKart is
   }
 
   // -----------------------------------------
-  // KittyKart Modifiers
+  // KittyPaint Modifiers
   // -----------------------------------------
 
   modifier nonContract() {
@@ -90,7 +90,7 @@ contract KittyKart is
   }
 
   // -----------------------------------------
-  // KittyKart View Functions
+  // KittyPaint View Functions
   // -----------------------------------------
 
   function metadataURI() public view returns (string memory) {
@@ -114,7 +114,8 @@ contract KittyKart is
     return
       string.concat(
         base,
-        "SELECT%20json_object(%27id%27,id,%27external_link%27,external_link,%27color%27,color)%20as%20meta%20FROM%20",
+        "SELECT%20json_object(%27id%27,id,%27external_link%27,external_link,%27color%27,color,%27isUsed%27,isUsed)",
+        "%20as%20meta%20FROM%20",
         _metadataTable,
         "%20WHERE%20id=",
         StringsUpgradeable.toString(tokenId),
@@ -123,7 +124,7 @@ contract KittyKart is
   }
 
   // -----------------------------------------
-  // KittyKart Owner Functions
+  // KittyPaint Owner Functions
   // -----------------------------------------
   /**
    * @dev create table in TableLand
@@ -152,7 +153,7 @@ contract KittyKart is
         _tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, external_link text, color text);"
+        " (id int, external_link text, color text, isUsed bool);"
       )
     );
 
@@ -188,7 +189,7 @@ contract KittyKart is
   }
 
   // -----------------------------------------
-  // KittyKart Mutative Functions
+  // KittyPaint Mutative Functions
   // -----------------------------------------
 
   /**
@@ -204,9 +205,9 @@ contract KittyKart is
         string.concat(
           "INSERT INTO ",
           _metadataTable,
-          " (id, external_link, color) VALUES (",
+          " (id, external_link, color, isUsed) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
-          ", 'not.implemented.xyz', 'blue')"
+          ", 'not.implemented.xyz', 'blue', false)"
         )
       );
     }
