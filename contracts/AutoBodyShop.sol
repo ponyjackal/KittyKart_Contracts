@@ -102,11 +102,31 @@ contract AutoBodyShop is Initializable, ReentrancyGuardUpgradeable, OwnableUpgra
    */
   function paint(uint256 _kartId, uint256 _paintId) external nonContract {
     require(kittyKart.ownerOf(_kartId) == msg.sender && kittyPaint.ownerOf(_paintId) == msg.sender, "Not an owner");
-    // read paint metadata from TableLand
+    // set is_wasted in paint table
     tableland.runSQL(
       address(this),
       kittyPaintTableId,
-      string.concat("SELECT color FROM", kittyPaintTable, "WHERE id = ", StringsUpgradeable.toString(_paintId), ";")
+      string.concat(
+        "UPDATE",
+        kittyPaintTable,
+        " SET is_wasted = true",
+        " WHERE kart_id = ",
+        StringsUpgradeable.toString(_kartId)
+      )
+    );
+    // set kart_id in paint table
+    tableland.runSQL(
+      address(this),
+      kittyPaintTableId,
+      string.concat(
+        "UPDATE",
+        kittyPaintTable,
+        " SET kart_id = ",
+        StringsUpgradeable.toString(_kartId),
+        " WHERE id = ",
+        StringsUpgradeable.toString(_paintId),
+        " AND is_wasted = false"
+      )
     );
   }
 }
