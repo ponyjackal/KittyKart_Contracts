@@ -64,7 +64,7 @@ contract KittyKart is
     string memory baseURI,
     string memory externalURL,
     address payable royaltyReceiver
-  ) external onlyInitializingERC721A initializer {
+  ) external initializerERC721A initializer {
     __ERC721A_init("Kitty Kart", "KKart");
     __Context_init();
     __Ownable_init();
