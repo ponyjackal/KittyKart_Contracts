@@ -64,7 +64,7 @@ contract KittyPaint is
     string memory baseURI,
     string memory externalURL,
     address payable royaltyReceiver
-  ) external onlyInitializingERC721A initializer {
+  ) external initializerERC721A initializer {
     __ERC721A_init("Kitty Paint", "KPaint");
     __Context_init();
     __Ownable_init();
@@ -115,7 +115,7 @@ contract KittyPaint is
       string.concat(
         base,
         "SELECT%20json_object(%27id%27,id,%27external_link%27,external_link,%27color%27,color",
-        ",%27is_wasted%27,is_wasted)",
+        ",%27kart_id%27,kart_id,%27is_wasted%27,is_wasted)",
         "%20as%20meta%20FROM%20",
         _metadataTable,
         "%20WHERE%20id=",
@@ -147,6 +147,8 @@ contract KittyPaint is
        *    string description,
        *    string external_link,
        *    string color,
+       *    int kart_id,
+       *    bool is_wasted,
        *  );
        */
       string.concat(
