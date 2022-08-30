@@ -114,7 +114,8 @@ contract KittyPaint is
     return
       string.concat(
         base,
-        "SELECT%20json_object(%27id%27,id,%27external_link%27,external_link,%27color%27,color,%27isUsed%27,isUsed)",
+        "SELECT%20json_object(%27id%27,id,%27external_link%27,external_link,%27color%27,color",
+        ",%27is_wasted%27,is_wasted)",
         "%20as%20meta%20FROM%20",
         _metadataTable,
         "%20WHERE%20id=",
@@ -153,7 +154,7 @@ contract KittyPaint is
         _tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, external_link text, color text, isUsed bool);"
+        " (id int, external_link text, color text, kart_id int, is_wasted bool);"
       )
     );
 
@@ -205,9 +206,11 @@ contract KittyPaint is
         string.concat(
           "INSERT INTO ",
           _metadataTable,
-          " (id, external_link, color, isUsed) VALUES (",
+          " (id, external_link, color, kart_id, is_wasted) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
-          ", 'not.implemented.xyz', 'blue', false)"
+          ",",
+          _externalURL,
+          ", 'blue', null, false)"
         )
       );
     }
