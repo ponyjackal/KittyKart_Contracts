@@ -4,7 +4,13 @@ import * as path from "path";
 
 dotenvConfig({ path: path.resolve(__dirname, "../../../.env") });
 
-type FileName = "kittyKart" | "kittyPaint" | "kittyKartProxy" | "kittyPaintProxy";
+type FileName =
+  | "kittyKart"
+  | "kittyKartProxy"
+  | "kittyPaint"
+  | "kittyPaintProxy"
+  | "autoBodyShop"
+  | "autoBodyShopProxy";
 
 export const ZERO_ADDRESS = "0x" + "0".repeat(40);
 
