@@ -94,6 +94,9 @@ const config: HardhatUserConfig = {
         },
       ],
       chainId: chainIds.hardhat,
+      forking: {
+        url: "https://mainnet.infura.io/v3/" + infuraApiKey,
+      },
     },
     arbitrum: getChainConfig("arbitrum-mainnet"),
     avalanche: getChainConfig("avalanche"),

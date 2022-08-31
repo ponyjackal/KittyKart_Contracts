@@ -30,6 +30,7 @@ import "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol"
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
+import "hardhat/console.sol";
 
 contract KittyKart is
   ERC721AUpgradeable,
@@ -130,11 +131,25 @@ contract KittyKart is
    * @param _registry The registry address
    */
   function createMetadataTable(address _registry) external payable onlyOwner returns (uint256) {
+    console.log("_registry", _registry);
     /*
      * registry if the address of the Tableland registry. You can always find those
      * here https://github.com/tablelandnetwork/evm-tableland#currently-supported-chains
      */
     _tableland = ITablelandTables(_registry);
+
+    console.log("_tableland", address(_tableland));
+
+    console.log(
+      "sql query: ",
+      string.concat(
+        "CREATE TABLE ",
+        _tablePrefix,
+        "_",
+        StringsUpgradeable.toString(block.chainid),
+        " (id int, external_link text, color text);"
+      )
+    );
 
     _metadataTableId = _tableland.createTable(
       address(this),
@@ -155,6 +170,8 @@ contract KittyKart is
         " (id int, external_link text, color text);"
       )
     );
+
+    console.log(_metadataTableId);
 
     _metadataTable = string.concat(
       _tablePrefix,
