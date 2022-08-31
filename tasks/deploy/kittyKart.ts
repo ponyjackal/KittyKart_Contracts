@@ -49,8 +49,12 @@ task("upgrade:KittyKart").setAction(async function (taskArguments: TaskArguments
 task("verify:KittyKart").setAction(async function (taskArguments: TaskArguments, { run }) {
   const address = readContractAddress("kittyKart");
 
-  await run("verify:verify", {
-    address,
-    constructorArguments: [],
-  });
+  try {
+    await run("verify:verify", {
+      address,
+      constructorArguments: [],
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
