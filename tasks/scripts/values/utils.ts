@@ -4,13 +4,7 @@ import * as path from "path";
 
 dotenvConfig({ path: path.resolve(__dirname, "../../../.env") });
 
-type FileName =
-  | "kittyKart"
-  | "kittyKartProxy"
-  | "kittyPaint"
-  | "kittyPaintProxy"
-  | "autoBodyShop"
-  | "autoBodyShopProxy";
+type ValueKey = "registry" | "kittyKartTableId" | "kittyKartTable" | "kittyPaintTableId" | "kittyPaintTable";
 
 export const ZERO_ADDRESS = "0x" + "0".repeat(40);
 
@@ -20,14 +14,18 @@ export const network = () => {
   return DEPLOY_NETWORK || "goerli";
 };
 
-export const writeContractAddress = (contractFileName: FileName, address: string) => {
+export const writeValue = (key: ValueKey, value: string) => {
   const NETWORK = network();
 
+  const rawData = fs.readFileSync(path.join(__dirname, `./${NETWORK}.json`));
+  const info = JSON.parse(rawData.toString());
+
   fs.writeFileSync(
-    path.join(__dirname, `${NETWORK}/${contractFileName}.json`),
+    path.join(__dirname, `./${NETWORK}.json`),
     JSON.stringify(
       {
-        address,
+        ...info,
+        [key]: value,
       },
       null,
       2,
@@ -35,11 +33,11 @@ export const writeContractAddress = (contractFileName: FileName, address: string
   );
 };
 
-export const readContractAddress = (contractFileName: FileName): string => {
+export const readValue = (key: ValueKey): string => {
   const NETWORK = network();
 
-  const rawData = fs.readFileSync(path.join(__dirname, `${NETWORK}/${contractFileName}.json`));
+  const rawData = fs.readFileSync(path.join(__dirname, `./${NETWORK}.json`));
   const info = JSON.parse(rawData.toString());
 
-  return info.address;
+  return info[key];
 };
