@@ -20,7 +20,6 @@ task("KittyKart:createMetadataTable").setAction(async function (taskArguments: T
 
   try {
     const kittyKartTableId = await kittyKart.createMetadataTable(registryAddress);
-    console.log("kittyKartTableId", kittyKartTableId);
     writeValue("kittyKartTableId", kittyKartTableId);
     console.log("KittyKart:createMetadataTable success");
   } catch (err) {
