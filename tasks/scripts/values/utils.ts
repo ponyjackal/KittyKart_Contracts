@@ -14,7 +14,7 @@ export const network = () => {
   return DEPLOY_NETWORK || "goerli";
 };
 
-export const writeValue = (key: ValueKey, value: string) => {
+export const writeValue = (key: ValueKey, value: any) => {
   const NETWORK = network();
 
   const rawData = fs.readFileSync(path.join(__dirname, `./${NETWORK}.json`));
