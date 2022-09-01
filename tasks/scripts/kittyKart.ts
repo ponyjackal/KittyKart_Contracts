@@ -19,10 +19,32 @@ task("KittyKart:createMetadataTable").setAction(async function (taskArguments: T
   const kittyKart: KittyKart = await kittyKartFactory.attach(kittyKartProxyAddress);
 
   try {
-    const kittyKartTableId = await kittyKart.createMetadataTable(registryAddress);
-    writeValue("kittyKartTableId", kittyKartTableId);
-    console.log("KittyKart:createMetadataTable success", kittyKartTableId);
+    await kittyKart.createMetadataTable(registryAddress);
+    console.log("KittyKart:createMetadataTable success");
   } catch (err) {
     console.log("KittyKart:createMetadataTable error", err);
+  }
+});
+
+task("KittyKart:getMetadataTable").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const kittyKartProxyAddress = readContractAddress("kittyKartProxy");
+
+  // attatch KittyKart
+  const kittyKartFactory: KittyKart__factory = <KittyKart__factory>(
+    await ethers.getContractFactory("KittyKart", accounts[0])
+  );
+  const kittyKart: KittyKart = await kittyKartFactory.attach(kittyKartProxyAddress);
+
+  try {
+    const kittyKartTableIdBN = await kittyKart.metadataTableId();
+    const kittyKartTableId = +kittyKartTableIdBN.toString();
+    writeValue("kittyKartTableId", kittyKartTableId);
+
+    const kittyKartTable = await kittyKart.metadataTable();
+    writeValue("kittyKartTable", kittyKartTable);
+    console.log("KittyKart:getMetadataTable success", kittyKartTableId, kittyKartTable);
+  } catch (err) {
+    console.log("KittyKart:getMetadataTable error", err);
   }
 });

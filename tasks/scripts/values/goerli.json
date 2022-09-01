@@ -1,44 +1,7 @@
 {
   "registry": "0xDA8EA22d092307874f30A1F277D1388dca0BA97a",
-  "kittyKartTableId": {
-    "hash": "0xeaffd0fb19cfbb63ba80be6417ff9c7418bfad759bc6b03f1cb38f33052e701f",
-    "type": 2,
-    "accessList": [],
-    "blockHash": null,
-    "blockNumber": null,
-    "transactionIndex": null,
-    "confirmations": 0,
-    "from": "0xE078c3BDEe620829135e1ab526bE860498B06339",
-    "gasPrice": {
-      "type": "BigNumber",
-      "hex": "0x98f57b7e"
-    },
-    "maxPriorityFeePerGas": {
-      "type": "BigNumber",
-      "hex": "0x5013b42b"
-    },
-    "maxFeePerGas": {
-      "type": "BigNumber",
-      "hex": "0x98f57b7e"
-    },
-    "gasLimit": {
-      "type": "BigNumber",
-      "hex": "0x02d18d"
-    },
-    "to": "0x1126CB836A01f6582e356Cdcdce13a7c16e5d9a3",
-    "value": {
-      "type": "BigNumber",
-      "hex": "0x00"
-    },
-    "nonce": 52,
-    "data": "0xa8371acc000000000000000000000000da8ea22d092307874f30a1f277d1388dca0ba97a",
-    "r": "0x4fce352b34142b6371e7b30aae3e4121d9d6ae282b425dda81ee0713ae099fb4",
-    "s": "0x51b19613558054c2272fe08ff8802be55887edef14b29c9a466ab79730d8fc53",
-    "v": 1,
-    "creates": null,
-    "chainId": 5
-  },
-  "kittyKartTable": "",
+  "kittyKartTableId": 622,
+  "kittyKartTable": "kitty_kart_test_5_622",
   "kittyPaintTableId": -1,
   "kittyPaintTable": ""
 }

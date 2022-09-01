@@ -34,12 +34,12 @@ import "@tableland/evm/contracts/ITablelandTables.sol";
 import "hardhat/console.sol";
 
 contract KittyKart is
-  ERC721AUpgradeable,
   Initializable,
-  ERC721HolderUpgradeable,
   ReentrancyGuardUpgradeable,
   OwnableUpgradeable,
   PausableUpgradeable,
+  ERC721AUpgradeable,
+  ERC721HolderUpgradeable,
   ERC2981Upgradeable
 {
   uint256 public constant TOTAL_SUPPLY = 15000;
@@ -68,12 +68,12 @@ contract KittyKart is
     string memory externalURL,
     address payable royaltyReceiver
   ) external initializerERC721A initializer {
-    __ERC721A_init("Kitty Kart", "KKart");
-    __ERC721Holder_init();
     __Context_init();
     __Ownable_init();
     __ReentrancyGuard_init();
     __Pausable_init();
+    __ERC721A_init("Kitty Kart", "KKart");
+    __ERC721Holder_init();
     __ERC2981_init();
 
     _baseURIString = baseURI;
@@ -107,6 +107,20 @@ contract KittyKart is
   }
 
   /**
+   * @dev get metadata table name
+   */
+  function metadataTable() external view onlyOwner returns (string memory) {
+    return _metadataTable;
+  }
+
+  /**
+   * @dev get metadata table id
+   */
+  function metadataTableId() external view onlyOwner returns (uint256) {
+    return _metadataTableId;
+  }
+
+  /**
    * @dev tokenURI is an example of how to turn a row in your table back into
    * erc721 compliant metadata JSON. Here, we do a simple SELECT statement
    * with function that converts the result into json.
@@ -134,25 +148,11 @@ contract KittyKart is
    * @param _registry The registry address
    */
   function createMetadataTable(address _registry) external payable onlyOwner returns (uint256) {
-    console.log("_registry", _registry);
     /*
      * registry if the address of the Tableland registry. You can always find those
      * here https://github.com/tablelandnetwork/evm-tableland#currently-supported-chains
      */
     _tableland = ITablelandTables(_registry);
-
-    console.log("_tableland", address(_tableland));
-
-    console.log(
-      "sql query: ",
-      string.concat(
-        "CREATE TABLE ",
-        _tablePrefix,
-        "_",
-        StringsUpgradeable.toString(block.chainid),
-        " (id int, external_link text, color text);"
-      )
-    );
 
     _metadataTableId = _tableland.createTable(
       address(this),
@@ -173,8 +173,6 @@ contract KittyKart is
         " (id int, external_link text, color text);"
       )
     );
-
-    console.log(_metadataTableId);
 
     _metadataTable = string.concat(
       _tablePrefix,
