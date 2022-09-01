@@ -33,12 +33,12 @@ import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
 
 contract KittyPaint is
-  ERC721AUpgradeable,
   Initializable,
-  ERC721HolderUpgradeable,
   ReentrancyGuardUpgradeable,
   OwnableUpgradeable,
   PausableUpgradeable,
+  ERC721AUpgradeable,
+  ERC721HolderUpgradeable,
   ERC2981Upgradeable
 {
   uint256 public constant TOTAL_SUPPLY = 15000;
@@ -67,12 +67,12 @@ contract KittyPaint is
     string memory externalURL,
     address payable royaltyReceiver
   ) external initializerERC721A initializer {
-    __ERC721A_init("Kitty Paint", "KPaint");
-    __ERC721Holder_init();
     __Context_init();
     __Ownable_init();
     __ReentrancyGuard_init();
     __Pausable_init();
+    __ERC721A_init("Kitty Paint", "KPaint");
+    __ERC721Holder_init();
     __ERC2981_init();
 
     _baseURIString = baseURI;
@@ -103,6 +103,20 @@ contract KittyPaint is
 
   function _baseURI() internal view override returns (string memory) {
     return _baseURIString;
+  }
+
+  /**
+   * @dev get metadata table name
+   */
+  function metadataTable() external view onlyOwner returns (string memory) {
+    return _metadataTable;
+  }
+
+  /**
+   * @dev get metadata table id
+   */
+  function metadataTableId() external view onlyOwner returns (uint256) {
+    return _metadataTableId;
   }
 
   /**
