@@ -21,7 +21,7 @@ task("KittyPaint:createMetadataTable").setAction(async function (taskArguments: 
   try {
     const kittyPaintTableId = await kittyPaint.createMetadataTable(registryAddress);
     writeValue("kittyPaintTableId", kittyPaintTableId);
-    console.log("KittyPaint:createMetadataTable success");
+    console.log("KittyPaint:createMetadataTable success", kittyPaintTableId);
   } catch (err) {
     console.log("KittyPaint:createMetadataTable error", err);
   }
