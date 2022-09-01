@@ -27,6 +27,7 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
@@ -34,6 +35,7 @@ import "@tableland/evm/contracts/ITablelandTables.sol";
 contract KittyPaint is
   ERC721AUpgradeable,
   Initializable,
+  ERC721HolderUpgradeable,
   ReentrancyGuardUpgradeable,
   OwnableUpgradeable,
   PausableUpgradeable,
@@ -66,6 +68,7 @@ contract KittyPaint is
     address payable royaltyReceiver
   ) external initializerERC721A initializer {
     __ERC721A_init("Kitty Paint", "KPaint");
+    __ERC721Holder_init();
     __Context_init();
     __Ownable_init();
     __ReentrancyGuard_init();
