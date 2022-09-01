@@ -26,7 +26,7 @@ task("KittyPaint:createMetadataTable").setAction(async function (taskArguments: 
   }
 });
 
-task("KittyPaint:createMetadataTable").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+task("KittyPaint:getMetadataTable").setAction(async function (taskArguments: TaskArguments, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const kittyPaintProxyAddress = readContractAddress("kittyPaintProxy");
   const registryAddress = readValue("registry");
@@ -44,8 +44,8 @@ task("KittyPaint:createMetadataTable").setAction(async function (taskArguments: 
 
     const kittyPaintTable = await kittyPaint.metadataTable();
     writeValue("kittyPaintTable", kittyPaintTable);
-    console.log("KittyPaint:createMetadataTable success", kittyPaintTableId, kittyPaintTable);
+    console.log("KittyPaint:getMetadataTable success", kittyPaintTableId, kittyPaintTable);
   } catch (err) {
-    console.log("KittyPaint:createMetadataTable error", err);
+    console.log("KittyPaint:getMetadataTable error", err);
   }
 });
