@@ -4,7 +4,13 @@ import * as path from "path";
 
 dotenvConfig({ path: path.resolve(__dirname, "../../../.env") });
 
-type ValueKey = "registry" | "kittyKartTableId" | "kittyKartTable" | "kittyPaintTableId" | "kittyPaintTable";
+type ValueKey =
+  | "registry"
+  | "kittyKartTableId"
+  | "kittyKartTable"
+  | "kittyPaintTableId"
+  | "kittyPaintTable"
+  | "baseURI";
 
 export const ZERO_ADDRESS = "0x" + "0".repeat(40);
 

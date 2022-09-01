@@ -29,7 +29,6 @@ task("KittyPaint:createMetadataTable").setAction(async function (taskArguments: 
 task("KittyPaint:getMetadataTable").setAction(async function (taskArguments: TaskArguments, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const kittyPaintProxyAddress = readContractAddress("kittyPaintProxy");
-  const registryAddress = readValue("registry");
 
   // attatch KittyPaint
   const kittyPaintFactory: KittyPaint__factory = <KittyPaint__factory>(

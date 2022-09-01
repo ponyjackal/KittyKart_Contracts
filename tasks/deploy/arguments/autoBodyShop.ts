@@ -1,8 +1,8 @@
 import { readValue } from "../../scripts/values/utils";
 import { readContractAddress } from "../addresses/utils";
 
-const KITYT_KART_ADDRESS = readContractAddress("kittyKart");
-const KITYT_PAINT_ADDRESS = readContractAddress("kittyPaint");
+const KITYT_KART_ADDRESS = readContractAddress("kittyKartProxy");
+const KITYT_PAINT_ADDRESS = readContractAddress("kittyPaintProxy");
 const REGISTRY_ADDRESS = readValue("registry");
 const KITTY_KART_TABLE_ID = readValue("kittyKartTableId");
 const KITTY_KART_TABLE = readValue("kittyKartTable");
