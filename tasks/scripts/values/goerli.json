@@ -2,6 +2,7 @@
   "registry": "0xDA8EA22d092307874f30A1F277D1388dca0BA97a",
   "kittyKartTableId": 622,
   "kittyKartTable": "kitty_kart_test_5_622",
-  "kittyPaintTableId": 623,
-  "kittyPaintTable": "kitty_paint_test_5_623"
+  "kittyPaintTableId": 627,
+  "kittyPaintTable": "kitty_paint_testt_5_627",
+  "baseURI": "https://testnet.tableland.network/query?s="
 }

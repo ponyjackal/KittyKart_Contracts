@@ -70,11 +70,6 @@ contract AutoBodyShop is Initializable, ReentrancyGuardUpgradeable, OwnableUpgra
     __Pausable_init();
 
     require(_kittyKart != address(0) && _kittyPaint != address(0), "Invalid token address.");
-    require(
-      IERC165Upgradeable(_kittyKart).supportsInterface(0x80ac58cd) &&
-        IERC165Upgradeable(_kittyPaint).supportsInterface(0x80ac58cd),
-      "Non-erc721"
-    );
     require(_registry != address(0), "Invalid registry address");
 
     kittyKart = IERC721AUpgradeable(_kittyKart);
@@ -102,6 +97,8 @@ contract AutoBodyShop is Initializable, ReentrancyGuardUpgradeable, OwnableUpgra
    */
   function paint(uint256 _kartId, uint256 _paintId) external nonContract {
     require(kittyKart.ownerOf(_kartId) == msg.sender && kittyPaint.ownerOf(_paintId) == msg.sender, "Not an owner");
+    kittyPaint.safeTransferFrom(msg.sender, address(this), _paintId);
+
     // set is_wasted in paint table
     tableland.runSQL(
       address(this),

@@ -76,7 +76,7 @@ contract KittyPaint is
     __ERC2981_init();
 
     _baseURIString = baseURI;
-    _tablePrefix = "kitty_paint_test";
+    _tablePrefix = "kitty_paint_testt";
     _externalURL = externalURL;
 
     // Use ERC2981 to set royalty receiver and fee
@@ -132,7 +132,7 @@ contract KittyPaint is
       string.concat(
         base,
         "SELECT%20json_object(%27id%27,id,%27external_link%27,external_link,%27color%27,color",
-        ",%27kart_id%27,kart_id,%27is_wasted%27,is_wasted)",
+        ",%27kart_id%27,kart_id,%27on_use%27,on_use)",
         "%20as%20meta%20FROM%20",
         _metadataTable,
         "%20WHERE%20id=",
@@ -165,7 +165,7 @@ contract KittyPaint is
        *    string external_link,
        *    string color,
        *    int kart_id,
-       *    bool is_wasted,
+       *    int on_use,
        *  );
        */
       string.concat(
@@ -173,7 +173,7 @@ contract KittyPaint is
         _tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, external_link text, color text, kart_id int, is_wasted bool);"
+        " (id int, external_link text, color text, kart_id int, on_use int);"
       )
     );
 
@@ -225,11 +225,11 @@ contract KittyPaint is
         string.concat(
           "INSERT INTO ",
           _metadataTable,
-          " (id, external_link, color, kart_id, is_wasted) VALUES (",
+          " (id, external_link, color, kart_id, on_use) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
           ",",
           _externalURL,
-          ", 'blue', null, false)"
+          ", 'blue', NULL, 0)"
         )
       );
     }
