@@ -42,8 +42,9 @@ task("upgrade:KittyPaint").setAction(async function (taskArguments: TaskArgument
 
   console.log("KittyPaint upgraded to: ", upgraded.address);
 
-  const impl = await upgrades.erc1967.getImplementationAddress(upgraded.address);
-  console.log("Implementation :", impl);
+  const kittyPaint = await upgrades.erc1967.getImplementationAddress(upgraded.address);
+  writeContractAddress("kittyPaint", kittyPaint);
+  console.log("Implementation :", kittyPaint);
 });
 
 task("verify:KittyPaint").setAction(async function (taskArguments: TaskArguments, { run }) {

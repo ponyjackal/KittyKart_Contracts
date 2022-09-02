@@ -224,7 +224,9 @@ contract KittyKart is
           _metadataTable,
           " (id, external_link, color) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
-          ", 'not.implemented.xyz', 'blue')"
+          ", '",
+          _externalURL,
+          "', 'blue');"
         )
       );
     }
