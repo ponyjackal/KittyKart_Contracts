@@ -33,7 +33,7 @@ import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
 import "hardhat/console.sol";
 
-contract KittyPaint is
+contract KittyAsset is
   Initializable,
   ReentrancyGuardUpgradeable,
   OwnableUpgradeable,
@@ -53,8 +53,11 @@ contract KittyPaint is
   string private _tablePrefix;
   string private _externalURL;
 
+  // Game server address
+  address private _gameServer;
+
   // -----------------------------------------
-  // KittyPaint Initializer
+  // kittyAsset Initializer
   // -----------------------------------------
 
   /**
@@ -85,7 +88,7 @@ contract KittyPaint is
   }
 
   // -----------------------------------------
-  // KittyPaint Modifiers
+  // kittyAsset Modifiers
   // -----------------------------------------
 
   modifier nonContract() {
@@ -93,8 +96,13 @@ contract KittyPaint is
     _;
   }
 
+  modifier onlyGameServer() {
+    require(msg.sender == _gameServer, "non game server");
+    _;
+  }
+
   // -----------------------------------------
-  // KittyPaint View Functions
+  // kittyAsset View Functions
   // -----------------------------------------
 
   function metadataURI() public view returns (string memory) {
@@ -143,7 +151,7 @@ contract KittyPaint is
   }
 
   // -----------------------------------------
-  // KittyPaint Owner Functions
+  // kittyAsset Owner Functions
   // -----------------------------------------
   /**
    * @dev create table in TableLand
@@ -209,32 +217,87 @@ contract KittyPaint is
     );
   }
 
+  /**
+   * @dev Set game server
+   * @param gameServer The external URL
+   */
+  function setGameServer(address gameServer) external onlyOwner {
+    require(gameServer != address(0), "Invalid address");
+    _gameServer = gameServer;
+  }
+
   // -----------------------------------------
-  // KittyPaint Mutative Functions
+  // kittyAsset Mutative Functions
   // -----------------------------------------
 
   /**
-   * @dev Its free mint for test
-   * @param _quantity The quantity value to mint
+   * @dev game server mints asset to the user
+   * @param to receiver address
+   * @param traitType trait type of game asset
+   * @param value value of trait type
    */
-  function publicMint(uint256 _quantity) external nonContract {
+  function safeMint(
+    address to,
+    string memory traitType,
+    string memory value
+  ) external onlyGameServer {
     uint256 tokenId = _nextTokenId();
-    for (uint256 i = 0; i < _quantity; i++) {
+
+    _tableland.runSQL(
+      address(this),
+      _metadataTableId,
+      string.concat(
+        "INSERT INTO ",
+        _metadataTable,
+        " (id, external_link, trait_type, value, on_use) VALUES (",
+        StringsUpgradeable.toString(tokenId),
+        ", '",
+        _externalURL,
+        "', '",
+        traitType,
+        "', '",
+        value,
+        "', 0);"
+      )
+    );
+
+    _mint(to, 1);
+  }
+
+  /**
+   * @dev game server mints assets to the user
+   * @param to receiver address
+   * @param traitTypes trait type of game asset
+   * @param values value of trait type
+   */
+  function safeBatchMint(
+    address to,
+    string[] calldata traitTypes,
+    string[] calldata values
+  ) external onlyGameServer {
+    require(traitTypes.length == values.length, "Invalid arguments");
+
+    uint256 tokenId = _nextTokenId();
+    for (uint256 i = 0; i < traitTypes.length; i++) {
       _tableland.runSQL(
         address(this),
         _metadataTableId,
         string.concat(
           "INSERT INTO ",
           _metadataTable,
-          " (id, external_link, color, on_use) VALUES (",
+          " (id, external_link, trait_type, value, on_use) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
           ", '",
           _externalURL,
-          "', 'blue', 0);"
+          "', '",
+          traitTypes[i],
+          "', '",
+          values[i],
+          "', 0);"
         )
       );
     }
-    _mint(msg.sender, _quantity);
+    _mint(to, traitTypes.length);
   }
 
   function supportsInterface(bytes4 interfaceId)

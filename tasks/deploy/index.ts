@@ -1,3 +1,3 @@
 import "./autoBodyShop";
+import "./kittyAsset";
 import "./kittyKart";
-import "./kittyPaint";

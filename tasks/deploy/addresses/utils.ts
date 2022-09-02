@@ -7,8 +7,8 @@ dotenvConfig({ path: path.resolve(__dirname, "../../../.env") });
 type FileName =
   | "kittyKart"
   | "kittyKartProxy"
-  | "kittyPaint"
-  | "kittyPaintProxy"
+  | "kittyAsset"
+  | "kittyAssetProxy"
   | "autoBodyShop"
   | "autoBodyShopProxy";
 

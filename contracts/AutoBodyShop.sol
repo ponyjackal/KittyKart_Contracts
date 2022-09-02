@@ -42,12 +42,12 @@ contract AutoBodyShop is
   ITablelandTables private tableland;
 
   IERC721AUpgradeable internal kittyKart;
-  IERC721AUpgradeable internal kittyPaint;
+  IERC721AUpgradeable internal kittyAsset;
 
   uint256 private kittyKartTableId;
   string private kittyKartTable;
-  uint256 private kittyPaintTableId;
-  string private kittyPaintTable;
+  uint256 private kittyAssetTableId;
+  string private kittyAssetTable;
 
   // -----------------------------------------
   // AutoBodyShop Initializer
@@ -55,21 +55,21 @@ contract AutoBodyShop is
   /**
    * @dev Initializer function
    * @param _kittyKart KittyKart address
-   * @param _kittyPaint KittyPaint address
+   * @param _kittyAsset kittyAsset address
    * @param _registry The registry address
    * @param _kittyKartTableId KittyKart Tableland table id
    * @param _kittyKartTable KittyKart Tableland table name
-   * @param _kittyPaintTableId KittyPaint Tableland table id
-   * @param _kittyPaintTable KittyPaint Tableland table name
+   * @param _kittyAssetTableId kittyAsset Tableland table id
+   * @param _kittyAssetTable kittyAsset Tableland table name
    */
   function initialize(
     address _kittyKart,
-    address _kittyPaint,
+    address _kittyAsset,
     address _registry,
     uint256 _kittyKartTableId,
     string memory _kittyKartTable,
-    uint256 _kittyPaintTableId,
-    string memory _kittyPaintTable
+    uint256 _kittyAssetTableId,
+    string memory _kittyAssetTable
   ) external initializer {
     __Context_init();
     __Ownable_init();
@@ -77,16 +77,16 @@ contract AutoBodyShop is
     __Pausable_init();
     __ERC721Holder_init();
 
-    require(_kittyKart != address(0) && _kittyPaint != address(0), "Invalid token address.");
+    require(_kittyKart != address(0) && _kittyAsset != address(0), "Invalid token address.");
     require(_registry != address(0), "Invalid registry address");
 
     kittyKart = IERC721AUpgradeable(_kittyKart);
-    kittyPaint = IERC721AUpgradeable(_kittyPaint);
+    kittyAsset = IERC721AUpgradeable(_kittyAsset);
     tableland = ITablelandTables(_registry);
     kittyKartTableId = _kittyKartTableId;
     kittyKartTable = _kittyKartTable;
-    kittyPaintTableId = _kittyPaintTableId;
-    kittyPaintTable = _kittyPaintTable;
+    kittyAssetTableId = _kittyAssetTableId;
+    kittyAssetTable = _kittyAssetTable;
   }
 
   // -----------------------------------------
@@ -101,19 +101,19 @@ contract AutoBodyShop is
   /**
    * @dev Apply paint color to kart
    * @param _kartId KittyKart token id
-   * @param _paintId KittyPaint token id
+   * @param _paintId kittyAsset token id
    */
   function paint(uint256 _kartId, uint256 _paintId) external nonContract {
-    require(kittyKart.ownerOf(_kartId) == msg.sender && kittyPaint.ownerOf(_paintId) == msg.sender, "Not an owner");
-    kittyPaint.safeTransferFrom(msg.sender, address(this), _paintId);
+    require(kittyKart.ownerOf(_kartId) == msg.sender && kittyAsset.ownerOf(_paintId) == msg.sender, "Not an owner");
+    kittyAsset.safeTransferFrom(msg.sender, address(this), _paintId);
 
     // set on_used in paint table
     tableland.runSQL(
       address(this),
-      kittyPaintTableId,
+      kittyAssetTableId,
       string.concat(
         "UPDATE",
-        kittyPaintTable,
+        kittyAssetTable,
         " SET on_used = 0",
         " WHERE kart_id = ",
         StringsUpgradeable.toString(_kartId),
@@ -123,10 +123,10 @@ contract AutoBodyShop is
     // set kart_id in paint table
     tableland.runSQL(
       address(this),
-      kittyPaintTableId,
+      kittyAssetTableId,
       string.concat(
         "UPDATE",
-        kittyPaintTable,
+        kittyAssetTable,
         " SET kart_id = ",
         StringsUpgradeable.toString(_kartId),
         " WHERE id = ",

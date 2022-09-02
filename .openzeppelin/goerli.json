@@ -647,48 +647,48 @@
             "offset": 0,
             "slot": "301",
             "type": "t_contract(ITablelandTables)1413",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:46"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:46"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "302",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:47"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:47"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "303",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:48"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:48"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "304",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "305",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "306",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           }
         ],
         "types": {
@@ -1579,48 +1579,48 @@
             "offset": 0,
             "slot": "351",
             "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:48"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:48"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "352",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "354",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:52"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:52"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:53"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:53"
           }
         ],
         "types": {
@@ -1784,7 +1784,7 @@
             "src": "contracts\\AutoBodyShop.sol:37"
           },
           {
-            "label": "kittyPaint",
+            "label": "kittyAsset",
             "offset": 0,
             "slot": "203",
             "type": "t_contract(IERC721AUpgradeable)4667",
@@ -1808,7 +1808,7 @@
             "src": "contracts\\AutoBodyShop.sol:41"
           },
           {
-            "label": "kittyPaintTableId",
+            "label": "kittyAssetTableId",
             "offset": 0,
             "slot": "206",
             "type": "t_uint256",
@@ -1816,7 +1816,7 @@
             "src": "contracts\\AutoBodyShop.sol:42"
           },
           {
-            "label": "kittyPaintTable",
+            "label": "kittyAssetTable",
             "offset": 0,
             "slot": "207",
             "type": "t_string_storage",
@@ -1959,7 +1959,7 @@
             "src": "contracts\\AutoBodyShop.sol:37"
           },
           {
-            "label": "kittyPaint",
+            "label": "kittyAsset",
             "offset": 0,
             "slot": "203",
             "type": "t_contract(IERC721AUpgradeable)1575",
@@ -1983,7 +1983,7 @@
             "src": "contracts\\AutoBodyShop.sol:41"
           },
           {
-            "label": "kittyPaintTableId",
+            "label": "kittyAssetTableId",
             "offset": 0,
             "slot": "206",
             "type": "t_uint256",
@@ -1991,7 +1991,7 @@
             "src": "contracts\\AutoBodyShop.sol:42"
           },
           {
-            "label": "kittyPaintTable",
+            "label": "kittyAssetTable",
             "offset": 0,
             "slot": "207",
             "type": "t_string_storage",
@@ -2162,48 +2162,48 @@
             "offset": 0,
             "slot": "351",
             "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:48"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:48"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "352",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "354",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:52"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:52"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:53"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:53"
           }
         ],
         "types": {
@@ -2395,48 +2395,48 @@
             "offset": 0,
             "slot": "351",
             "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:48"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:48"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "352",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "354",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:52"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:52"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:53"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:53"
           }
         ],
         "types": {
@@ -2628,48 +2628,48 @@
             "offset": 0,
             "slot": "351",
             "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:48"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:48"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "352",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "354",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:52"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:52"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:53"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:53"
           }
         ],
         "types": {
@@ -2861,48 +2861,48 @@
             "offset": 0,
             "slot": "351",
             "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:48"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:48"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "352",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "354",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:52"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:52"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:53"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:53"
           }
         ],
         "types": {
@@ -3094,48 +3094,48 @@
             "offset": 0,
             "slot": "351",
             "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:48"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:48"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "352",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "354",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:52"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:52"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:53"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:53"
           }
         ],
         "types": {
@@ -3327,48 +3327,48 @@
             "offset": 0,
             "slot": "351",
             "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:48"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:48"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "352",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "354",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:52"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:52"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:53"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:53"
           }
         ],
         "types": {
@@ -3560,48 +3560,48 @@
             "offset": 0,
             "slot": "351",
             "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "352",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "354",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:52"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:52"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:53"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:53"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:54"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:54"
           }
         ],
         "types": {
@@ -4026,48 +4026,48 @@
             "offset": 0,
             "slot": "351",
             "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "352",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "354",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:52"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:52"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:53"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:53"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:54"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:54"
           }
         ],
         "types": {
@@ -4231,7 +4231,7 @@
             "src": "contracts\\AutoBodyShop.sol:37"
           },
           {
-            "label": "kittyPaint",
+            "label": "kittyAsset",
             "offset": 0,
             "slot": "203",
             "type": "t_contract(IERC721AUpgradeable)1575",
@@ -4255,7 +4255,7 @@
             "src": "contracts\\AutoBodyShop.sol:41"
           },
           {
-            "label": "kittyPaintTableId",
+            "label": "kittyAssetTableId",
             "offset": 0,
             "slot": "206",
             "type": "t_uint256",
@@ -4263,7 +4263,7 @@
             "src": "contracts\\AutoBodyShop.sol:42"
           },
           {
-            "label": "kittyPaintTable",
+            "label": "kittyAssetTable",
             "offset": 0,
             "slot": "207",
             "type": "t_string_storage",
@@ -4406,7 +4406,7 @@
             "src": "contracts\\AutoBodyShop.sol:37"
           },
           {
-            "label": "kittyPaint",
+            "label": "kittyAsset",
             "offset": 0,
             "slot": "203",
             "type": "t_contract(IERC721AUpgradeable)1545",
@@ -4430,7 +4430,7 @@
             "src": "contracts\\AutoBodyShop.sol:41"
           },
           {
-            "label": "kittyPaintTableId",
+            "label": "kittyAssetTableId",
             "offset": 0,
             "slot": "206",
             "type": "t_uint256",
@@ -4438,7 +4438,7 @@
             "src": "contracts\\AutoBodyShop.sol:42"
           },
           {
-            "label": "kittyPaintTable",
+            "label": "kittyAssetTable",
             "offset": 0,
             "slot": "207",
             "type": "t_string_storage",
@@ -4581,7 +4581,7 @@
             "src": "contracts\\AutoBodyShop.sol:37"
           },
           {
-            "label": "kittyPaint",
+            "label": "kittyAsset",
             "offset": 0,
             "slot": "203",
             "type": "t_contract(IERC721AUpgradeable)1576",
@@ -4605,7 +4605,7 @@
             "src": "contracts\\AutoBodyShop.sol:41"
           },
           {
-            "label": "kittyPaintTableId",
+            "label": "kittyAssetTableId",
             "offset": 0,
             "slot": "206",
             "type": "t_uint256",
@@ -4613,7 +4613,7 @@
             "src": "contracts\\AutoBodyShop.sol:42"
           },
           {
-            "label": "kittyPaintTable",
+            "label": "kittyAssetTable",
             "offset": 0,
             "slot": "207",
             "type": "t_string_storage",
@@ -4756,7 +4756,7 @@
             "src": "contracts\\AutoBodyShop.sol:37"
           },
           {
-            "label": "kittyPaint",
+            "label": "kittyAsset",
             "offset": 0,
             "slot": "203",
             "type": "t_contract(IERC721AUpgradeable)4635",
@@ -4780,7 +4780,7 @@
             "src": "contracts\\AutoBodyShop.sol:41"
           },
           {
-            "label": "kittyPaintTableId",
+            "label": "kittyAssetTableId",
             "offset": 0,
             "slot": "206",
             "type": "t_uint256",
@@ -4788,7 +4788,7 @@
             "src": "contracts\\AutoBodyShop.sol:42"
           },
           {
-            "label": "kittyPaintTable",
+            "label": "kittyAssetTable",
             "offset": 0,
             "slot": "207",
             "type": "t_string_storage",
@@ -4939,7 +4939,7 @@
             "src": "contracts\\AutoBodyShop.sol:44"
           },
           {
-            "label": "kittyPaint",
+            "label": "kittyAsset",
             "offset": 0,
             "slot": "253",
             "type": "t_contract(IERC721AUpgradeable)4660",
@@ -4963,7 +4963,7 @@
             "src": "contracts\\AutoBodyShop.sol:48"
           },
           {
-            "label": "kittyPaintTableId",
+            "label": "kittyAssetTableId",
             "offset": 0,
             "slot": "256",
             "type": "t_uint256",
@@ -4971,7 +4971,7 @@
             "src": "contracts\\AutoBodyShop.sol:49"
           },
           {
-            "label": "kittyPaintTable",
+            "label": "kittyAssetTable",
             "offset": 0,
             "slot": "257",
             "type": "t_string_storage",
