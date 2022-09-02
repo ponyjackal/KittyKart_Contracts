@@ -129,6 +129,13 @@ contract KittyAsset is
   }
 
   /**
+   * @dev get game server address
+   */
+  function gameServer() external view onlyOwner returns (address) {
+    return _gameServer;
+  }
+
+  /**
    * @dev tokenURI is an example of how to turn a row in your table back into
    * erc721 compliant metadata JSON. Here, we do a simple SELECT statement
    * with function that converts the result into json.
