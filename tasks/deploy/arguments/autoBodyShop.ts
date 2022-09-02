@@ -2,12 +2,12 @@ import { readValue } from "../../scripts/values/utils";
 import { readContractAddress } from "../addresses/utils";
 
 const KITYT_KART_ADDRESS = readContractAddress("kittyKartProxy");
-const KITYT_PAINT_ADDRESS = readContractAddress("kittyPaintProxy");
+const KITYT_PAINT_ADDRESS = readContractAddress("kittyAssetProxy");
 const REGISTRY_ADDRESS = readValue("registry");
 const KITTY_KART_TABLE_ID = readValue("kittyKartTableId");
 const KITTY_KART_TABLE = readValue("kittyKartTable");
-const KITTY_PAINT_TABLE_ID = readValue("kittyPaintTableId");
-const KITTY_PAINT_TABLE = readValue("kittyPaintTable");
+const KITTY_PAINT_TABLE_ID = readValue("kittyAssetTableId");
+const KITTY_PAINT_TABLE = readValue("kittyAssetTable");
 
 const values = {
   KITYT_KART_ADDRESS,

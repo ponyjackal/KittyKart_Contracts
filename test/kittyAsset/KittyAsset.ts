@@ -4,8 +4,8 @@ import { ethers } from "hardhat";
 
 import { DEPLOY_ADDRESS } from "../constants";
 import type { Signers } from "../types";
-import { shouldBehaveLikeKittyPaint } from "./KittyPaint.behavior";
-import { deployKittyPaintFixture } from "./KittyPaint.fixture";
+import { deploykittyAssetFixture } from "./KittyAsset.fixture";
+import { shouldBehaveLikekittyAsset } from "./kittyAsset.behavior";
 
 describe("Unit tests", function () {
   before(async function () {
@@ -19,12 +19,12 @@ describe("Unit tests", function () {
     this.loadFixture = loadFixture;
   });
 
-  describe("KittyPaint", function () {
+  describe("kittyAsset", function () {
     beforeEach(async function () {
-      const { kittyPaint } = await this.loadFixture(deployKittyPaintFixture);
-      this.kittyPaint = kittyPaint;
+      const { kittyAsset } = await this.loadFixture(deploykittyAssetFixture);
+      this.kittyAsset = kittyAsset;
     });
 
-    shouldBehaveLikeKittyPaint();
+    shouldBehaveLikekittyAsset();
   });
 });

@@ -8,8 +8,8 @@ type ValueKey =
   | "registry"
   | "kittyKartTableId"
   | "kittyKartTable"
-  | "kittyPaintTableId"
-  | "kittyPaintTable"
+  | "kittyAssetTableId"
+  | "kittyAssetTable"
   | "baseURI";
 
 export const ZERO_ADDRESS = "0x" + "0".repeat(40);

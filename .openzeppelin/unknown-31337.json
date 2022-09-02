@@ -155,48 +155,48 @@
             "offset": 0,
             "slot": "351",
             "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:49"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:49"
           },
           {
             "label": "_baseURIString",
             "offset": 0,
             "slot": "352",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:50"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:50"
           },
           {
             "label": "_metadataTable",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:51"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:51"
           },
           {
             "label": "_metadataTableId",
             "offset": 0,
             "slot": "354",
             "type": "t_uint256",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:52"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:52"
           },
           {
             "label": "_tablePrefix",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:53"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:53"
           },
           {
             "label": "_externalURL",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyPaint",
-            "src": "contracts\\KittyPaint.sol:54"
+            "contract": "kittyAsset",
+            "src": "contracts\\kittyAsset.sol:54"
           }
         ],
         "types": {

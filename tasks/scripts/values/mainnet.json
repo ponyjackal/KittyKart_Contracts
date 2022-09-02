@@ -2,6 +2,6 @@
   "registry": "0x012969f7e3439a9B04025b5a049EB9BAD82A8C12",
   "kittyKartTableId": -1,
   "kittyKartTable": "",
-  "kittyPaintTableId": -1,
-  "kittyPaintTable": ""
+  "kittyAssetTableId": -1,
+  "kittyAssetTable": ""
 }

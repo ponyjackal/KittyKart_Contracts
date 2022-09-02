@@ -4,8 +4,8 @@ import { createFixtureLoader } from "ethereum-waffle";
 import { ethers } from "hardhat";
 
 import { DEPLOY_ADDRESS, REGISTRY_ADDRESS } from "../constants";
+import { deploykittyAssetFixture } from "../kittyAsset/KittyAsset.fixture";
 import { deployKittyKartFixture } from "../kittyKart/KittyKart.fixture";
-import { deployKittyPaintFixture } from "../kittyPaint/KittyPaint.fixture";
 import type { Signers } from "../types";
 import { shouldBehaveLikeAutoBodyShop } from "./AutoBodyShop.behavior";
 import { deployAutoBodyShopFixture } from "./AutoBodyShop.fixture";
@@ -27,22 +27,22 @@ describe("Unit tests", function () {
       const { kittyKart } = await this.loadFixture(deployKittyKartFixture);
       this.kittyKart = kittyKart;
 
-      const { kittyPaint } = await this.loadFixture(deployKittyPaintFixture);
-      this.kittyPaint = kittyPaint;
+      const { kittyAsset } = await this.loadFixture(deploykittyAssetFixture);
+      this.kittyAsset = kittyAsset;
 
       const kittyKartTableId = await this.kittyKart.metadataTableId();
       const kittyKartTable = await this.kittyKart.metadataTable();
-      const kittyPaintTableId = await this.kittyPaint.metadataTableId();
-      const kittyPaintTable = await this.kittyPaint.metadataTable();
+      const kittyAssetTableId = await this.kittyAsset.metadataTableId();
+      const kittyAssetTable = await this.kittyAsset.metadataTable();
 
       // const loadAutoBodyShopFixture: ReturnType<typeof createFixtureLoader> = createFixtureLoader([
       //   this.kittyKart.address,
-      //   this.kittyPaint.address,
+      //   this.kittyAsset.address,
       //   REGISTRY_ADDRESS,
       //   kittyKartTableId,
       //   kittyKartTable,
-      //   kittyPaintTableId,
-      //   kittyPaintTable,
+      //   kittyAssetTableId,
+      //   kittyAssetTable,
       // ]);
       // this.loadAutoBodyShopFixture = loadAutoBodyShopFixture;
       const { autoBodyShop } = await this.loadFixture(deployAutoBodyShopFixture);
