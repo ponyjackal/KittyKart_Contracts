@@ -10,7 +10,6 @@ import { readValue, writeValue } from "./values/utils";
 task("AutoBodyShop:paint").setAction(async function (taskArguments: TaskArguments, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
-  const registryAddress = readValue("registry");
 
   // attatch AutoBodyShop
   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(

@@ -48,3 +48,22 @@ task("KittyAsset:getMetadataTable").setAction(async function (taskArguments: Tas
     console.log("KittyAsset:getMetadataTable error", err);
   }
 });
+
+task("KittyAsset:setGameServer").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const kittyAssetProxyAddress = readContractAddress("kittyAssetProxy");
+  const gameServerAddress = readValue("gameServer");
+
+  // attatch kittyAsset
+  const kittyAssetFactory: KittyAsset__factory = <KittyAsset__factory>(
+    await ethers.getContractFactory("KittyAsset", accounts[0])
+  );
+  const kittyAsset: KittyAsset = await kittyAssetFactory.attach(kittyAssetProxyAddress);
+
+  try {
+    await kittyAsset.setGameServer(gameServerAddress);
+    console.log("KittyAsset:setGameServer success", gameServerAddress);
+  } catch (err) {
+    console.log("KittyAsset:setGameServer error", err);
+  }
+});
