@@ -6,6 +6,7 @@ dotenvConfig({ path: path.resolve(__dirname, "../../../.env") });
 
 type ValueKey =
   | "registry"
+  | "gameServer"
   | "kittyKartTableId"
   | "kittyKartTable"
   | "kittyAssetTableId"
