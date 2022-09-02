@@ -28,10 +28,17 @@ import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
 import "erc721a-upgradeable/contracts/interfaces/IERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
 
-contract AutoBodyShop is Initializable, ReentrancyGuardUpgradeable, OwnableUpgradeable, PausableUpgradeable {
+contract AutoBodyShop is
+  Initializable,
+  ReentrancyGuardUpgradeable,
+  OwnableUpgradeable,
+  PausableUpgradeable,
+  ERC721HolderUpgradeable
+{
   ITablelandTables private tableland;
 
   IERC721AUpgradeable internal kittyKart;
@@ -68,6 +75,7 @@ contract AutoBodyShop is Initializable, ReentrancyGuardUpgradeable, OwnableUpgra
     __Ownable_init();
     __ReentrancyGuard_init();
     __Pausable_init();
+    __ERC721Holder_init();
 
     require(_kittyKart != address(0) && _kittyPaint != address(0), "Invalid token address.");
     require(_registry != address(0), "Invalid registry address");
@@ -99,16 +107,17 @@ contract AutoBodyShop is Initializable, ReentrancyGuardUpgradeable, OwnableUpgra
     require(kittyKart.ownerOf(_kartId) == msg.sender && kittyPaint.ownerOf(_paintId) == msg.sender, "Not an owner");
     kittyPaint.safeTransferFrom(msg.sender, address(this), _paintId);
 
-    // set is_wasted in paint table
+    // set on_used in paint table
     tableland.runSQL(
       address(this),
       kittyPaintTableId,
       string.concat(
         "UPDATE",
         kittyPaintTable,
-        " SET is_wasted = true",
+        " SET on_used = 0",
         " WHERE kart_id = ",
-        StringsUpgradeable.toString(_kartId)
+        StringsUpgradeable.toString(_kartId),
+        ";"
       )
     );
     // set kart_id in paint table
@@ -122,7 +131,7 @@ contract AutoBodyShop is Initializable, ReentrancyGuardUpgradeable, OwnableUpgra
         StringsUpgradeable.toString(_kartId),
         " WHERE id = ",
         StringsUpgradeable.toString(_paintId),
-        " AND is_wasted = false"
+        " AND on_used = 0;"
       )
     );
   }
