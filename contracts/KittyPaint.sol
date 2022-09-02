@@ -164,7 +164,7 @@ contract KittyPaint is
        *    string description,
        *    string external_link,
        *    string color,
-       *    int kart_id,
+       *    int kart_id default NULL,
        *    int on_use,
        *  );
        */
@@ -173,7 +173,7 @@ contract KittyPaint is
         _tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, external_link text, color text, kart_id int, on_use int);"
+        " (id int, external_link text, color text, kart_id int DEFAULT NULL, on_use int);"
       )
     );
 
