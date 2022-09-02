@@ -31,6 +31,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgra
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
+import "hardhat/console.sol";
 
 contract KittyPaint is
   Initializable,
@@ -227,9 +228,9 @@ contract KittyPaint is
           _metadataTable,
           " (id, external_link, color, on_use) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
-          ",",
+          ", '",
           _externalURL,
-          ", 'blue', 0)"
+          "', 'blue', 0);"
         )
       );
     }

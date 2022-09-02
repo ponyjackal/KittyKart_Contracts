@@ -42,8 +42,9 @@ task("upgrade:KittyKart").setAction(async function (taskArguments: TaskArguments
 
   console.log("KittyKart upgraded to: ", upgraded.address);
 
-  const impl = await upgrades.erc1967.getImplementationAddress(upgraded.address);
-  console.log("Implementation :", impl);
+  const kittyKart = await upgrades.erc1967.getImplementationAddress(upgraded.address);
+  writeContractAddress("kittyKart", kittyKart);
+  console.log("Implementation :", kittyKart);
 });
 
 task("verify:KittyKart").setAction(async function (taskArguments: TaskArguments, { run }) {

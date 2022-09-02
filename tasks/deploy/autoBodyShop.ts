@@ -46,8 +46,9 @@ task("upgrade:AutoBodyShop").setAction(async function (taskArguments: TaskArgume
 
   console.log("AutoBodyShop upgraded to: ", upgraded.address);
 
-  const impl = await upgrades.erc1967.getImplementationAddress(upgraded.address);
-  console.log("Implementation :", impl);
+  const autoBodyShop = await upgrades.erc1967.getImplementationAddress(upgraded.address);
+  writeContractAddress("autoBodyShop", autoBodyShop);
+  console.log("Implementation :", autoBodyShop);
 });
 
 task("verify:AutoBodyShop").setAction(async function (taskArguments: TaskArguments, { run }) {
