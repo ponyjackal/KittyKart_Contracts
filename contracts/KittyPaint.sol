@@ -225,11 +225,11 @@ contract KittyPaint is
         string.concat(
           "INSERT INTO ",
           _metadataTable,
-          " (id, external_link, color, kart_id, on_use) VALUES (",
+          " (id, external_link, color, on_use) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
           ",",
           _externalURL,
-          ", 'blue', NULL, 0)"
+          ", 'blue', 0)"
         )
       );
     }
