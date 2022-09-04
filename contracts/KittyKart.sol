@@ -52,7 +52,7 @@ contract KittyKart is
   uint256 private _metadataTableId;
   string private _tablePrefix;
   string private _description;
-  string private _image;
+  string private _defaultImage;
   string private _externalURL;
 
   // -----------------------------------------
@@ -63,7 +63,7 @@ contract KittyKart is
    * @dev Initializer function
    * @param baseURI Base URI
    * @param description description
-   * @param image image url
+   * @param image default image url
    * @param externalURL External URL
    * @param royaltyReceiver Royalty receiver address
    */
@@ -85,7 +85,7 @@ contract KittyKart is
     _baseURIString = baseURI;
     _tablePrefix = "kitty_kart_test";
     _description = description;
-    _image = image;
+    _defaultImage = image;
     _externalURL = externalURL;
 
     // Use ERC2981 to set royalty receiver and fee
@@ -246,13 +246,40 @@ contract KittyKart is
           _metadataTable,
           " (id, name, description, image, external_link) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
-          ", '",
+          ", '#",
+          StringsUpgradeable.toString(tokenId + i),
+          "', '",
+          _description,
+          "', '",
+          _defaultImage,
+          "', '",
           _externalURL,
-          "', 'blue');"
+          "');"
         )
       );
     }
     _mint(msg.sender, _quantity);
+  }
+
+  /**
+   * @dev Update image url
+   * @param tokenId tokenId
+   * @param image image
+   */
+  function setImage(uint256 tokenId, string calldata image) external onlyOwner {
+    _tableland.runSQL(
+      address(this),
+      _metadataTableId,
+      string.concat(
+        "UPDATE ",
+        _metadataTable,
+        " SET image = ",
+        image,
+        "WHERE id = ",
+        StringsUpgradeable.toString(tokenId),
+        ";"
+      )
+    );
   }
 
   function supportsInterface(bytes4 interfaceId)
