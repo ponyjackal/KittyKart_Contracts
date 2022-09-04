@@ -5,5 +5,11 @@
   "kittyKartTable": "kitty_kart_test_5_646",
   "kittyAssetTableId": 647,
   "kittyAssetTable": "kitty_paint_testt_5_647",
-  "baseURI": "https://testnet.tableland.network/query?s="
+  "baseURI": "https://testnet.tableland.network/query?s=",
+  "kartDescription": "Kitty Kart Test",
+  "kartImage": "",
+  "kartExternalURL": "",
+  "assetDescription": "Kitty Asset Test",
+  "assetImage": "",
+  "assetExternalURL": ""
 }
