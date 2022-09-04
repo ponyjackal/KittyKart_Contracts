@@ -107,14 +107,14 @@ contract AutoBodyShop is
     require(kittyKart.ownerOf(_kartId) == msg.sender && kittyAsset.ownerOf(_paintId) == msg.sender, "Not an owner");
     kittyAsset.safeTransferFrom(msg.sender, address(this), _paintId);
 
-    // set on_used in paint table
+    // set in_use in paint table
     tableland.runSQL(
       address(this),
       kittyAssetTableId,
       string.concat(
         "UPDATE",
         kittyAssetTable,
-        " SET on_used = 0",
+        " SET in_use = 0",
         " WHERE kart_id = ",
         StringsUpgradeable.toString(_kartId),
         ";"
@@ -131,7 +131,7 @@ contract AutoBodyShop is
         StringsUpgradeable.toString(_kartId),
         " WHERE id = ",
         StringsUpgradeable.toString(_paintId),
-        " AND on_used = 0;"
+        " AND in_use = 0;"
       )
     );
   }

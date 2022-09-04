@@ -61,6 +61,9 @@ contract KittyAsset is
   // Game server address
   address private _gameServer;
 
+  // AutoBodyShop address
+  address public autoBodyShop;
+
   // -----------------------------------------
   // kittyAsset Initializer
   // -----------------------------------------
@@ -106,7 +109,12 @@ contract KittyAsset is
   }
 
   modifier onlyGameServer() {
-    require(msg.sender == _gameServer, "non game server");
+    require(msg.sender == _gameServer, "not a GameServer");
+    _;
+  }
+
+  modifier onlyAutoBodyShop() {
+    require(msg.sender == autoBodyShop, "not an AutoBodyShp");
     _;
   }
 
@@ -228,7 +236,7 @@ contract KittyAsset is
        *    string display_type,
        *    string trait_type,
        *    string value,
-       *    int in_use,
+       *    int in_use, 0: not-applied, 1: currenly applied, 2: already applied and can't be applied anymore
        *  );
        */
       string.concat(
@@ -255,15 +263,15 @@ contract KittyAsset is
    * @dev Set external URL
    * @param externalURL The external URL
    */
-  function setExternalURL(string calldata externalURL) external onlyOwner {
+  function setExternalURL(string memory externalURL) external onlyOwner {
     _externalURL = externalURL;
     _tableland.runSQL(
       address(this),
       _metadataTableId,
       string.concat(
-        "update ",
+        "UPDATE ",
         _metadataTable,
-        " set external_url = ",
+        " SET external_url = ",
         externalURL,
         "||'?tokenId='||id", // Turns every row's URL into a URL including get param for tokenId
         ";"
@@ -276,7 +284,7 @@ contract KittyAsset is
    * @param tokenId token id
    * @param image image url
    */
-  function setImage(uint256 tokenId, string calldata image) external onlyOwner {
+  function setImage(uint256 tokenId, string memory image) external onlyOwner {
     _tableland.runSQL(
       address(this),
       _metadataTableId,
@@ -299,6 +307,15 @@ contract KittyAsset is
   function setGameServer(address server) external onlyOwner {
     require(server != address(0), "Invalid address");
     _gameServer = server;
+  }
+
+  /**
+   * @dev Set auto body shop
+   * @param _autoBodyShop AutoBodyShop address
+   */
+  function setAutoBodyShop(address _autoBodyShop) external onlyOwner {
+    require(_autoBodyShop != address(0), "Invalid address");
+    autoBodyShop = _autoBodyShop;
   }
 
   // -----------------------------------------
@@ -419,6 +436,55 @@ contract KittyAsset is
       );
     }
     _mint(to, traitTypes.length);
+  }
+
+  /**
+   * @dev Apply asset to kart (set kitty kart in asset attributes)
+   * @param assetId The asset id
+   * @param kartId The kitty kart id
+   * @param inUse in_use value
+   */
+  function setKittyKart(
+    uint256 assetId,
+    uint256 kartId,
+    uint8 inUse
+  ) external onlyAutoBodyShop {
+    // update in_use for previously applied asset
+    _tableland.runSQL(
+      address(this),
+      _attributeTableId,
+      string.concat(
+        "UPDATE ",
+        _attributeTable,
+        " SET in_use = ",
+        StringsUpgradeable.toString(inUse),
+        " WHERE kart_id = ",
+        StringsUpgradeable.toString(kartId),
+        " AND in_use = 1",
+        " AND trait_type = ",
+        "(SELECT trait_type FROM (SELECT trait_type FROM ",
+        _attributeTable,
+        " WHERE asset_id = ",
+        StringsUpgradeable.toString(assetId),
+        "))",
+        ";"
+      )
+    );
+    // set kitty_id in asset attribute table
+    _tableland.runSQL(
+      address(this),
+      _attributeTableId,
+      string.concat(
+        "UPDATE ",
+        _attributeTable,
+        " SET in_use = 1",
+        ", kart_id = ",
+        StringsUpgradeable.toString(kartId),
+        " WHERE asset_id = ",
+        StringsUpgradeable.toString(assetId),
+        ";"
+      )
+    );
   }
 
   function supportsInterface(bytes4 interfaceId)
