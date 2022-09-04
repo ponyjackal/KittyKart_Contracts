@@ -47,9 +47,12 @@ contract KittyAsset is
   uint96 public constant ROYALTY_FEE = 1000;
 
   ITablelandTables private _tableland;
-  string private _baseURIString;
   string private _metadataTable;
   uint256 private _metadataTableId;
+  string private _attributeTable;
+  uint256 private _attributeTableId;
+
+  string private _baseURIString;
   string private _tablePrefix;
   string private _description;
   string private _defaultImage;
@@ -79,12 +82,12 @@ contract KittyAsset is
     __Ownable_init();
     __ReentrancyGuard_init();
     __Pausable_init();
-    __ERC721A_init("Kitty Paint", "KPaint");
+    __ERC721A_init("Kitty Asset", "KAsset");
     __ERC721Holder_init();
     __ERC2981_init();
 
     _baseURIString = baseURI;
-    _tablePrefix = "kitty_paint_testt";
+    _tablePrefix = "kitty_asset_test";
     _description = description;
     _defaultImage = image;
     _externalURL = externalURL;
@@ -205,6 +208,36 @@ contract KittyAsset is
       StringsUpgradeable.toString(_metadataTableId)
     );
 
+    _attributeTableId = _tableland.createTable(
+      address(this),
+      /*
+       *  CREATE TABLE prefix_chainId (
+       *    int id,
+       *    int asset_id,
+       *    int kart_id DEFAULT NULL,
+       *    string display_type,
+       *    string trait_type,
+       *    string value,
+       *    int in_use,
+       *  );
+       */
+      string.concat(
+        "CREATE TABLE ",
+        _tablePrefix,
+        "_attribute_",
+        StringsUpgradeable.toString(block.chainid),
+        " (id int, asset_id int, kart_id int, display_type text, trait_type text, value text, in_use int);"
+      )
+    );
+
+    _attributeTable = string.concat(
+      _tablePrefix,
+      "_attribute_",
+      StringsUpgradeable.toString(block.chainid),
+      "_",
+      StringsUpgradeable.toString(_attributeTableId)
+    );
+
     return _metadataTableId;
   }
 
@@ -265,11 +298,13 @@ contract KittyAsset is
   /**
    * @dev game server mints asset to the user
    * @param to receiver address
+   * @param displayType display type of game asset
    * @param traitType trait type of game asset
    * @param value value of trait type
    */
   function safeMint(
     address to,
+    string memory displayType,
     string memory traitType,
     string memory value
   ) external onlyGameServer {
@@ -295,17 +330,38 @@ contract KittyAsset is
       )
     );
 
+    _tableland.runSQL(
+      address(this),
+      _attributeTableId,
+      string.concat(
+        "INSERT INTO ",
+        _attributeTable,
+        " (asset_id, display_type, trait_type, value, in_use) VALUES (",
+        StringsUpgradeable.toString(tokenId),
+        ", '",
+        displayType,
+        "', '",
+        traitType,
+        "', '",
+        value,
+        "', 0",
+        ");"
+      )
+    );
+
     _mint(to, 1);
   }
 
   /**
    * @dev game server mints assets to the user
    * @param to receiver address
+   * @param displayTypes display type of game asset
    * @param traitTypes trait type of game asset
    * @param values value of trait type
    */
   function safeBatchMint(
     address to,
+    string[] calldata displayTypes,
     string[] calldata traitTypes,
     string[] calldata values
   ) external onlyGameServer {
@@ -330,6 +386,25 @@ contract KittyAsset is
           "', '",
           _externalURL,
           "');"
+        )
+      );
+
+      _tableland.runSQL(
+        address(this),
+        _attributeTableId,
+        string.concat(
+          "INSERT INTO ",
+          _attributeTable,
+          " (asset_id, display_type, trait_type, value, in_use) VALUES (",
+          StringsUpgradeable.toString(tokenId + i),
+          ", '",
+          displayTypes[i],
+          "', '",
+          traitTypes[i],
+          "', '",
+          values[i],
+          "', 0",
+          ");"
         )
       );
     }
