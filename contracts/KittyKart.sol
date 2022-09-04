@@ -50,6 +50,7 @@ contract KittyKart is
   string private _baseURIString;
   string private _metadataTable;
   uint256 private _metadataTableId;
+  string private _assetAttributeTable;
   string private _tablePrefix;
   string private _description;
   string private _defaultImage;
@@ -140,11 +141,23 @@ contract KittyKart is
     return
       string.concat(
         base,
-        "SELECT%20json_object(%27id%27,id,%27name%27,name,%27description%27,description,,%27image%27,image",
-        ",%27external_link%27,external_link)%20as%20meta%20FROM%20",
+        "SELECT%20json_object(%27id%27,id,%27name%27,name,%27description%27,description",
+        ",%27image%27,image,%27external_url%27,external_url",
+        ",%27attributes%27,json_group_array(json_object(%27display_type%27,display_type",
+        ",%27trait_type%27,trait_type,%27value%27,value)))",
+        "%20as%20meta%20FROM%20",
         _metadataTable,
+        "%20JOIN%20",
+        _assetAttributeTable,
+        "%20ON%20",
+        _metadataTable,
+        ".id=",
+        _assetAttributeTable,
+        ".kitty_id"
         "%20WHERE%20id=",
         StringsUpgradeable.toString(tokenId),
+        "%20AND%20in_use=1",
+        "%20GROUP%20BY%20id",
         "&mode=json"
       );
   }
@@ -171,7 +184,7 @@ contract KittyKart is
        *    string name,
        *    string description,
        *    string image,
-       *    string external_link,
+       *    string external_url,
        *  );
        */
       string.concat(
@@ -179,7 +192,7 @@ contract KittyKart is
         _tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, name text, description text, image text, external_link text);"
+        " (id int, name text, description text, image text, external_url text);"
       )
     );
 
@@ -206,7 +219,7 @@ contract KittyKart is
       string.concat(
         "update ",
         _metadataTable,
-        " set external_link = ",
+        " set external_url = ",
         externalURL,
         "||'?tokenId='||id", // Turns every row's URL into a URL including get param for tokenId
         ";"
@@ -218,13 +231,21 @@ contract KittyKart is
    * @dev Set Description
    * @param description description
    */
-  function setDescription(string calldata description) external onlyOwner {
+  function setDescription(string memory description) external onlyOwner {
     _description = description;
     _tableland.runSQL(
       address(this),
       _metadataTableId,
       string.concat("update ", _metadataTable, " set description = ", description, "||'?tokenId='||id", ";")
     );
+  }
+
+  /**
+   * @dev Set asset attributes table
+   * @param assetAttributeTable description
+   */
+  function setAssetAttributeTable(string memory assetAttributeTable) external onlyOwner {
+    _assetAttributeTable = assetAttributeTable;
   }
 
   // -----------------------------------------
@@ -244,7 +265,7 @@ contract KittyKart is
         string.concat(
           "INSERT INTO ",
           _metadataTable,
-          " (id, name, description, image, external_link) VALUES (",
+          " (id, name, description, image, external_url) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
           ", '#",
           StringsUpgradeable.toString(tokenId + i),
@@ -266,7 +287,7 @@ contract KittyKart is
    * @param tokenId tokenId
    * @param image image
    */
-  function setImage(uint256 tokenId, string calldata image) external onlyOwner {
+  function setImage(uint256 tokenId, string memory image) external onlyOwner {
     _tableland.runSQL(
       address(this),
       _metadataTableId,
