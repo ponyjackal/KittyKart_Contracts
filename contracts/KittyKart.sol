@@ -145,18 +145,14 @@ contract KittyKart is
         ",%27image%27,image,%27external_url%27,external_url",
         ",%27attributes%27,json_group_array(json_object(%27display_type%27,display_type",
         ",%27trait_type%27,trait_type,%27value%27,value)))",
-        "%20as%20meta%20FROM%20",
+        "%20FROM%20",
         _metadataTable,
-        "%20JOIN%20",
+        "%20AS%20meta%20JOIN%20",
         _assetAttributeTable,
-        "%20ON%20",
-        _metadataTable,
-        ".id=",
-        _assetAttributeTable,
-        ".kitty_id"
+        "%20AS%20asset_attribute%20ON%20",
+        "(meta.id=asset_attribute.kitty_id%20AND%20asset_attribute.in_use=1)"
         "%20WHERE%20id=",
         StringsUpgradeable.toString(tokenId),
-        "%20AND%20in_use=1",
         "%20GROUP%20BY%20id",
         "&mode=json"
       );
