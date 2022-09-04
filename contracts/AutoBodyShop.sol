@@ -44,11 +44,6 @@ contract AutoBodyShop is
   IERC721AUpgradeable internal kittyKart;
   IERC721AUpgradeable internal kittyAsset;
 
-  uint256 private kittyKartTableId;
-  string private kittyKartTable;
-  uint256 private kittyAssetTableId;
-  string private kittyAssetTable;
-
   // -----------------------------------------
   // AutoBodyShop Initializer
   // -----------------------------------------
@@ -57,19 +52,11 @@ contract AutoBodyShop is
    * @param _kittyKart KittyKart address
    * @param _kittyAsset kittyAsset address
    * @param _registry The registry address
-   * @param _kittyKartTableId KittyKart Tableland table id
-   * @param _kittyKartTable KittyKart Tableland table name
-   * @param _kittyAssetTableId kittyAsset Tableland table id
-   * @param _kittyAssetTable kittyAsset Tableland table name
    */
   function initialize(
     address _kittyKart,
     address _kittyAsset,
-    address _registry,
-    uint256 _kittyKartTableId,
-    string memory _kittyKartTable,
-    uint256 _kittyAssetTableId,
-    string memory _kittyAssetTable
+    address _registry
   ) external initializer {
     __Context_init();
     __Ownable_init();
@@ -83,10 +70,6 @@ contract AutoBodyShop is
     kittyKart = IERC721AUpgradeable(_kittyKart);
     kittyAsset = IERC721AUpgradeable(_kittyAsset);
     tableland = ITablelandTables(_registry);
-    kittyKartTableId = _kittyKartTableId;
-    kittyKartTable = _kittyKartTable;
-    kittyAssetTableId = _kittyAssetTableId;
-    kittyAssetTable = _kittyAssetTable;
   }
 
   // -----------------------------------------
@@ -106,33 +89,5 @@ contract AutoBodyShop is
   function paint(uint256 _kartId, uint256 _paintId) external nonContract {
     require(kittyKart.ownerOf(_kartId) == msg.sender && kittyAsset.ownerOf(_paintId) == msg.sender, "Not an owner");
     kittyAsset.safeTransferFrom(msg.sender, address(this), _paintId);
-
-    // set in_use in paint table
-    tableland.runSQL(
-      address(this),
-      kittyAssetTableId,
-      string.concat(
-        "UPDATE",
-        kittyAssetTable,
-        " SET in_use = 0",
-        " WHERE kart_id = ",
-        StringsUpgradeable.toString(_kartId),
-        ";"
-      )
-    );
-    // set kart_id in paint table
-    tableland.runSQL(
-      address(this),
-      kittyAssetTableId,
-      string.concat(
-        "UPDATE",
-        kittyAssetTable,
-        " SET kart_id = ",
-        StringsUpgradeable.toString(_kartId),
-        " WHERE id = ",
-        StringsUpgradeable.toString(_paintId),
-        " AND in_use = 0;"
-      )
-    );
   }
 }
