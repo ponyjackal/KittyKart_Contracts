@@ -157,11 +157,21 @@ contract KittyAsset is
       string.concat(
         base,
         "SELECT%20json_object(%27id%27,id,%27name%27,name,%27description%27,description",
-        ",%27image%27,image,%27external_link%27,external_link)",
+        ",%27image%27,image,%27external_url%27,external_url",
+        ",%27attributes%27,json_group_array(json_object(%27display_type%27,display_type",
+        ",%27trait_type%27,trait_type,%27value%27,value)))",
         "%20as%20meta%20FROM%20",
         _metadataTable,
+        "%20JOIN%20",
+        _attributeTable,
+        "%20ON%20",
+        _metadataTable,
+        ".id=",
+        _attributeTable,
+        ".asset_id"
         "%20WHERE%20id=",
         StringsUpgradeable.toString(tokenId),
+        "%20GROUP%20BY%20id",
         "&mode=json"
       );
   }
@@ -188,7 +198,7 @@ contract KittyAsset is
        *    string name,
        *    string description,
        *    string image,
-       *    string external_link,
+       *    string external_url,
        *  );
        */
       string.concat(
@@ -196,7 +206,7 @@ contract KittyAsset is
         _tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, name text, description text, image text, external_link text);"
+        " (id int, name text, description text, image text, external_url text);"
       )
     );
 
@@ -253,7 +263,7 @@ contract KittyAsset is
       string.concat(
         "update ",
         _metadataTable,
-        " set external_link = ",
+        " set external_url = ",
         externalURL,
         "||'?tokenId='||id", // Turns every row's URL into a URL including get param for tokenId
         ";"
@@ -316,7 +326,7 @@ contract KittyAsset is
       string.concat(
         "INSERT INTO ",
         _metadataTable,
-        " (id, name, description, image, external_link) VALUES (",
+        " (id, name, description, image, external_url) VALUES (",
         StringsUpgradeable.toString(tokenId),
         ", '#",
         StringsUpgradeable.toString(tokenId),
@@ -375,7 +385,7 @@ contract KittyAsset is
         string.concat(
           "INSERT INTO ",
           _metadataTable,
-          " (id, name, description, image, external_link) VALUES (",
+          " (id, name, description, image, external_url) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
           ", '#",
           StringsUpgradeable.toString(tokenId + i),
