@@ -16,7 +16,6 @@ export async function deployKittyKartFixture(): Promise<{ kittyKart: KittyKart }
   const signers: SignerWithAddress[] = await ethers.getSigners();
   const admin: SignerWithAddress = signers[0];
   const deployer: SignerWithAddress = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
-  console.log("deployer", await deployer.getBalance());
   // deploy KittyKart
   const kittyKartFactory: KittyKart__factory = await ethers.getContractFactory("KittyKart", deployer);
   const kittyKart: KittyKart = <KittyKart>(
