@@ -16,6 +16,6 @@ export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsse
   // create table
   await kittyAsset.createMetadataTable(REGISTRY_ADDRESS);
   // mint 10 tokens to admin
-  await kittyAsset.connect(admin).safeMint(admin.address, "paint", "pint");
+  await kittyAsset.connect(admin).safeMint(admin.address, "color", "color", "pint");
   return { kittyAsset };
 }

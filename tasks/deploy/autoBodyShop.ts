@@ -17,10 +17,6 @@ task("deploy:AutoBodyShop").setAction(async function (taskArguments: TaskArgumen
     cArguments.KITYT_KART_ADDRESS,
     cArguments.KITYT_PAINT_ADDRESS,
     cArguments.REGISTRY_ADDRESS,
-    cArguments.KITTY_KART_TABLE_ID,
-    cArguments.KITTY_KART_TABLE,
-    cArguments.KITTY_PAINT_TABLE_ID,
-    cArguments.KITTY_PAINT_TABLE,
   ]);
   await autoBodyShopProxy.deployed();
 
