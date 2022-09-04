@@ -213,9 +213,9 @@ contract KittyKart is
       address(this),
       _metadataTableId,
       string.concat(
-        "update ",
+        "UPDATE ",
         _metadataTable,
-        " set external_url = ",
+        " SET external_url = ",
         externalURL,
         "||'?tokenId='||id", // Turns every row's URL into a URL including get param for tokenId
         ";"
@@ -232,7 +232,7 @@ contract KittyKart is
     _tableland.runSQL(
       address(this),
       _metadataTableId,
-      string.concat("update ", _metadataTable, " set description = ", description, "||'?tokenId='||id", ";")
+      string.concat("UPDATE ", _metadataTable, " SET description = ", description, "||'?tokenId='||id", ";")
     );
   }
 
