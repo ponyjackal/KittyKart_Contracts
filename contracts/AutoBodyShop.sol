@@ -84,12 +84,14 @@ contract AutoBodyShop is
   }
 
   /**
-   * @dev Apply paint color to kart
+   * @dev Apply asset color to kart
    * @param _kartId KittyKart token id
-   * @param _paintId kittyAsset token id
+   * @param _assetId kittyAsset token id
    */
-  function paint(uint256 _kartId, uint256 _paintId) external nonContract {
-    require(kittyKart.ownerOf(_kartId) == msg.sender && kittyAsset.ownerOf(_paintId) == msg.sender, "Not an owner");
-    kittyAsset.safeTransferFrom(msg.sender, address(this), _paintId);
+  function applyAsset(uint256 _kartId, uint256 _assetId) external nonContract {
+    require(kittyKart.ownerOf(_kartId) == msg.sender && kittyAsset.ownerOf(_assetId) == msg.sender, "Not an owner");
+
+    kittyAsset.safeTransferFrom(msg.sender, address(this), _assetId);
+    kittyAsset.setKittyKart(_assetId, _kartId, 0);
   }
 }
