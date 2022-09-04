@@ -29,8 +29,10 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
-import "erc721a-upgradeable/contracts/interfaces/IERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
+
+import "./interfaces/IKittyAsset.sol";
+import "./interfaces/IKittyKart.sol";
 
 contract AutoBodyShop is
   Initializable,
@@ -41,8 +43,8 @@ contract AutoBodyShop is
 {
   ITablelandTables private tableland;
 
-  IERC721AUpgradeable internal kittyKart;
-  IERC721AUpgradeable internal kittyAsset;
+  IKittyKart internal kittyKart;
+  IKittyAsset internal kittyAsset;
 
   // -----------------------------------------
   // AutoBodyShop Initializer
@@ -67,8 +69,8 @@ contract AutoBodyShop is
     require(_kittyKart != address(0) && _kittyAsset != address(0), "Invalid token address.");
     require(_registry != address(0), "Invalid registry address");
 
-    kittyKart = IERC721AUpgradeable(_kittyKart);
-    kittyAsset = IERC721AUpgradeable(_kittyAsset);
+    kittyKart = IKittyKart(_kittyKart);
+    kittyAsset = IKittyAsset(_kittyAsset);
     tableland = ITablelandTables(_registry);
   }
 
