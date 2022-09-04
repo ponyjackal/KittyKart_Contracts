@@ -51,6 +51,8 @@ contract KittyKart is
   string private _metadataTable;
   uint256 private _metadataTableId;
   string private _tablePrefix;
+  string private _description;
+  string private _image;
   string private _externalURL;
 
   // -----------------------------------------
@@ -60,11 +62,15 @@ contract KittyKart is
   /**
    * @dev Initializer function
    * @param baseURI Base URI
+   * @param description description
+   * @param image image url
    * @param externalURL External URL
    * @param royaltyReceiver Royalty receiver address
    */
   function initialize(
     string memory baseURI,
+    string memory description,
+    string memory image,
     string memory externalURL,
     address payable royaltyReceiver
   ) external initializerERC721A initializer {
@@ -78,6 +84,8 @@ contract KittyKart is
 
     _baseURIString = baseURI;
     _tablePrefix = "kitty_kart_test";
+    _description = description;
+    _image = image;
     _externalURL = externalURL;
 
     // Use ERC2981 to set royalty receiver and fee
@@ -132,7 +140,8 @@ contract KittyKart is
     return
       string.concat(
         base,
-        "SELECT%20json_object(%27id%27,id,%27external_link%27,external_link,%27color%27,color)%20as%20meta%20FROM%20",
+        "SELECT%20json_object(%27id%27,id,%27name%27,name,%27description%27,description,,%27image%27,image",
+        ",%27external_link%27,external_link)%20as%20meta%20FROM%20",
         _metadataTable,
         "%20WHERE%20id=",
         StringsUpgradeable.toString(tokenId),
@@ -161,8 +170,8 @@ contract KittyKart is
        *    int id,
        *    string name,
        *    string description,
+       *    string image,
        *    string external_link,
-       *    string color,
        *  );
        */
       string.concat(
@@ -170,7 +179,7 @@ contract KittyKart is
         _tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, external_link text, color text);"
+        " (id int, name text, description text, image text, external_link text);"
       )
     );
 
@@ -205,6 +214,19 @@ contract KittyKart is
     );
   }
 
+  /**
+   * @dev Set Description
+   * @param description description
+   */
+  function setDescription(string calldata description) external onlyOwner {
+    _description = description;
+    _tableland.runSQL(
+      address(this),
+      _metadataTableId,
+      string.concat("update ", _metadataTable, " set description = ", description, "||'?tokenId='||id", ";")
+    );
+  }
+
   // -----------------------------------------
   // KittyKart Mutative Functions
   // -----------------------------------------
@@ -222,7 +244,7 @@ contract KittyKart is
         string.concat(
           "INSERT INTO ",
           _metadataTable,
-          " (id, external_link, color) VALUES (",
+          " (id, name, description, image, external_link) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
           ", '",
           _externalURL,
