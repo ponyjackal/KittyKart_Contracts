@@ -15,7 +15,6 @@ export function shouldBehaveLikekittyAsset(): void {
     // create table
     await this.kittyAsset.createMetadataTable(REGISTRY_ADDRESS);
     // mint
-    await this.kittyAsset.publicMint(5);
     // check rows
   });
 }

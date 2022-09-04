@@ -15,7 +15,7 @@ describe("Unit tests", function () {
     this.signers = {} as Signers;
 
     const signers: SignerWithAddress[] = await ethers.getSigners();
-    // impersonate account on goerli
+    // impersonate account on mainnet
     this.signers.deployer = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
     this.signers.admin = signers[0];
 
@@ -30,21 +30,6 @@ describe("Unit tests", function () {
       const { kittyAsset } = await this.loadFixture(deploykittyAssetFixture);
       this.kittyAsset = kittyAsset;
 
-      const kittyKartTableId = await this.kittyKart.metadataTableId();
-      const kittyKartTable = await this.kittyKart.metadataTable();
-      const kittyAssetTableId = await this.kittyAsset.metadataTableId();
-      const kittyAssetTable = await this.kittyAsset.metadataTable();
-
-      // const loadAutoBodyShopFixture: ReturnType<typeof createFixtureLoader> = createFixtureLoader([
-      //   this.kittyKart.address,
-      //   this.kittyAsset.address,
-      //   REGISTRY_ADDRESS,
-      //   kittyKartTableId,
-      //   kittyKartTable,
-      //   kittyAssetTableId,
-      //   kittyAssetTable,
-      // ]);
-      // this.loadAutoBodyShopFixture = loadAutoBodyShopFixture;
       const { autoBodyShop } = await this.loadFixture(deployAutoBodyShopFixture);
       this.autoBodyShop = autoBodyShop;
     });
