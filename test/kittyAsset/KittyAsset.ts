@@ -4,8 +4,8 @@ import { ethers } from "hardhat";
 
 import { DEPLOY_ADDRESS } from "../constants";
 import type { Signers } from "../types";
+import { shouldBehaveLikekittyAsset } from "./KittyAsset.behavior";
 import { deploykittyAssetFixture } from "./KittyAsset.fixture";
-import { shouldBehaveLikekittyAsset } from "./kittyAsset.behavior";
 
 describe("Unit tests", function () {
   before(async function () {
