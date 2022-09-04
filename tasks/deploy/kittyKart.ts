@@ -15,6 +15,8 @@ task("deploy:KittyKart").setAction(async function (taskArguments: TaskArguments,
   );
   const kittyKartProxy = await upgrades.deployProxy(kittyKartFactory, [
     cArguments.BASE_URI,
+    cArguments.DESCRIPTION,
+    cArguments.IMAGE,
     cArguments.EXTERNAL_URL,
     cArguments.ROYALTY_RECEIVER,
   ]);

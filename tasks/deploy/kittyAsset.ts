@@ -15,6 +15,8 @@ task("deploy:KittyAsset").setAction(async function (taskArguments: TaskArguments
   );
   const kittyAssetProxy = await upgrades.deployProxy(kittyAssetFactory, [
     cArguments.BASE_URI,
+    cArguments.DESCRIPTION,
+    cArguments.IMAGE,
     cArguments.EXTERNAL_URL,
     cArguments.ROYALTY_RECEIVER,
   ]);

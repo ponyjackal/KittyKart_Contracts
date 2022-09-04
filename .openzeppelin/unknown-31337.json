@@ -1,16 +1,10 @@
 {
   "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
+    "txHash": "0x64fc3636f63cf65bd6afd7b8ed29b3b87504da6ef2e7f006ca0f296776711414"
+  },
   "proxies": [
-    {
-      "address": "0x1E91c71c40F4664C1F2e7191D235dC1AA4F39aa3",
-      "txHash": "0x3addab7a6b712756fed33330edc937d0374560b4db951dbedea01d57a3dc5f52",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0xc02ebe7f456145de9ae8c19c40be13bdc8fd4451da8c1c0294e3d7c29469c7cc",
-      "kind": "transparent"
-    },
     {
       "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
       "txHash": "0x58fca0a794b8db97167ffe2c0f9bdf0bb8cb7b1d6f0b82d2805e175c55723b4f",
@@ -24,6 +18,21 @@
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
       "txHash": "0x26e5b2ad90fd939ecc979d6892a48f1c80620ce66923bc62d54290d68ed3e1de",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x1E91c71c40F4664C1F2e7191D235dC1AA4F39aa3",
+      "txHash": "0xf7bfde9b0f4c773ebbdc305320177e350fb02082a745704737b26d49a0c622e8",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
+      "txHash": "0x45c185ac4c549a78268f4a5ebdec9844f7a388ea8df6f7cc2422405456f20c3f",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x246f9D2C2f39641aF51cb8Efaefb3b947844f8f1",
+      "txHash": "0x73cb9bfa017cb60881699c26041ceba867c72358bb3fd897d9f98c3dd473ce91",
       "kind": "transparent"
     }
   ],
@@ -496,7 +505,7 @@
     },
     "b7a6e225be2883aca012e32c7f2d03eb149b7df8eba9734b92187509d8d43cd5": {
       "address": "0xd4A652c34d61A61DB575939E39722cD64C8d1805",
-      "txHash": "0x8dc61d633ac110761ea946f00e0058ee19c225963d147976fbd4345c2992a6d7",
+      "txHash": "0x311e0f81def579b5badbbfdad29e43be313850258372dc0709618ca1b39d7e80",
       "layout": {
         "storage": [
           {
@@ -752,8 +761,8 @@
       }
     },
     "3845d4c24064e98ddc21ebede986557b62f4ace10ee4d5a72a9c26105af392cd": {
-      "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
-      "txHash": "0xabaf67e18c7ff247531e7daadd43a496891315cfbacd756020679b2694891fef",
+      "address": "0x04468FaDdFc6392f78cf3fEd2ff399C11978D36f",
+      "txHash": "0xf288ff51c7358460de2a97cf686560fb21c5b436017381745ae735ee4761b40a",
       "layout": {
         "storage": [
           {

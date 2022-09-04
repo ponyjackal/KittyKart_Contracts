@@ -11,7 +11,13 @@ type ValueKey =
   | "kittyKartTable"
   | "kittyAssetTableId"
   | "kittyAssetTable"
-  | "baseURI";
+  | "baseURI"
+  | "kartDescription"
+  | "kartImage"
+  | "kartExternalURL"
+  | "assetDescription"
+  | "assetImage"
+  | "assetExternalURL";
 
 export const ZERO_ADDRESS = "0x" + "0".repeat(40);
 
