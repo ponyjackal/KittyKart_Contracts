@@ -43,7 +43,11 @@ task("KittyAsset:getMetadataTable").setAction(async function (taskArguments: Tas
 
     const kittyAssetTable = await kittyAsset.metadataTable();
     writeValue("kittyAssetTable", kittyAssetTable);
-    console.log("KittyAsset:getMetadataTable success", kittyAssetTableId, kittyAssetTable);
+
+    const kittyAssetAttributeTable = await kittyAsset.attributeTable();
+    writeValue("kittyAssetAttributeTable", kittyAssetAttributeTable);
+
+    console.log("KittyAsset:getMetadataTable success", kittyAssetTableId, kittyAssetTable, kittyAssetAttributeTable);
   } catch (err) {
     console.log("KittyAsset:getMetadataTable error", err);
   }

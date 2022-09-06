@@ -146,6 +146,13 @@ contract KittyAsset is
   }
 
   /**
+   * @dev get attribute table name
+   */
+  function attributeTable() external view onlyOwner returns (string memory) {
+    return _attributeTable;
+  }
+
+  /**
    * @dev get game server address
    */
   function gameServer() external view onlyOwner returns (address) {
@@ -469,7 +476,7 @@ contract KittyAsset is
         ";"
       )
     );
-    // set kitty_id in asset attribute table
+    // set kart_id in asset attribute table
     _tableland.runSQL(
       address(this),
       _attributeTableId,
