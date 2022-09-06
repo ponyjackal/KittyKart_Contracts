@@ -230,7 +230,6 @@ contract KittyAsset is
       address(this),
       /*
        *  CREATE TABLE prefix_chainId (
-       *    int id,
        *    int asset_id,
        *    int kart_id DEFAULT NULL,
        *    string display_type,
@@ -244,7 +243,7 @@ contract KittyAsset is
         _tablePrefix,
         "_attribute_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, asset_id int, kart_id int, display_type text, trait_type text, value text, in_use int);"
+        " (asset_id int, kart_id int, display_type text, trait_type text, value text, in_use int);"
       )
     );
 
