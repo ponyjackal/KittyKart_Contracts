@@ -2,7 +2,7 @@
   "manifestVersion": "3.2",
   "admin": {
     "address": "0x1E91c71c40F4664C1F2e7191D235dC1AA4F39aa3",
-    "txHash": "0xfccb86b738dce6c276709f7bc6af1fe2c6d51c010daeec3cee52bd9407f77d1a"
+    "txHash": "0xd5283d29422ccf8beb1e88d77aba7612eb94a3d049ae9cf32ea7183680cada0f"
   },
   "proxies": [
     {
@@ -27,17 +27,17 @@
     },
     {
       "address": "0x12Adb13Dc47f3DdC9fE0F7A7180312350477d909",
-      "txHash": "0xdd978a3db523fbe7c0a76a48afba0d0bbe8606592668cc19ff9720275a887c1c",
+      "txHash": "0xb3cab5a3646b2ab6d5cd7ec123f290cac6dce0d146332355809728a7c01cfa3d",
       "kind": "transparent"
     },
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
-      "txHash": "0xb00f171f0ad58ad74d3b4b4a5eff7e12aeffe778752eab6fe076beb9498b4e12",
+      "txHash": "0xb960e6c441dfa22ceceee8c6450b0f6a8c59b4a2c6d00d5bd901182428ededcd",
       "kind": "transparent"
     },
     {
       "address": "0xCf19D1ea13770A6Dd60db4438AC871b441efCEA7",
-      "txHash": "0x3bf3bc4849edc7335d4157c734dc6374702ed3559a49c078d57dbf07ae009d96",
+      "txHash": "0x55af5cd260990748d50ba3cc78dd64b43e82d03ca25eded02165dfb76f099e86",
       "kind": "transparent"
     }
   ],
@@ -275,9 +275,9 @@
         }
       }
     },
-    "b7a6e225be2883aca012e32c7f2d03eb149b7df8eba9734b92187509d8d43cd5": {
+    "298eb58dcc2d05052be9caa75f743281de640af2959686be00c5cc21abd80c8d": {
       "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
-      "txHash": "0xc8accca7b5350aa583e41da311ceb75752c0b16756140507e4c4d0c69ccb865f",
+      "txHash": "0x0722b2e7a257b1aa4d1f2f312a4b03cef06ec56573eff773c33ee9a048db7f39",
       "layout": {
         "storage": [
           {
@@ -532,9 +532,9 @@
         }
       }
     },
-    "3845d4c24064e98ddc21ebede986557b62f4ace10ee4d5a72a9c26105af392cd": {
+    "20a4b0f744c3e006fd0fb02e221487be67e383482577deb4ac7b99717115a5dc": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0x1ba74922c1e72807272eb0bdf6c63eda45809ab45c4a5e7ac09ab9c9a2ea72fe",
+      "txHash": "0xff006cea5c1f79556ae8cf00d51180408ad9d72ccb18fdeff970d07362436256",
       "layout": {
         "storage": [
           {
@@ -744,13 +744,25 @@
             "slot": "362",
             "type": "t_address",
             "contract": "KittyAsset",
-            "src": "contracts\\KittyAsset.sol:65"
+            "src": "contracts\\KittyAsset.sol:64"
+          },
+          {
+            "label": "_traitTypes",
+            "offset": 0,
+            "slot": "363",
+            "type": "t_mapping(t_uint256,t_array(t_string_storage)dyn_storage)",
+            "contract": "KittyAsset",
+            "src": "contracts\\KittyAsset.sol:66"
           }
         ],
         "types": {
           "t_address": {
             "label": "address",
             "numberOfBytes": "20"
+          },
+          "t_array(t_string_storage)dyn_storage": {
+            "label": "string[]",
+            "numberOfBytes": "32"
           },
           "t_array(t_uint256)48_storage": {
             "label": "uint256[48]",
@@ -771,6 +783,10 @@
           "t_contract(ITablelandTables)1478": {
             "label": "contract ITablelandTables",
             "numberOfBytes": "20"
+          },
+          "t_mapping(t_uint256,t_array(t_string_storage)dyn_storage)": {
+            "label": "mapping(uint256 => string[])",
+            "numberOfBytes": "32"
           },
           "t_mapping(t_uint256,t_struct(RoyaltyInfo)581_storage)": {
             "label": "mapping(uint256 => struct ERC2981Upgradeable.RoyaltyInfo)",
