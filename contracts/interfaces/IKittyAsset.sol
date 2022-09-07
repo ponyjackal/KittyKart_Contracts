@@ -17,9 +17,5 @@ interface IKittyAsset {
     uint256 tokenId
   ) external;
 
-  function setKittyKart(
-    uint256 assetId,
-    uint256 kartId,
-    uint8 inUse
-  ) external;
+  function setKittyKart(uint256 assetId, uint256 kartId) external;
 }

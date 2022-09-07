@@ -96,6 +96,7 @@ const config: HardhatUserConfig = {
       chainId: chainIds.hardhat,
       forking: {
         url: "https://mainnet.infura.io/v3/" + infuraApiKey,
+        blockNumber: 15491029,
       },
     },
     arbitrum: getChainConfig("arbitrum-mainnet"),

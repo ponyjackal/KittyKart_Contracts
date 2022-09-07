@@ -46,15 +46,15 @@ contract KittyKart is
   uint256 public constant MINT_FEE = 0;
   uint96 public constant ROYALTY_FEE = 1000;
 
-  ITablelandTables private _tableland;
-  string private _baseURIString;
-  string private _metadataTable;
-  uint256 private _metadataTableId;
-  string private _assetAttributeTable;
-  string private _tablePrefix;
-  string private _description;
-  string private _defaultImage;
-  string private _externalURL;
+  ITablelandTables public tableland;
+  uint256 public metadataTableId;
+  string public baseURIString;
+  string public metadataTable;
+  string public assetAttributeTable;
+  string public tablePrefix;
+  string public description;
+  string public defaultImage;
+  string public externalURL;
 
   // -----------------------------------------
   // KittyKart Initializer
@@ -62,18 +62,18 @@ contract KittyKart is
 
   /**
    * @dev Initializer function
-   * @param baseURI Base URI
-   * @param description description
-   * @param image default image url
-   * @param externalURL External URL
-   * @param royaltyReceiver Royalty receiver address
+   * @param _baseURIString Base URI
+   * @param _description description
+   * @param _image default image url
+   * @param _externalURL External URL
+   * @param _royaltyReceiver Royalty receiver address
    */
   function initialize(
-    string memory baseURI,
-    string memory description,
-    string memory image,
-    string memory externalURL,
-    address payable royaltyReceiver
+    string memory _baseURIString,
+    string memory _description,
+    string memory _image,
+    string memory _externalURL,
+    address payable _royaltyReceiver
   ) external initializerERC721A initializer {
     __Context_init();
     __Ownable_init();
@@ -83,14 +83,14 @@ contract KittyKart is
     __ERC721Holder_init();
     __ERC2981_init();
 
-    _baseURIString = baseURI;
-    _tablePrefix = "kitty_kart_test";
-    _description = description;
-    _defaultImage = image;
-    _externalURL = externalURL;
+    baseURIString = _baseURIString;
+    tablePrefix = "kitty_kart_test";
+    description = _description;
+    defaultImage = _image;
+    externalURL = _externalURL;
 
     // Use ERC2981 to set royalty receiver and fee
-    _setDefaultRoyalty(royaltyReceiver, ROYALTY_FEE);
+    _setDefaultRoyalty(_royaltyReceiver, ROYALTY_FEE);
   }
 
   // -----------------------------------------
@@ -108,25 +108,11 @@ contract KittyKart is
 
   function metadataURI() public view returns (string memory) {
     string memory base = _baseURI();
-    return string.concat(base, "SELECT%20*%20FROM%20", _metadataTable);
+    return string.concat(base, "SELECT%20*%20FROM%20", metadataTable);
   }
 
   function _baseURI() internal view override returns (string memory) {
-    return _baseURIString;
-  }
-
-  /**
-   * @dev get metadata table name
-   */
-  function metadataTable() external view onlyOwner returns (string memory) {
-    return _metadataTable;
-  }
-
-  /**
-   * @dev get metadata table id
-   */
-  function metadataTableId() external view onlyOwner returns (uint256) {
-    return _metadataTableId;
+    return baseURIString;
   }
 
   /**
@@ -134,8 +120,8 @@ contract KittyKart is
    * erc721 compliant metadata JSON. Here, we do a simple SELECT statement
    * with function that converts the result into json.
    */
-  function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
-    require(_exists(tokenId), "ERC721URIStorage: URI query for nonexistent token");
+  function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
+    require(_exists(_tokenId), "ERC721URIStorage: URI query for nonexistent token");
     string memory base = _baseURI();
 
     return
@@ -146,13 +132,18 @@ contract KittyKart is
         ",%27attributes%27,json_group_array(json_object(%27display_type%27,display_type",
         ",%27trait_type%27,trait_type,%27value%27,value)))",
         "%20FROM%20",
-        _metadataTable,
-        "%20AS%20meta%20JOIN%20",
-        _assetAttributeTable,
-        "%20AS%20asset_attribute%20ON%20",
-        "(meta.id=asset_attribute.kitty_id%20AND%20asset_attribute.in_use=1)"
+        metadataTable,
+        "%20LEFT%20JOIN%20",
+        assetAttributeTable,
+        "%20ON%20(",
+        metadataTable,
+        ".id=",
+        assetAttributeTable,
+        ".kart_id%20AND%20",
+        assetAttributeTable,
+        ".in_use=1)",
         "%20WHERE%20id=",
-        StringsUpgradeable.toString(tokenId),
+        StringsUpgradeable.toString(_tokenId),
         "%20GROUP%20BY%20id",
         "&mode=json"
       );
@@ -170,9 +161,9 @@ contract KittyKart is
      * registry if the address of the Tableland registry. You can always find those
      * here https://github.com/tablelandnetwork/evm-tableland#currently-supported-chains
      */
-    _tableland = ITablelandTables(_registry);
+    tableland = ITablelandTables(_registry);
 
-    _metadataTableId = _tableland.createTable(
+    metadataTableId = tableland.createTable(
       address(this),
       /*
        *  CREATE TABLE prefix_chainId (
@@ -185,39 +176,39 @@ contract KittyKart is
        */
       string.concat(
         "CREATE TABLE ",
-        _tablePrefix,
+        tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
         " (id int, name text, description text, image text, external_url text);"
       )
     );
 
-    _metadataTable = string.concat(
-      _tablePrefix,
+    metadataTable = string.concat(
+      tablePrefix,
       "_",
       StringsUpgradeable.toString(block.chainid),
       "_",
-      StringsUpgradeable.toString(_metadataTableId)
+      StringsUpgradeable.toString(metadataTableId)
     );
 
-    return _metadataTableId;
+    return metadataTableId;
   }
 
   /**
    * @dev Set external URL
-   * @param externalURL The external URL
+   * @param _externalURL The external URL
    */
-  function setExternalURL(string calldata externalURL) external onlyOwner {
-    _externalURL = externalURL;
-    _tableland.runSQL(
+  function setExternalURL(string calldata _externalURL) external onlyOwner {
+    externalURL = _externalURL;
+    tableland.runSQL(
       address(this),
-      _metadataTableId,
+      metadataTableId,
       string.concat(
         "UPDATE ",
-        _metadataTable,
+        metadataTable,
         " SET external_url = ",
-        externalURL,
-        "||'?tokenId='||id", // Turns every row's URL into a URL including get param for tokenId
+        _externalURL,
+        "||'?id='||id", // Turns every row's URL into a URL including get param for tokenId
         ";"
       )
     );
@@ -225,29 +216,67 @@ contract KittyKart is
 
   /**
    * @dev Set Description
-   * @param description description
+   * @param _description description
    */
-  function setDescription(string memory description) external onlyOwner {
-    _description = description;
-    _tableland.runSQL(
+  function setDescription(string memory _description) external onlyOwner {
+    description = _description;
+    tableland.runSQL(
       address(this),
-      _metadataTableId,
-      string.concat("UPDATE ", _metadataTable, " SET description = ", description, "||'?tokenId='||id", ";")
+      metadataTableId,
+      string.concat("UPDATE ", metadataTable, " SET description = ", _description, "||'?id='||id", ";")
     );
   }
 
   /**
    * @dev Set asset attributes table
-   * @param assetAttributeTable description
+   * @param _assetAttributeTable description
    */
-  function setAssetAttributeTable(string memory assetAttributeTable) external onlyOwner {
-    _assetAttributeTable = assetAttributeTable;
+  function setAssetAttributeTable(string memory _assetAttributeTable) external onlyOwner {
+    assetAttributeTable = _assetAttributeTable;
+  }
+
+  /**
+   * @dev Set base URI
+   * @param _baseURIString baseURIString
+   */
+  function setBaseURI(string memory _baseURIString) external onlyOwner {
+    baseURIString = _baseURIString;
+  }
+
+  /**
+   * @dev Set default image
+   * @param _image baseURI
+   */
+  function setDefaultImage(string memory _image) external onlyOwner {
+    defaultImage = _image;
+  }
+
+  /**
+   * @dev Update image url
+   * @param _tokenId tokenId
+   * @param _image image
+   */
+  function setImage(uint256 _tokenId, string memory _image) external onlyOwner {
+    tableland.runSQL(
+      address(this),
+      metadataTableId,
+      string.concat(
+        "UPDATE ",
+        metadataTable,
+        " SET image = ",
+        _image,
+        "WHERE id = ",
+        StringsUpgradeable.toString(_tokenId),
+        ";"
+      )
+    );
   }
 
   // -----------------------------------------
   // KittyKart Mutative Functions
   // -----------------------------------------
 
+  // TODO: need to update later
   /**
    * @dev Its free mint for test
    * @param _quantity The quantity value to mint
@@ -255,48 +284,27 @@ contract KittyKart is
   function publicMint(uint256 _quantity) external nonContract {
     uint256 tokenId = _nextTokenId();
     for (uint256 i = 0; i < _quantity; i++) {
-      _tableland.runSQL(
+      tableland.runSQL(
         address(this),
-        _metadataTableId,
+        metadataTableId,
         string.concat(
           "INSERT INTO ",
-          _metadataTable,
+          metadataTable,
           " (id, name, description, image, external_url) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
           ", '#",
           StringsUpgradeable.toString(tokenId + i),
           "', '",
-          _description,
+          description,
           "', '",
-          _defaultImage,
+          defaultImage,
           "', '",
-          _externalURL,
+          externalURL,
           "');"
         )
       );
     }
     _mint(msg.sender, _quantity);
-  }
-
-  /**
-   * @dev Update image url
-   * @param tokenId tokenId
-   * @param image image
-   */
-  function setImage(uint256 tokenId, string memory image) external onlyOwner {
-    _tableland.runSQL(
-      address(this),
-      _metadataTableId,
-      string.concat(
-        "UPDATE ",
-        _metadataTable,
-        " SET image = ",
-        image,
-        "WHERE id = ",
-        StringsUpgradeable.toString(tokenId),
-        ";"
-      )
-    );
   }
 
   function supportsInterface(bytes4 interfaceId)

@@ -4,11 +4,13 @@ import { ethers, upgrades } from "hardhat";
 import type { KittyAsset } from "../../src/types/contracts/KittyAsset";
 import { KittyAsset__factory } from "../../src/types/factories/contracts/KittyAsset__factory";
 import {
+  ALICE_ADDRESS,
   ASSET_DESCRIPTION,
   ASSET_EXTERNAL_URL,
   ASSET_IMAGE,
   BASE_URI,
   DEPLOY_ADDRESS,
+  GAME_SERVER_ADDRESS,
   REGISTRY_ADDRESS,
 } from "../constants";
 
@@ -16,6 +18,8 @@ export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsse
   const signers: SignerWithAddress[] = await ethers.getSigners();
   const admin: SignerWithAddress = signers[0];
   const deployer: SignerWithAddress = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
+  const gameServer: SignerWithAddress = await ethers.getImpersonatedSigner(GAME_SERVER_ADDRESS);
+  const alice: SignerWithAddress = await ethers.getImpersonatedSigner(ALICE_ADDRESS);
   // deploy kittyAsset
   const kittyAssetFactory: KittyAsset__factory = await ethers.getContractFactory("KittyAsset", deployer);
   const kittyAsset: KittyAsset = <KittyAsset>(
@@ -29,8 +33,10 @@ export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsse
   );
   await kittyAsset.deployed();
   // create table
-  await kittyAsset.createMetadataTable(REGISTRY_ADDRESS);
-  // mint 10 tokens to admin
-  await kittyAsset.connect(admin).safeMint(admin.address, "color", "color", "pint");
+  await kittyAsset.connect(deployer).createMetadataTable(REGISTRY_ADDRESS);
+  // set game server
+  await kittyAsset.connect(deployer).setGameServer(gameServer.address);
+  // mint 10 tokens to alice
+  await kittyAsset.connect(gameServer).safeMint(alice.address, "paint", "paint", "blue");
   return { kittyAsset };
 }

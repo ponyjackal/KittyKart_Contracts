@@ -41,10 +41,10 @@ contract AutoBodyShop is
   PausableUpgradeable,
   ERC721HolderUpgradeable
 {
-  ITablelandTables private tableland;
+  ITablelandTables public tableland;
 
-  IKittyKart internal kittyKart;
-  IKittyAsset internal kittyAsset;
+  IKittyKart public kittyKart;
+  IKittyAsset public kittyAsset;
 
   // -----------------------------------------
   // AutoBodyShop Initializer
@@ -83,20 +83,53 @@ contract AutoBodyShop is
     _;
   }
 
+  // -----------------------------------------
+  // AutoBodyShop Owner Functions
+  // -----------------------------------------
+
+  /**
+   * @dev set the registry address
+   * @param _registry The registry address
+   */
+  function setRegistry(address _registry) external onlyOwner {
+    require(_registry != address(0), "Invalid registry address");
+    tableland = ITablelandTables(_registry);
+  }
+
+  /**
+   * @dev set the KittyKart address
+   * @param _kittyKart The registry address
+   */
+  function setKittyKart(address _kittyKart) external onlyOwner {
+    require(_kittyKart != address(0), "Invalid kart token address");
+    kittyKart = IKittyKart(_kittyKart);
+  }
+
+  /**
+   * @dev set the KittyAsset address
+   * @param _kittyAsset The registry address
+   */
+  function setKittyAsset(address _kittyAsset) external onlyOwner {
+    require(_kittyAsset != address(0), "Invalid asset token address");
+    kittyAsset = IKittyAsset(_kittyAsset);
+  }
+
+  // -----------------------------------------
+  // AutoBodyShop Mutative Functions
+  // -----------------------------------------
+
   /**
    * @dev Apply asset color to kart
    * @param _kartId KittyKart token id
-   * @param _assetId kittyAsset token id
-   * @param _inUse inUse value
+   * @param _assetIds The array of kittyAsset token ids
    */
-  function applyAsset(
-    uint256 _kartId,
-    uint256 _assetId,
-    uint8 _inUse
-  ) external nonContract {
-    require(kittyKart.ownerOf(_kartId) == msg.sender && kittyAsset.ownerOf(_assetId) == msg.sender, "Not an owner");
+  function applyAsset(uint256 _kartId, uint256[] calldata _assetIds) external nonContract nonReentrant {
+    require(kittyKart.ownerOf(_kartId) == msg.sender, "Not a kart owner");
 
-    kittyAsset.safeTransferFrom(msg.sender, address(this), _assetId);
-    kittyAsset.setKittyKart(_assetId, _kartId, _inUse);
+    for (uint256 i = 0; i < _assetIds.length; i++) {
+      require(kittyAsset.ownerOf(_assetIds[i]) == msg.sender, "Not an asset owner");
+      kittyAsset.safeTransferFrom(msg.sender, address(this), _assetIds[i]);
+      kittyAsset.setKittyKart(_assetIds[i], _kartId);
+    }
   }
 }
