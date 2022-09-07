@@ -41,7 +41,7 @@ contract AutoBodyShop is
   PausableUpgradeable,
   ERC721HolderUpgradeable
 {
-  ITablelandTables private tableland;
+  ITablelandTables public tableland;
 
   IKittyKart public kittyKart;
   IKittyAsset public kittyAsset;

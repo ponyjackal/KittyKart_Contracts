@@ -7,6 +7,30 @@ import { KittyAsset__factory } from "../../src/types/factories/contracts/KittyAs
 import { readContractAddress } from "../deploy/addresses/utils";
 import { readValue, writeValue } from "./values/utils";
 
+// set all variables needed for kittyAsset
+task("KittyAsset:initialize").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const kittyAssetProxyAddress = readContractAddress("kittyAssetProxy");
+  const registryAddress = readValue("registry");
+  const gameServerAddress = readValue("gameServer");
+  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
+
+  // attatch kittyAsset
+  const kittyAssetFactory: KittyAsset__factory = <KittyAsset__factory>(
+    await ethers.getContractFactory("KittyAsset", accounts[0])
+  );
+  const kittyAsset: KittyAsset = await kittyAssetFactory.attach(kittyAssetProxyAddress);
+
+  try {
+    await kittyAsset.createMetadataTable(registryAddress);
+    await kittyAsset.setGameServer(gameServerAddress);
+    await kittyAsset.setAutoBodyShop(autoBodyShopProxyAddress);
+    console.log("KittyAsset:initialize success");
+  } catch (err) {
+    console.log("KittyAsset:initialize error", err);
+  }
+});
+
 task("KittyAsset:createMetadataTable").setAction(async function (taskArguments: TaskArguments, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const kittyAssetProxyAddress = readContractAddress("kittyAssetProxy");
