@@ -71,3 +71,22 @@ task("KittyAsset:setGameServer").setAction(async function (taskArguments: TaskAr
     console.log("KittyAsset:setGameServer error", err);
   }
 });
+
+task("KittyAsset:setAutoBodyShop").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const kittyAssetProxyAddress = readContractAddress("kittyAssetProxy");
+  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
+
+  // attatch kittyAsset
+  const kittyAssetFactory: KittyAsset__factory = <KittyAsset__factory>(
+    await ethers.getContractFactory("KittyAsset", accounts[0])
+  );
+  const kittyAsset: KittyAsset = await kittyAssetFactory.attach(kittyAssetProxyAddress);
+
+  try {
+    await kittyAsset.setAutoBodyShop(autoBodyShopProxyAddress);
+    console.log("KittyAsset:setAutoBodyShop success", autoBodyShopProxyAddress);
+  } catch (err) {
+    console.log("KittyAsset:setAutoBodyShop error", err);
+  }
+});

@@ -448,13 +448,8 @@ contract KittyAsset is
    * @dev Apply asset to kart (set kitty kart in asset attributes)
    * @param assetId The asset id
    * @param kartId The kitty kart id
-   * @param inUse in_use value
    */
-  function setKittyKart(
-    uint256 assetId,
-    uint256 kartId,
-    uint8 inUse
-  ) external onlyAutoBodyShop {
+  function setKittyKart(uint256 assetId, uint256 kartId) external onlyAutoBodyShop {
     // update in_use for previously applied asset
     _tableland.runSQL(
       address(this),
@@ -462,8 +457,7 @@ contract KittyAsset is
       string.concat(
         "UPDATE ",
         _attributeTable,
-        " SET in_use = ",
-        StringsUpgradeable.toString(inUse),
+        " SET in_use = 2",
         " WHERE kart_id = ",
         StringsUpgradeable.toString(kartId),
         " AND in_use = 1",
