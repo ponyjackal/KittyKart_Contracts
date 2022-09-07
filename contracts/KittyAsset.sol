@@ -66,7 +66,7 @@ contract KittyAsset is
   mapping(uint256 => string[]) private _traitTypes;
 
   // -----------------------------------------
-  // kittyAsset Initializer
+  // KittyAsset Initializer
   // -----------------------------------------
 
   /**
@@ -120,7 +120,7 @@ contract KittyAsset is
   }
 
   // -----------------------------------------
-  // kittyAsset View Functions
+  // KittyAsset View Functions
   // -----------------------------------------
 
   function metadataURI() public view returns (string memory) {
@@ -193,7 +193,7 @@ contract KittyAsset is
   }
 
   // -----------------------------------------
-  // kittyAsset Owner Functions
+  // KittyAsset Owner Functions
   // -----------------------------------------
   /**
    * @dev create table in TableLand
@@ -287,6 +287,35 @@ contract KittyAsset is
   }
 
   /**
+   * @dev Set base URI
+   * @param baseURI baseURI
+   */
+  function setBaseURI(string memory baseURI) external onlyOwner {
+    _baseURIString = baseURI;
+  }
+
+  /**
+   * @dev Set default image
+   * @param image baseURI
+   */
+  function setDefaultImage(string memory image) external onlyOwner {
+    _defaultImage = image;
+  }
+
+  /**
+   * @dev Set Description
+   * @param description description
+   */
+  function setDescription(string memory description) external onlyOwner {
+    _description = description;
+    _tableland.runSQL(
+      address(this),
+      _metadataTableId,
+      string.concat("UPDATE ", _metadataTable, " SET description = ", description, "||'?tokenId='||id", ";")
+    );
+  }
+
+  /**
    * @dev Set image URL
    * @param tokenId token id
    * @param image image url
@@ -326,7 +355,7 @@ contract KittyAsset is
   }
 
   // -----------------------------------------
-  // kittyAsset Mutative Functions
+  // KittyAsset Mutative Functions
   // -----------------------------------------
 
   /**
