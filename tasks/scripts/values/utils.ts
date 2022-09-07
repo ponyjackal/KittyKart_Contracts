@@ -10,6 +10,7 @@ type ValueKey =
   | "kittyKartTableId"
   | "kittyKartTable"
   | "kittyAssetTableId"
+  | "kittyAssetAttributeTable"
   | "kittyAssetTable"
   | "baseURI"
   | "kartDescription"

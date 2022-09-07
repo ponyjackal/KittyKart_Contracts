@@ -46,40 +46,43 @@ contract KittyAsset is
   uint256 public constant MINT_FEE = 0;
   uint96 public constant ROYALTY_FEE = 1000;
 
-  ITablelandTables private _tableland;
-  string private _metadataTable;
-  uint256 private _metadataTableId;
-  string private _attributeTable;
-  uint256 private _attributeTableId;
+  ITablelandTables public tableland;
+  string public metadataTable;
+  uint256 public metadataTableId;
+  string public attributeTable;
+  uint256 public attributeTableId;
 
-  string private _baseURIString;
-  string private _tablePrefix;
-  string private _description;
-  string private _defaultImage;
-  string private _externalURL;
+  string public baseURIString;
+  string public tablePrefix;
+  string public description;
+  string public defaultImage;
+  string public externalURL;
 
   // Game server address
-  address private _gameServer;
-
+  address public gameServer;
   // AutoBodyShop address
   address public autoBodyShop;
+  // assetId => trait_type array
+  mapping(uint256 => string[]) public traitTypes;
 
   // -----------------------------------------
-  // kittyAsset Initializer
+  // KittyAsset Initializer
   // -----------------------------------------
 
   /**
    * @dev Initializer function
-   * @param baseURI Base URI
-   * @param externalURL External URL
-   * @param royaltyReceiver Royalty receiver address
+   * @param _baseURIString Base URI
+   * @param _description Description
+   * @param _image Image
+   * @param _externalURL External URL
+   * @param _royaltyReceiver Royalty receiver address
    */
   function initialize(
-    string memory baseURI,
-    string memory description,
-    string memory image,
-    string memory externalURL,
-    address payable royaltyReceiver
+    string memory _baseURIString,
+    string memory _description,
+    string memory _image,
+    string memory _externalURL,
+    address payable _royaltyReceiver
   ) external initializerERC721A initializer {
     __Context_init();
     __Ownable_init();
@@ -89,14 +92,14 @@ contract KittyAsset is
     __ERC721Holder_init();
     __ERC2981_init();
 
-    _baseURIString = baseURI;
-    _tablePrefix = "kitty_asset_test";
-    _description = description;
-    _defaultImage = image;
-    _externalURL = externalURL;
+    baseURIString = _baseURIString;
+    tablePrefix = "kitty_asset_test";
+    description = _description;
+    defaultImage = _image;
+    externalURL = _externalURL;
 
     // Use ERC2981 to set royalty receiver and fee
-    _setDefaultRoyalty(royaltyReceiver, ROYALTY_FEE);
+    _setDefaultRoyalty(_royaltyReceiver, ROYALTY_FEE);
   }
 
   // -----------------------------------------
@@ -109,7 +112,7 @@ contract KittyAsset is
   }
 
   modifier onlyGameServer() {
-    require(msg.sender == _gameServer, "not a GameServer");
+    require(msg.sender == gameServer, "not a GameServer");
     _;
   }
 
@@ -119,37 +122,16 @@ contract KittyAsset is
   }
 
   // -----------------------------------------
-  // kittyAsset View Functions
+  // KittyAsset View Functions
   // -----------------------------------------
 
   function metadataURI() public view returns (string memory) {
     string memory base = _baseURI();
-    return string.concat(base, "SELECT%20*%20FROM%20", _metadataTable);
+    return string.concat(base, "SELECT%20*%20FROM%20", metadataTable);
   }
 
   function _baseURI() internal view override returns (string memory) {
-    return _baseURIString;
-  }
-
-  /**
-   * @dev get metadata table name
-   */
-  function metadataTable() external view onlyOwner returns (string memory) {
-    return _metadataTable;
-  }
-
-  /**
-   * @dev get metadata table id
-   */
-  function metadataTableId() external view onlyOwner returns (uint256) {
-    return _metadataTableId;
-  }
-
-  /**
-   * @dev get game server address
-   */
-  function gameServer() external view onlyOwner returns (address) {
-    return _gameServer;
+    return baseURIString;
   }
 
   /**
@@ -157,8 +139,8 @@ contract KittyAsset is
    * erc721 compliant metadata JSON. Here, we do a simple SELECT statement
    * with function that converts the result into json.
    */
-  function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
-    require(_exists(tokenId), "ERC721URIStorage: URI query for nonexistent token");
+  function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
+    require(_exists(_tokenId), "ERC721URIStorage: URI query for nonexistent token");
     string memory base = _baseURI();
 
     return
@@ -169,23 +151,23 @@ contract KittyAsset is
         ",%27attributes%27,json_group_array(json_object(%27display_type%27,display_type",
         ",%27trait_type%27,trait_type,%27value%27,value)))",
         "%20as%20meta%20FROM%20",
-        _metadataTable,
+        metadataTable,
         "%20JOIN%20",
-        _attributeTable,
+        attributeTable,
         "%20ON%20",
-        _metadataTable,
+        metadataTable,
         ".id=",
-        _attributeTable,
+        attributeTable,
         ".asset_id"
         "%20WHERE%20id=",
-        StringsUpgradeable.toString(tokenId),
+        StringsUpgradeable.toString(_tokenId),
         "%20GROUP%20BY%20id",
         "&mode=json"
       );
   }
 
   // -----------------------------------------
-  // kittyAsset Owner Functions
+  // KittyAsset Owner Functions
   // -----------------------------------------
   /**
    * @dev create table in TableLand
@@ -196,9 +178,9 @@ contract KittyAsset is
      * registry if the address of the Tableland registry. You can always find those
      * here https://github.com/tablelandnetwork/evm-tableland#currently-supported-chains
      */
-    _tableland = ITablelandTables(_registry);
+    tableland = ITablelandTables(_registry);
 
-    _metadataTableId = _tableland.createTable(
+    metadataTableId = tableland.createTable(
       address(this),
       /*
        *  CREATE TABLE prefix_chainId (
@@ -211,22 +193,22 @@ contract KittyAsset is
        */
       string.concat(
         "CREATE TABLE ",
-        _tablePrefix,
+        tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
         " (id int, name text, description text, image text, external_url text);"
       )
     );
 
-    _metadataTable = string.concat(
-      _tablePrefix,
+    metadataTable = string.concat(
+      tablePrefix,
       "_",
       StringsUpgradeable.toString(block.chainid),
       "_",
-      StringsUpgradeable.toString(_metadataTableId)
+      StringsUpgradeable.toString(metadataTableId)
     );
 
-    _attributeTableId = _tableland.createTable(
+    attributeTableId = tableland.createTable(
       address(this),
       /*
        *  CREATE TABLE prefix_chainId (
@@ -240,60 +222,89 @@ contract KittyAsset is
        */
       string.concat(
         "CREATE TABLE ",
-        _tablePrefix,
+        tablePrefix,
         "_attribute_",
         StringsUpgradeable.toString(block.chainid),
         " (asset_id int, kart_id int, display_type text, trait_type text, value text, in_use int);"
       )
     );
 
-    _attributeTable = string.concat(
-      _tablePrefix,
+    attributeTable = string.concat(
+      tablePrefix,
       "_attribute_",
       StringsUpgradeable.toString(block.chainid),
       "_",
-      StringsUpgradeable.toString(_attributeTableId)
+      StringsUpgradeable.toString(attributeTableId)
     );
 
-    return _metadataTableId;
+    return metadataTableId;
   }
 
   /**
    * @dev Set external URL
-   * @param externalURL The external URL
+   * @param _externalURL The external URL
    */
-  function setExternalURL(string memory externalURL) external onlyOwner {
-    _externalURL = externalURL;
-    _tableland.runSQL(
+  function setExternalURL(string memory _externalURL) external onlyOwner {
+    externalURL = _externalURL;
+    tableland.runSQL(
       address(this),
-      _metadataTableId,
+      metadataTableId,
       string.concat(
         "UPDATE ",
-        _metadataTable,
+        metadataTable,
         " SET external_url = ",
-        externalURL,
-        "||'?tokenId='||id", // Turns every row's URL into a URL including get param for tokenId
+        _externalURL,
+        "||'?id='||id", // Turns every row's URL into a URL including get param for tokenId
         ";"
       )
     );
   }
 
   /**
-   * @dev Set image URL
-   * @param tokenId token id
-   * @param image image url
+   * @dev Set base URI
+   * @param _baseURIString baseURIString
    */
-  function setImage(uint256 tokenId, string memory image) external onlyOwner {
-    _tableland.runSQL(
+  function setBaseURI(string memory _baseURIString) external onlyOwner {
+    baseURIString = _baseURIString;
+  }
+
+  /**
+   * @dev Set default image
+   * @param _defaultImage defaultImage
+   */
+  function setDefaultImage(string memory _defaultImage) external onlyOwner {
+    defaultImage = _defaultImage;
+  }
+
+  /**
+   * @dev Set Description
+   * @param _description description
+   */
+  function setDescription(string memory _description) external onlyOwner {
+    description = _description;
+    tableland.runSQL(
       address(this),
-      _metadataTableId,
+      metadataTableId,
+      string.concat("UPDATE ", metadataTable, " SET description = ", _description, "||'?id='||id", ";")
+    );
+  }
+
+  /**
+   * @dev Set image URL
+   * @param _tokenId token id
+   * @param _image image url
+   */
+  function setImage(uint256 _tokenId, string memory _image) external onlyOwner {
+    tableland.runSQL(
+      address(this),
+      metadataTableId,
       string.concat(
         "UPDATE ",
-        _metadataTable,
+        metadataTable,
         " SET image = ",
-        image,
+        _image,
         "WHERE id = ",
-        StringsUpgradeable.toString(tokenId),
+        StringsUpgradeable.toString(_tokenId),
         ";"
       )
     );
@@ -301,11 +312,11 @@ contract KittyAsset is
 
   /**
    * @dev Set game server
-   * @param server The external URL
+   * @param _gameServer The external URL
    */
-  function setGameServer(address server) external onlyOwner {
-    require(server != address(0), "Invalid address");
-    _gameServer = server;
+  function setGameServer(address _gameServer) external onlyOwner {
+    require(_gameServer != address(0), "Invalid game server address");
+    gameServer = _gameServer;
   }
 
   /**
@@ -318,169 +329,168 @@ contract KittyAsset is
   }
 
   // -----------------------------------------
-  // kittyAsset Mutative Functions
+  // KittyAsset Mutative Functions
   // -----------------------------------------
 
   /**
    * @dev game server mints asset to the user
-   * @param to receiver address
-   * @param displayType display type of game asset
-   * @param traitType trait type of game asset
-   * @param value value of trait type
+   * @param _to receiver address
+   * @param _displayType display type of game asset
+   * @param _traitType trait type of game asset
+   * @param _value value of trait type
    */
   function safeMint(
-    address to,
-    string memory displayType,
-    string memory traitType,
-    string memory value
+    address _to,
+    string memory _displayType,
+    string memory _traitType,
+    string memory _value
   ) external onlyGameServer {
     uint256 tokenId = _nextTokenId();
 
-    _tableland.runSQL(
+    tableland.runSQL(
       address(this),
-      _metadataTableId,
+      metadataTableId,
       string.concat(
         "INSERT INTO ",
-        _metadataTable,
+        metadataTable,
         " (id, name, description, image, external_url) VALUES (",
         StringsUpgradeable.toString(tokenId),
         ", '#",
         StringsUpgradeable.toString(tokenId),
         "', '",
-        _description,
+        description,
         "', '",
-        _defaultImage,
+        defaultImage,
         "', '",
-        _externalURL,
+        externalURL,
         "');"
       )
     );
 
-    _tableland.runSQL(
+    tableland.runSQL(
       address(this),
-      _attributeTableId,
+      attributeTableId,
       string.concat(
         "INSERT INTO ",
-        _attributeTable,
+        attributeTable,
         " (asset_id, display_type, trait_type, value, in_use) VALUES (",
         StringsUpgradeable.toString(tokenId),
         ", '",
-        displayType,
+        _displayType,
         "', '",
-        traitType,
+        _traitType,
         "', '",
-        value,
+        _value,
         "', 0",
         ");"
       )
     );
 
-    _mint(to, 1);
+    traitTypes[tokenId].push(_traitType);
+
+    _mint(_to, 1);
   }
 
   /**
    * @dev game server mints assets to the user
-   * @param to receiver address
-   * @param displayTypes display type of game asset
-   * @param traitTypes trait type of game asset
-   * @param values value of trait type
+   * @param _to receiver address
+   * @param _displayTypes display type of game asset
+   * @param _traitTypes trait type of game asset
+   * @param _values value of trait type
    */
   function safeBatchMint(
-    address to,
-    string[] calldata displayTypes,
-    string[] calldata traitTypes,
-    string[] calldata values
+    address _to,
+    string[] calldata _displayTypes,
+    string[] calldata _traitTypes,
+    string[] calldata _values
   ) external onlyGameServer {
-    require(traitTypes.length == values.length, "Invalid arguments");
+    require(_traitTypes.length == _values.length, "Invalid arguments");
 
     uint256 tokenId = _nextTokenId();
-    for (uint256 i = 0; i < traitTypes.length; i++) {
-      _tableland.runSQL(
+    tableland.runSQL(
+      address(this),
+      metadataTableId,
+      string.concat(
+        "INSERT INTO ",
+        metadataTable,
+        " (id, name, description, image, external_url) VALUES (",
+        StringsUpgradeable.toString(tokenId),
+        ", '#",
+        StringsUpgradeable.toString(tokenId),
+        "', '",
+        description,
+        "', '",
+        defaultImage,
+        "', '",
+        externalURL,
+        "');"
+      )
+    );
+    for (uint256 i = 0; i < _traitTypes.length; i++) {
+      tableland.runSQL(
         address(this),
-        _metadataTableId,
+        attributeTableId,
         string.concat(
           "INSERT INTO ",
-          _metadataTable,
-          " (id, name, description, image, external_url) VALUES (",
-          StringsUpgradeable.toString(tokenId + i),
-          ", '#",
-          StringsUpgradeable.toString(tokenId + i),
-          "', '",
-          _description,
-          "', '",
-          _defaultImage,
-          "', '",
-          _externalURL,
-          "');"
-        )
-      );
-
-      _tableland.runSQL(
-        address(this),
-        _attributeTableId,
-        string.concat(
-          "INSERT INTO ",
-          _attributeTable,
+          attributeTable,
           " (asset_id, display_type, trait_type, value, in_use) VALUES (",
-          StringsUpgradeable.toString(tokenId + i),
+          StringsUpgradeable.toString(tokenId),
           ", '",
-          displayTypes[i],
+          _displayTypes[i],
           "', '",
-          traitTypes[i],
+          _traitTypes[i],
           "', '",
-          values[i],
+          _values[i],
           "', 0",
           ");"
         )
       );
+
+      traitTypes[tokenId].push(_traitTypes[i]);
     }
-    _mint(to, traitTypes.length);
+    _mint(_to, 1);
   }
 
   /**
    * @dev Apply asset to kart (set kitty kart in asset attributes)
-   * @param assetId The asset id
-   * @param kartId The kitty kart id
-   * @param inUse in_use value
+   * @param _assetId The asset id
+   * @param _kartId The kitty kart id
    */
-  function setKittyKart(
-    uint256 assetId,
-    uint256 kartId,
-    uint8 inUse
-  ) external onlyAutoBodyShop {
+  function setKittyKart(uint256 _assetId, uint256 _kartId) external onlyAutoBodyShop nonReentrant {
+    string[] memory assetTraitTypes = traitTypes[_assetId];
+    string memory traitTypesString = "(";
+    for (uint256 i = 0; i < assetTraitTypes.length - 1; i++) {
+      traitTypesString = string.concat(traitTypesString, "'", assetTraitTypes[i], "',");
+    }
+    traitTypesString = string.concat(traitTypesString, "'", assetTraitTypes[assetTraitTypes.length - 1], "')");
     // update in_use for previously applied asset
-    _tableland.runSQL(
+    tableland.runSQL(
       address(this),
-      _attributeTableId,
+      attributeTableId,
       string.concat(
         "UPDATE ",
-        _attributeTable,
-        " SET in_use = ",
-        StringsUpgradeable.toString(inUse),
+        attributeTable,
+        " SET in_use = 2",
         " WHERE kart_id = ",
-        StringsUpgradeable.toString(kartId),
+        StringsUpgradeable.toString(_kartId),
         " AND in_use = 1",
-        " AND trait_type = ",
-        "(SELECT trait_type FROM (SELECT trait_type FROM ",
-        _attributeTable,
-        " WHERE asset_id = ",
-        StringsUpgradeable.toString(assetId),
-        "))",
+        " AND trait_type IN ",
+        traitTypesString,
         ";"
       )
     );
-    // set kitty_id in asset attribute table
-    _tableland.runSQL(
+    // set kart_id in asset attribute table
+    tableland.runSQL(
       address(this),
-      _attributeTableId,
+      attributeTableId,
       string.concat(
         "UPDATE ",
-        _attributeTable,
+        attributeTable,
         " SET in_use = 1",
         ", kart_id = ",
-        StringsUpgradeable.toString(kartId),
+        StringsUpgradeable.toString(_kartId),
         " WHERE asset_id = ",
-        StringsUpgradeable.toString(assetId),
+        StringsUpgradeable.toString(_assetId),
         ";"
       )
     );
