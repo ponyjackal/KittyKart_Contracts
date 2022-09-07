@@ -459,10 +459,10 @@ contract KittyAsset is
   function setKittyKart(uint256 _assetId, uint256 _kartId) external onlyAutoBodyShop nonReentrant {
     string[] memory assetTraitTypes = traitTypes[_assetId];
     string memory traitTypesString = "(";
-    for (uint256 i = 0; i < assetTraitTypes.length; i++) {
-      traitTypesString = string.concat(traitTypesString, assetTraitTypes[i], ",");
+    for (uint256 i = 0; i < assetTraitTypes.length - 1; i++) {
+      traitTypesString = string.concat(traitTypesString, "'", assetTraitTypes[i], "',");
     }
-    traitTypesString = string.concat(traitTypesString, ")");
+    traitTypesString = string.concat(traitTypesString, "'", assetTraitTypes[assetTraitTypes.length - 1], "')");
     // update in_use for previously applied asset
     tableland.runSQL(
       address(this),
@@ -479,7 +479,6 @@ contract KittyAsset is
         ";"
       )
     );
-
     // set kart_id in asset attribute table
     tableland.runSQL(
       address(this),
