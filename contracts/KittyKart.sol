@@ -46,15 +46,15 @@ contract KittyKart is
   uint256 public constant MINT_FEE = 0;
   uint96 public constant ROYALTY_FEE = 1000;
 
-  ITablelandTables private _tableland;
-  uint256 private _metadataTableId;
-  string private _baseURIString;
-  string private _metadataTable;
-  string private _assetAttributeTable;
-  string private _tablePrefix;
-  string private _description;
-  string private _defaultImage;
-  string private _externalURL;
+  ITablelandTables public _tableland;
+  uint256 public _metadataTableId;
+  string public _baseURIString;
+  string public _metadataTable;
+  string public _assetAttributeTable;
+  string public _tablePrefix;
+  string public _description;
+  string public _defaultImage;
+  string public _externalURL;
 
   // -----------------------------------------
   // KittyKart Initializer
@@ -113,20 +113,6 @@ contract KittyKart is
 
   function _baseURI() internal view override returns (string memory) {
     return _baseURIString;
-  }
-
-  /**
-   * @dev get metadata table name
-   */
-  function metadataTable() external view onlyOwner returns (string memory) {
-    return _metadataTable;
-  }
-
-  /**
-   * @dev get metadata table id
-   */
-  function metadataTableId() external view onlyOwner returns (uint256) {
-    return _metadataTableId;
   }
 
   /**
@@ -290,6 +276,7 @@ contract KittyKart is
   // KittyKart Mutative Functions
   // -----------------------------------------
 
+  // TODO: need to update later
   /**
    * @dev Its free mint for test
    * @param _quantity The quantity value to mint

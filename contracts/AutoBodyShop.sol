@@ -43,8 +43,8 @@ contract AutoBodyShop is
 {
   ITablelandTables private tableland;
 
-  IKittyKart internal kittyKart;
-  IKittyAsset internal kittyAsset;
+  IKittyKart public kittyKart;
+  IKittyAsset public kittyAsset;
 
   // -----------------------------------------
   // AutoBodyShop Initializer
@@ -123,7 +123,7 @@ contract AutoBodyShop is
    * @param _kartId KittyKart token id
    * @param _assetIds The array of kittyAsset token ids
    */
-  function applyAsset(uint256 _kartId, uint256[] calldata _assetIds) external nonContract {
+  function applyAsset(uint256 _kartId, uint256[] calldata _assetIds) external nonContract nonReentrant {
     require(kittyKart.ownerOf(_kartId) == msg.sender, "Not a kart owner");
 
     for (uint256 i = 0; i < _assetIds.length; i++) {

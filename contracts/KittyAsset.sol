@@ -46,24 +46,24 @@ contract KittyAsset is
   uint256 public constant MINT_FEE = 0;
   uint96 public constant ROYALTY_FEE = 1000;
 
-  ITablelandTables private _tableland;
-  string private _metadataTable;
-  uint256 private _metadataTableId;
-  string private _attributeTable;
-  uint256 private _attributeTableId;
+  ITablelandTables public _tableland;
+  string public _metadataTable;
+  uint256 public _metadataTableId;
+  string public _attributeTable;
+  uint256 public _attributeTableId;
 
-  string private _baseURIString;
-  string private _tablePrefix;
-  string private _description;
-  string private _defaultImage;
-  string private _externalURL;
+  string public _baseURIString;
+  string public _tablePrefix;
+  string public _description;
+  string public _defaultImage;
+  string public _externalURL;
 
   // Game server address
-  address private _gameServer;
+  address public _gameServer;
   // AutoBodyShop address
   address public autoBodyShop;
   // assetId => trait_type array
-  mapping(uint256 => string[]) private _traitTypes;
+  mapping(uint256 => string[]) public _traitTypes;
 
   // -----------------------------------------
   // KittyAsset Initializer
@@ -130,34 +130,6 @@ contract KittyAsset is
 
   function _baseURI() internal view override returns (string memory) {
     return _baseURIString;
-  }
-
-  /**
-   * @dev get metadata table name
-   */
-  function metadataTable() external view onlyOwner returns (string memory) {
-    return _metadataTable;
-  }
-
-  /**
-   * @dev get metadata table id
-   */
-  function metadataTableId() external view onlyOwner returns (uint256) {
-    return _metadataTableId;
-  }
-
-  /**
-   * @dev get attribute table name
-   */
-  function attributeTable() external view onlyOwner returns (string memory) {
-    return _attributeTable;
-  }
-
-  /**
-   * @dev get game server address
-   */
-  function gameServer() external view onlyOwner returns (address) {
-    return _gameServer;
   }
 
   /**
@@ -482,7 +454,7 @@ contract KittyAsset is
    * @param assetId The asset id
    * @param kartId The kitty kart id
    */
-  function setKittyKart(uint256 assetId, uint256 kartId) external onlyAutoBodyShop {
+  function setKittyKart(uint256 assetId, uint256 kartId) external onlyAutoBodyShop nonReentrant {
     string[] memory assetTraitTypes = _traitTypes[assetId];
     string memory traitTypes = "(";
     for (uint256 i = 0; i < assetTraitTypes.length; i++) {
