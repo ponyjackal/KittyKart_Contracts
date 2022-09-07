@@ -60,9 +60,10 @@ contract KittyAsset is
 
   // Game server address
   address private _gameServer;
-
   // AutoBodyShop address
   address public autoBodyShop;
+  // assetId => trait_type array
+  mapping(uint256 => string[]) private _traitTypes;
 
   // -----------------------------------------
   // kittyAsset Initializer
@@ -382,6 +383,8 @@ contract KittyAsset is
       )
     );
 
+    _traitTypes[tokenId].push(traitType);
+
     _mint(to, 1);
   }
 
@@ -401,27 +404,26 @@ contract KittyAsset is
     require(traitTypes.length == values.length, "Invalid arguments");
 
     uint256 tokenId = _nextTokenId();
+    _tableland.runSQL(
+      address(this),
+      _metadataTableId,
+      string.concat(
+        "INSERT INTO ",
+        _metadataTable,
+        " (id, name, description, image, external_url) VALUES (",
+        StringsUpgradeable.toString(tokenId),
+        ", '#",
+        StringsUpgradeable.toString(tokenId),
+        "', '",
+        _description,
+        "', '",
+        _defaultImage,
+        "', '",
+        _externalURL,
+        "');"
+      )
+    );
     for (uint256 i = 0; i < traitTypes.length; i++) {
-      _tableland.runSQL(
-        address(this),
-        _metadataTableId,
-        string.concat(
-          "INSERT INTO ",
-          _metadataTable,
-          " (id, name, description, image, external_url) VALUES (",
-          StringsUpgradeable.toString(tokenId + i),
-          ", '#",
-          StringsUpgradeable.toString(tokenId + i),
-          "', '",
-          _description,
-          "', '",
-          _defaultImage,
-          "', '",
-          _externalURL,
-          "');"
-        )
-      );
-
       _tableland.runSQL(
         address(this),
         _attributeTableId,
@@ -429,7 +431,7 @@ contract KittyAsset is
           "INSERT INTO ",
           _attributeTable,
           " (asset_id, display_type, trait_type, value, in_use) VALUES (",
-          StringsUpgradeable.toString(tokenId + i),
+          StringsUpgradeable.toString(tokenId),
           ", '",
           displayTypes[i],
           "', '",
@@ -440,8 +442,10 @@ contract KittyAsset is
           ");"
         )
       );
+
+      _traitTypes[tokenId].push(traitTypes[i]);
     }
-    _mint(to, traitTypes.length);
+    _mint(to, 1);
   }
 
   /**
@@ -450,6 +454,12 @@ contract KittyAsset is
    * @param kartId The kitty kart id
    */
   function setKittyKart(uint256 assetId, uint256 kartId) external onlyAutoBodyShop {
+    string[] memory assetTraitTypes = _traitTypes[assetId];
+    string memory traitTypes = "(";
+    for (uint256 i = 0; i < assetTraitTypes.length; i++) {
+      traitTypes = string.concat(traitTypes, assetTraitTypes[i], ",");
+    }
+    traitTypes = string.concat(traitTypes, ")");
     // update in_use for previously applied asset
     _tableland.runSQL(
       address(this),
@@ -461,15 +471,12 @@ contract KittyAsset is
         " WHERE kart_id = ",
         StringsUpgradeable.toString(kartId),
         " AND in_use = 1",
-        " AND trait_type = ",
-        "(SELECT trait_type FROM (SELECT trait_type FROM ",
-        _attributeTable,
-        " WHERE asset_id = ",
-        StringsUpgradeable.toString(assetId),
-        "))",
+        " AND trait_type IN ",
+        traitTypes,
         ";"
       )
     );
+
     // set kart_id in asset attribute table
     _tableland.runSQL(
       address(this),
