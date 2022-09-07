@@ -254,7 +254,7 @@ contract KittyAsset is
         metadataTable,
         " SET external_url = ",
         _externalURL,
-        "||'?tokenId='||id", // Turns every row's URL into a URL including get param for tokenId
+        "||'?id='||id", // Turns every row's URL into a URL including get param for tokenId
         ";"
       )
     );
@@ -285,7 +285,7 @@ contract KittyAsset is
     tableland.runSQL(
       address(this),
       metadataTableId,
-      string.concat("UPDATE ", metadataTable, " SET description = ", _description, "||'?tokenId='||id", ";")
+      string.concat("UPDATE ", metadataTable, " SET description = ", _description, "||'?id='||id", ";")
     );
   }
 
