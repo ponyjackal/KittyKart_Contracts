@@ -47,9 +47,9 @@ contract KittyKart is
   uint96 public constant ROYALTY_FEE = 1000;
 
   ITablelandTables private _tableland;
+  uint256 private _metadataTableId;
   string private _baseURIString;
   string private _metadataTable;
-  uint256 private _metadataTableId;
   string private _assetAttributeTable;
   string private _tablePrefix;
   string private _description;
@@ -249,6 +249,43 @@ contract KittyKart is
     _assetAttributeTable = assetAttributeTable;
   }
 
+  /**
+   * @dev Set base URI
+   * @param baseURI baseURI
+   */
+  function setBaseURI(string memory baseURI) external onlyOwner {
+    _baseURIString = baseURI;
+  }
+
+  /**
+   * @dev Set default image
+   * @param image baseURI
+   */
+  function setDefaultImage(string memory image) external onlyOwner {
+    _defaultImage = image;
+  }
+
+  /**
+   * @dev Update image url
+   * @param tokenId tokenId
+   * @param image image
+   */
+  function setImage(uint256 tokenId, string memory image) external onlyOwner {
+    _tableland.runSQL(
+      address(this),
+      _metadataTableId,
+      string.concat(
+        "UPDATE ",
+        _metadataTable,
+        " SET image = ",
+        image,
+        "WHERE id = ",
+        StringsUpgradeable.toString(tokenId),
+        ";"
+      )
+    );
+  }
+
   // -----------------------------------------
   // KittyKart Mutative Functions
   // -----------------------------------------
@@ -281,27 +318,6 @@ contract KittyKart is
       );
     }
     _mint(msg.sender, _quantity);
-  }
-
-  /**
-   * @dev Update image url
-   * @param tokenId tokenId
-   * @param image image
-   */
-  function setImage(uint256 tokenId, string memory image) external onlyOwner {
-    _tableland.runSQL(
-      address(this),
-      _metadataTableId,
-      string.concat(
-        "UPDATE ",
-        _metadataTable,
-        " SET image = ",
-        image,
-        "WHERE id = ",
-        StringsUpgradeable.toString(tokenId),
-        ";"
-      )
-    );
   }
 
   function supportsInterface(bytes4 interfaceId)
