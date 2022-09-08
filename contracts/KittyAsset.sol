@@ -58,7 +58,7 @@ contract KittyAsset is
   string public defaultImage;
   string public externalURL;
   // market restriction
-  bool private _marketplaceProtection = true;
+  bool private _marketplaceProtection;
 
   // Game server address
   address public gameServer;
@@ -127,6 +127,9 @@ contract KittyAsset is
     description = _description;
     defaultImage = _image;
     externalURL = _externalURL;
+
+    // set restriction on marketplace
+    _marketplaceProtection = true;
 
     // Use ERC2981 to set royalty receiver and fee
     _setDefaultRoyalty(_royaltyReceiver, ROYALTY_FEE);

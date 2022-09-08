@@ -57,7 +57,7 @@ contract KittyKart is
   string public externalURL;
 
   // market restriction
-  bool private _marketplaceProtection = true;
+  bool private _marketplaceProtection;
   mapping(address => bool) private _approvedMarketplaces;
 
   // -----------------------------------------
@@ -105,6 +105,8 @@ contract KittyKart is
     description = _description;
     defaultImage = _image;
     externalURL = _externalURL;
+    // set restriction on marketplace
+    _marketplaceProtection = true;
 
     // Use ERC2981 to set royalty receiver and fee
     _setDefaultRoyalty(_royaltyReceiver, ROYALTY_FEE);
