@@ -60,7 +60,7 @@ contract KittyKart is
   // KittyKart Events
   // -----------------------------------------
 
-  event CreatedMetadataTable(string metadataTable, uint256 metadataTableId);
+  event CreateMetadataTable(string metadataTable, uint256 metadataTableId);
   event SetExternalURL(string externalURL);
   event SetDescription(string description);
   event SetAssetAttributeTable(string assetAttributeTable);
@@ -204,7 +204,7 @@ contract KittyKart is
       StringsUpgradeable.toString(metadataTableId)
     );
 
-    emit CreatedMetadataTable(metadataTable, metadataTableId);
+    emit CreateMetadataTable(metadataTable, metadataTableId);
 
     return metadataTableId;
   }

@@ -66,6 +66,32 @@ contract KittyAsset is
   mapping(uint256 => string[]) public traitTypes;
 
   // -----------------------------------------
+  // KittyAsset Events
+  // -----------------------------------------
+
+  event CreateMetadataTable(
+    string metadataTable,
+    uint256 metadataTableId,
+    string attributeTable,
+    uint256 attributeTableId
+  );
+  event SetExternalURL(string externalURL);
+  event SetBaseURI(string baseURIString);
+  event SetDefaultImage(string defaultImage);
+  event SetDescription(string description);
+  event SetImage(uint256 tokenId, string image);
+  event SetGameServer(address gameServer);
+  event SetAutoBodyShop(address autoBodyShop);
+  event SafeMint(address indexed to, uint256 tokenId, string displayType, string indexed traitType, string value);
+  event SafeBatchMint(
+    address indexed to,
+    uint256 tokenId,
+    string[] displayTypes,
+    string[] indexed traitTypes,
+    string[] values
+  );
+
+  // -----------------------------------------
   // KittyAsset Initializer
   // -----------------------------------------
 
@@ -237,6 +263,8 @@ contract KittyAsset is
       StringsUpgradeable.toString(attributeTableId)
     );
 
+    emit CreateMetadataTable(metadataTable, metadataTableId, attributeTable, attributeTableId);
+
     return metadataTableId;
   }
 
@@ -258,6 +286,8 @@ contract KittyAsset is
         ";"
       )
     );
+
+    emit SetExternalURL(_externalURL);
   }
 
   /**
@@ -266,6 +296,8 @@ contract KittyAsset is
    */
   function setBaseURI(string memory _baseURIString) external onlyOwner {
     baseURIString = _baseURIString;
+
+    emit SetBaseURI(_baseURIString);
   }
 
   /**
@@ -274,6 +306,8 @@ contract KittyAsset is
    */
   function setDefaultImage(string memory _defaultImage) external onlyOwner {
     defaultImage = _defaultImage;
+
+    emit SetDefaultImage(_defaultImage);
   }
 
   /**
@@ -287,6 +321,8 @@ contract KittyAsset is
       metadataTableId,
       string.concat("UPDATE ", metadataTable, " SET description = ", _description, "||'?id='||id", ";")
     );
+
+    emit SetDescription(_description);
   }
 
   /**
@@ -308,6 +344,8 @@ contract KittyAsset is
         ";"
       )
     );
+
+    emit SetImage(_tokenId, _image);
   }
 
   /**
@@ -317,6 +355,8 @@ contract KittyAsset is
   function setGameServer(address _gameServer) external onlyOwner {
     require(_gameServer != address(0), "Invalid game server address");
     gameServer = _gameServer;
+
+    emit SetGameServer(_gameServer);
   }
 
   /**
@@ -326,6 +366,8 @@ contract KittyAsset is
   function setAutoBodyShop(address _autoBodyShop) external onlyOwner {
     require(_autoBodyShop != address(0), "Invalid address");
     autoBodyShop = _autoBodyShop;
+
+    emit SetAutoBodyShop(_autoBodyShop);
   }
 
   // -----------------------------------------
@@ -389,6 +431,8 @@ contract KittyAsset is
     traitTypes[tokenId].push(_traitType);
 
     _mint(_to, 1);
+
+    emit SafeMint(_to, tokenId, _displayType, _traitType, _value);
   }
 
   /**
@@ -449,6 +493,8 @@ contract KittyAsset is
       traitTypes[tokenId].push(_traitTypes[i]);
     }
     _mint(_to, 1);
+
+    emit SafeBatchMint(_to, tokenId, _displayTypes, _traitTypes, _values);
   }
 
   /**
