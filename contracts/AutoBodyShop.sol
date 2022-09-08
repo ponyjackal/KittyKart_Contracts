@@ -47,6 +47,15 @@ contract AutoBodyShop is
   IKittyAsset public kittyAsset;
 
   // -----------------------------------------
+  // AutoBodyShop Events
+  // -----------------------------------------
+
+  event SetRegistry(address registry);
+  event SetKittyKart(address kittyKart);
+  event SetKittyAsseet(address kittyAsset);
+  event AssetsApplied(uint256 indexed tokenId, uint256[] indexed assetId);
+
+  // -----------------------------------------
   // AutoBodyShop Initializer
   // -----------------------------------------
   /**
@@ -94,6 +103,8 @@ contract AutoBodyShop is
   function setRegistry(address _registry) external onlyOwner {
     require(_registry != address(0), "Invalid registry address");
     tableland = ITablelandTables(_registry);
+
+    emit SetRegistry(_registry);
   }
 
   /**
@@ -103,6 +114,8 @@ contract AutoBodyShop is
   function setKittyKart(address _kittyKart) external onlyOwner {
     require(_kittyKart != address(0), "Invalid kart token address");
     kittyKart = IKittyKart(_kittyKart);
+
+    emit SetKittyKart(_kittyKart);
   }
 
   /**
@@ -112,6 +125,8 @@ contract AutoBodyShop is
   function setKittyAsset(address _kittyAsset) external onlyOwner {
     require(_kittyAsset != address(0), "Invalid asset token address");
     kittyAsset = IKittyAsset(_kittyAsset);
+
+    emit SetKittyAsseet(_kittyAsset);
   }
 
   // -----------------------------------------
@@ -119,11 +134,11 @@ contract AutoBodyShop is
   // -----------------------------------------
 
   /**
-   * @dev Apply asset color to kart
+   * @dev Apply assets attributes to a kart
    * @param _kartId KittyKart token id
    * @param _assetIds The array of kittyAsset token ids
    */
-  function applyAsset(uint256 _kartId, uint256[] calldata _assetIds) external nonContract nonReentrant {
+  function applyAssets(uint256 _kartId, uint256[] calldata _assetIds) external nonContract nonReentrant {
     require(kittyKart.ownerOf(_kartId) == msg.sender, "Not a kart owner");
 
     for (uint256 i = 0; i < _assetIds.length; i++) {
@@ -131,5 +146,7 @@ contract AutoBodyShop is
       kittyAsset.safeTransferFrom(msg.sender, address(this), _assetIds[i]);
       kittyAsset.setKittyKart(_assetIds[i], _kartId);
     }
+
+    emit AssetsApplied(_kartId, _assetIds);
   }
 }
