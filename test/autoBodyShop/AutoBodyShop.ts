@@ -42,6 +42,8 @@ describe("Unit tests", function () {
       // set assetAttribute table in KittyKart
       const assetAttributeTable = await this.kittyAsset.attributeTable();
       await this.kittyKart.connect(this.signers.deployer).setAssetAttributeTable(assetAttributeTable);
+      // add AutoBodyShop to approved marketplaces
+      await this.kittyAsset.connect(this.signers.deployer).setApprovedMarketplace(this.autoBodyShop.address, true);
       // approve asset tokens to AutoBodyShop
       await this.kittyAsset.connect(this.signers.alice).setApprovalForAll(this.autoBodyShop.address, true);
     });
