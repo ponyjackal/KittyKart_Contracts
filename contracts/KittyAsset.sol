@@ -133,17 +133,17 @@ contract KittyAsset is
   // -----------------------------------------
 
   modifier nonContract() {
-    require(tx.origin == msg.sender, "Caller not a user");
+    require(tx.origin == msg.sender, "KittyAsset: caller not a user");
     _;
   }
 
   modifier onlyGameServer() {
-    require(msg.sender == gameServer, "not a GameServer");
+    require(msg.sender == gameServer, "KittyAsset: not a GameServer");
     _;
   }
 
   modifier onlyAutoBodyShop() {
-    require(msg.sender == autoBodyShop, "not an AutoBodyShp");
+    require(msg.sender == autoBodyShop, "KittyAsset: not an AutoBodyShp");
     _;
   }
 
@@ -166,7 +166,7 @@ contract KittyAsset is
    * with function that converts the result into json.
    */
   function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
-    require(_exists(_tokenId), "ERC721URIStorage: URI query for nonexistent token");
+    require(_exists(_tokenId), "KittyAsset: URI query for nonexistent token");
     string memory base = _baseURI();
 
     return
@@ -353,7 +353,7 @@ contract KittyAsset is
    * @param _gameServer The external URL
    */
   function setGameServer(address _gameServer) external onlyOwner {
-    require(_gameServer != address(0), "Invalid game server address");
+    require(_gameServer != address(0), "KittyAsset: invalid game server address");
     gameServer = _gameServer;
 
     emit SetGameServer(_gameServer);
@@ -364,7 +364,7 @@ contract KittyAsset is
    * @param _autoBodyShop AutoBodyShop address
    */
   function setAutoBodyShop(address _autoBodyShop) external onlyOwner {
-    require(_autoBodyShop != address(0), "Invalid address");
+    require(_autoBodyShop != address(0), "KittyAsset: invalid address");
     autoBodyShop = _autoBodyShop;
 
     emit SetAutoBodyShop(_autoBodyShop);
@@ -448,7 +448,7 @@ contract KittyAsset is
     string[] calldata _traitTypes,
     string[] calldata _values
   ) external onlyGameServer {
-    require(_traitTypes.length == _values.length, "Invalid arguments");
+    require(_traitTypes.length == _values.length, "KittyAsset: invalid arguments");
 
     uint256 tokenId = _nextTokenId();
     tableland.runSQL(

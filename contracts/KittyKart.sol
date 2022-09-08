@@ -111,7 +111,7 @@ contract KittyKart is
   // -----------------------------------------
 
   modifier nonContract() {
-    require(tx.origin == msg.sender, "Caller not a user");
+    require(tx.origin == msg.sender, "KittyKart: caller not a user");
     _;
   }
 
@@ -134,7 +134,7 @@ contract KittyKart is
    * with function that converts the result into json.
    */
   function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
-    require(_exists(_tokenId), "ERC721URIStorage: URI query for nonexistent token");
+    require(_exists(_tokenId), "KittyKart: URI query for nonexistent token");
     string memory base = _baseURI();
 
     return

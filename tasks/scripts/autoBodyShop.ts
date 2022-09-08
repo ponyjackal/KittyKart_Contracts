@@ -75,7 +75,7 @@ task("AutoBodyShop:applyAsset").setAction(async function (taskArguments: TaskArg
   const autoBodyShop: AutoBodyShop = await autoBodyShopFactory.attach(autoBodyShopProxyAddress);
 
   try {
-    await autoBodyShop.applyAsset(0, [0]);
+    await autoBodyShop.applyAssets(0, [0]);
     console.log("AutoBodyShop:applyAsset success");
   } catch (err) {
     console.log("AutoBodyShop:applyAsset error", err);
