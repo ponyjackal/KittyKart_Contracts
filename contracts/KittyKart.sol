@@ -56,6 +56,10 @@ contract KittyKart is
   string public defaultImage;
   string public externalURL;
 
+  // market restriction
+  bool private _marketplaceProtection = true;
+  mapping(address => bool) private _approvedMarketplaces;
+
   // -----------------------------------------
   // KittyKart Events
   // -----------------------------------------
@@ -299,6 +303,14 @@ contract KittyKart is
     emit SetImage(_tokenId, _image);
   }
 
+  function setApprovedMarketplace(address market, bool approved) public onlyOwner {
+    _approvedMarketplaces[market] = approved;
+  }
+
+  function setProtectionSettings(bool marketProtect) external onlyOwner {
+    _marketplaceProtection = marketProtect;
+  }
+
   // -----------------------------------------
   // KittyKart Mutative Functions
   // -----------------------------------------
@@ -334,6 +346,18 @@ contract KittyKart is
     _mint(msg.sender, _quantity);
 
     emit Mint(msg.sender, _quantity);
+  }
+
+  function approve(address to, uint256 tokenId) public virtual override {
+    if (_marketplaceProtection) {
+      require(_approvedMarketplaces[to], "KittyKart: invalid Marketplace");
+    }
+    super.approve(to, tokenId);
+  }
+
+  function setApprovalForAll(address operator, bool approved) public virtual override {
+    require(_approvedMarketplaces[operator], "KittyKart: invalid Marketplace");
+    super.setApprovalForAll(operator, approved);
   }
 
   function supportsInterface(bytes4 interfaceId)
