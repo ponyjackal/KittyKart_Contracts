@@ -42,12 +42,12 @@
     },
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
-      "txHash": "0x002cc322b2f98b6aa501ee2fb33cc2ae060d4ccb02f7e4549bc98e246f55fd71",
+      "txHash": "0x7e40db96a69461dc0eb7036c00bcb151667093d41ff4ea368a44aa09ae26981f",
       "kind": "transparent"
     },
     {
       "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
-      "txHash": "0x6ddba8215728804d6f8f2f2e2d7474872885c3d2b218ae104c9b5fef6ee82494",
+      "txHash": "0xa69ea387812da81cb172ccaac4cc45077fef8bd9243aef47e48d6ce07c0f7e7b",
       "kind": "transparent"
     }
   ],
@@ -544,7 +544,7 @@
     },
     "adafab184981f971f43c7dfe1aa986552e99d1a7c0b6a35224eed02feef9848a": {
       "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x9d6c9765009a01a6725c8b53d97c9ecf0b09d8c8749a4ff09a5a76d4f9cf00ed",
+      "txHash": "0xf1950c25aa6db60c16a24e76d13d6cee55f01f72bec788e935f85bfdfbe94a9a",
       "layout": {
         "storage": [
           {
@@ -640,7 +640,7 @@
             "label": "kittyKart",
             "offset": 0,
             "slot": "252",
-            "type": "t_contract(IKittyKart)3246",
+            "type": "t_contract(IKittyKart)3193",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:46"
           },
@@ -648,7 +648,7 @@
             "label": "kittyAsset",
             "offset": 0,
             "slot": "253",
-            "type": "t_contract(IKittyAsset)3216",
+            "type": "t_contract(IKittyAsset)3163",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:47"
           }
@@ -670,11 +670,11 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_contract(IKittyAsset)3216": {
+          "t_contract(IKittyAsset)3163": {
             "label": "contract IKittyAsset",
             "numberOfBytes": "20"
           },
-          "t_contract(IKittyKart)3246": {
+          "t_contract(IKittyKart)3193": {
             "label": "contract IKittyKart",
             "numberOfBytes": "20"
           },
@@ -693,9 +693,9 @@
         }
       }
     },
-    "e08ff4247c452964dcb4a1250a402fa58312baa939c2c6e6dcabbb311d38f757": {
+    "8cf99e47d30ffb9affebc612bd0428cc424786a68dca0c2231a6b8ea39b0db4d": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0x0901eca3fdd701145cc1e86fc89f8819a52da4840513834e5db32a308a41d44c",
+      "txHash": "0x909fb49ea660641b6b8918fd24dac52b6412dcf6961b81a58bd537c4747fbec3",
       "layout": {
         "storage": [
           {
