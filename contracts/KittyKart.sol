@@ -57,6 +57,19 @@ contract KittyKart is
   string public externalURL;
 
   // -----------------------------------------
+  // KittyKart Events
+  // -----------------------------------------
+
+  event CreatedMetadataTable(string metadataTable, uint256 metadataTableId);
+  event SetExternalURL(string externalURL);
+  event SetDescription(string description);
+  event SetAssetAttributeTable(string assetAttributeTable);
+  event SetBaseURI(string baseURI);
+  event SetDefaultImage(string defaultImage);
+  event SetImage(uint256 tokenId, string image);
+  event Mint(address indexed to, uint256 quantity);
+
+  // -----------------------------------------
   // KittyKart Initializer
   // -----------------------------------------
 
@@ -191,6 +204,8 @@ contract KittyKart is
       StringsUpgradeable.toString(metadataTableId)
     );
 
+    emit CreatedMetadataTable(metadataTable, metadataTableId);
+
     return metadataTableId;
   }
 
@@ -212,6 +227,8 @@ contract KittyKart is
         ";"
       )
     );
+
+    emit SetExternalURL(_externalURL);
   }
 
   /**
@@ -225,6 +242,8 @@ contract KittyKart is
       metadataTableId,
       string.concat("UPDATE ", metadataTable, " SET description = ", _description, "||'?id='||id", ";")
     );
+
+    emit SetDescription(_description);
   }
 
   /**
@@ -233,6 +252,8 @@ contract KittyKart is
    */
   function setAssetAttributeTable(string memory _assetAttributeTable) external onlyOwner {
     assetAttributeTable = _assetAttributeTable;
+
+    emit SetAssetAttributeTable(_assetAttributeTable);
   }
 
   /**
@@ -241,6 +262,8 @@ contract KittyKart is
    */
   function setBaseURI(string memory _baseURIString) external onlyOwner {
     baseURIString = _baseURIString;
+
+    emit SetBaseURI(_baseURIString);
   }
 
   /**
@@ -249,6 +272,8 @@ contract KittyKart is
    */
   function setDefaultImage(string memory _image) external onlyOwner {
     defaultImage = _image;
+
+    emit SetDefaultImage(_image);
   }
 
   /**
@@ -270,6 +295,8 @@ contract KittyKart is
         ";"
       )
     );
+
+    emit SetImage(_tokenId, _image);
   }
 
   // -----------------------------------------
@@ -305,6 +332,8 @@ contract KittyKart is
       );
     }
     _mint(msg.sender, _quantity);
+
+    emit Mint(msg.sender, _quantity);
   }
 
   function supportsInterface(bytes4 interfaceId)
