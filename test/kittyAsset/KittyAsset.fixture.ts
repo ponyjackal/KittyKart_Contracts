@@ -36,7 +36,10 @@ export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsse
   await kittyAsset.connect(deployer).createMetadataTable(REGISTRY_ADDRESS);
   // set game server
   await kittyAsset.connect(deployer).setGameServer(gameServer.address);
-  // mint 10 tokens to alice
+  // mint 4 tokens to alice
   await kittyAsset.connect(gameServer).safeMint(alice.address, "paint", "paint", "blue");
+  await kittyAsset.connect(gameServer).safeMint(alice.address, "paint", "paint", "blue");
+  await kittyAsset.connect(gameServer).safeMint(alice.address, "wheel", "wheel", "Alloy");
+  await kittyAsset.connect(gameServer).safeMint(alice.address, "engine", "engine", "V8");
   return { kittyAsset };
 }
