@@ -188,7 +188,7 @@ contract KittyAsset is
         "%20WHERE%20id=",
         StringsUpgradeable.toString(_tokenId),
         "%20GROUP%20BY%20id",
-        "&mode=json"
+        "&mode=list"
       );
   }
 
