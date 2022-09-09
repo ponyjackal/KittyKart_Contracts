@@ -24,7 +24,7 @@ describe("Unit tests", function () {
   });
 
   describe("AutoBodyShop", function () {
-    beforeEach(async function () {
+    before(async function () {
       const { kittyKart } = await this.loadFixture(deployKittyKartFixture);
       this.kittyKart = kittyKart;
 
