@@ -42,12 +42,12 @@
     },
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
-      "txHash": "0x5b1496a974b2cea50d7dd76500bcd3c94b3c11aad9985c98f75a2e91b8be307d",
+      "txHash": "0x5b739b13050060faa9461ef93edbc19e03b41a2baa7115dcdb2f4af2bca68cc1",
       "kind": "transparent"
     },
     {
       "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
-      "txHash": "0xd0afd5b5bd47e99f6db6395999f2f0a17fc5ce5166cc441c5e0ba3789cc4df27",
+      "txHash": "0x7bcb2819f18da102e2bde4debf5d9b5720357be3d46aed76549edb0e4c6da56e",
       "kind": "transparent"
     }
   ],
@@ -285,9 +285,160 @@
         }
       }
     },
-    "2b0deb5ee6011d4330ad83f1d7e14cbe793884d6e76a8554b3550d7fec3a0bbf": {
+    "8753b8080318f44ce3c129a6fe1f313aca791df804fea42387d8764546b0e100": {
+      "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
+      "txHash": "0xae488a2bf4c2fb9dc3a8f5c48071fff7e4b64426f33bdc76b7f23efa494e54b7",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\ReentrancyGuardUpgradeable.sol:38"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\ReentrancyGuardUpgradeable.sol:74"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC721HolderUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\utils\\ERC721HolderUpgradeable.sol:40"
+          },
+          {
+            "label": "tableland",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_contract(ITablelandTables)1478",
+            "contract": "AutoBodyShop",
+            "src": "contracts\\AutoBodyShop.sol:44"
+          },
+          {
+            "label": "kittyKart",
+            "offset": 0,
+            "slot": "252",
+            "type": "t_contract(IKittyKart)3382",
+            "contract": "AutoBodyShop",
+            "src": "contracts\\AutoBodyShop.sol:46"
+          },
+          {
+            "label": "kittyAsset",
+            "offset": 0,
+            "slot": "253",
+            "type": "t_contract(IKittyAsset)3352",
+            "contract": "AutoBodyShop",
+            "src": "contracts\\AutoBodyShop.sol:47"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(IKittyAsset)3352": {
+            "label": "contract IKittyAsset",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IKittyKart)3382": {
+            "label": "contract IKittyKart",
+            "numberOfBytes": "20"
+          },
+          "t_contract(ITablelandTables)1478": {
+            "label": "contract ITablelandTables",
+            "numberOfBytes": "20"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "6be8a7d26d52b65f36c995d3accf87dcfe847e06a408031a5391b1fc8797f937": {
       "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
-      "txHash": "0x72b2496bdf6b69f63b17ae36cec9e10ce3d95bff831d82ef5f5f897778b2091b",
+      "txHash": "0xf326a7ffbbe8518aa7e3a27dffe870e158f29fe80d44ad9e0615d1c427b655b7",
       "layout": {
         "storage": [
           {
@@ -542,9 +693,9 @@
         }
       }
     },
-    "8c2948a3ae293abb16cbb51136f76846f45e482cec3f22580911d437f62760dc": {
+    "1d7080af784278082ac069ba1b406c03891d2dfcb30bd652efc12273d4ace5c9": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0x862ffb68e37f62a15b610a4df00814736c313b50251bf5f1133dfe5262c77910",
+      "txHash": "0xbaa7df594a5abba3669fdb1d06d9460db04b5c0b7dc57ccfbe4cd78585dd07c3",
       "layout": {
         "storage": [
           {
@@ -760,7 +911,7 @@
             "label": "traitTypes",
             "offset": 0,
             "slot": "363",
-            "type": "t_mapping(t_uint256,t_array(t_string_storage)dyn_storage)",
+            "type": "t_mapping(t_uint256,t_array(t_bytes16)dyn_storage)",
             "contract": "KittyAsset",
             "src": "contracts\\KittyAsset.sol:66"
           }
@@ -770,8 +921,8 @@
             "label": "address",
             "numberOfBytes": "20"
           },
-          "t_array(t_string_storage)dyn_storage": {
-            "label": "string[]",
+          "t_array(t_bytes16)dyn_storage": {
+            "label": "bytes16[]",
             "numberOfBytes": "32"
           },
           "t_array(t_uint256)48_storage": {
@@ -790,12 +941,16 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
+          "t_bytes16": {
+            "label": "bytes16",
+            "numberOfBytes": "16"
+          },
           "t_contract(ITablelandTables)1478": {
             "label": "contract ITablelandTables",
             "numberOfBytes": "20"
           },
-          "t_mapping(t_uint256,t_array(t_string_storage)dyn_storage)": {
-            "label": "mapping(uint256 => string[])",
+          "t_mapping(t_uint256,t_array(t_bytes16)dyn_storage)": {
+            "label": "mapping(uint256 => bytes16[])",
             "numberOfBytes": "32"
           },
           "t_mapping(t_uint256,t_struct(RoyaltyInfo)581_storage)": {
@@ -835,157 +990,6 @@
           "t_uint96": {
             "label": "uint96",
             "numberOfBytes": "12"
-          }
-        }
-      }
-    },
-    "8753b8080318f44ce3c129a6fe1f313aca791df804fea42387d8764546b0e100": {
-      "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x0aa2240214f4d43376e745df0fca8ea1171ccaf856826282c2fbaf25e7b2168c",
-      "layout": {
-        "storage": [
-          {
-            "label": "_initialized",
-            "offset": 0,
-            "slot": "0",
-            "type": "t_uint8",
-            "contract": "Initializable",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
-            "retypedFrom": "bool"
-          },
-          {
-            "label": "_initializing",
-            "offset": 1,
-            "slot": "0",
-            "type": "t_bool",
-            "contract": "Initializable",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
-          },
-          {
-            "label": "_status",
-            "offset": 0,
-            "slot": "1",
-            "type": "t_uint256",
-            "contract": "ReentrancyGuardUpgradeable",
-            "src": "@openzeppelin\\contracts-upgradeable\\security\\ReentrancyGuardUpgradeable.sol:38"
-          },
-          {
-            "label": "__gap",
-            "offset": 0,
-            "slot": "2",
-            "type": "t_array(t_uint256)49_storage",
-            "contract": "ReentrancyGuardUpgradeable",
-            "src": "@openzeppelin\\contracts-upgradeable\\security\\ReentrancyGuardUpgradeable.sol:74"
-          },
-          {
-            "label": "__gap",
-            "offset": 0,
-            "slot": "51",
-            "type": "t_array(t_uint256)50_storage",
-            "contract": "ContextUpgradeable",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
-          },
-          {
-            "label": "_owner",
-            "offset": 0,
-            "slot": "101",
-            "type": "t_address",
-            "contract": "OwnableUpgradeable",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
-          },
-          {
-            "label": "__gap",
-            "offset": 0,
-            "slot": "102",
-            "type": "t_array(t_uint256)49_storage",
-            "contract": "OwnableUpgradeable",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:94"
-          },
-          {
-            "label": "_paused",
-            "offset": 0,
-            "slot": "151",
-            "type": "t_bool",
-            "contract": "PausableUpgradeable",
-            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
-          },
-          {
-            "label": "__gap",
-            "offset": 0,
-            "slot": "152",
-            "type": "t_array(t_uint256)49_storage",
-            "contract": "PausableUpgradeable",
-            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:116"
-          },
-          {
-            "label": "__gap",
-            "offset": 0,
-            "slot": "201",
-            "type": "t_array(t_uint256)50_storage",
-            "contract": "ERC721HolderUpgradeable",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\utils\\ERC721HolderUpgradeable.sol:40"
-          },
-          {
-            "label": "tableland",
-            "offset": 0,
-            "slot": "251",
-            "type": "t_contract(ITablelandTables)1478",
-            "contract": "AutoBodyShop",
-            "src": "contracts\\AutoBodyShop.sol:44"
-          },
-          {
-            "label": "kittyKart",
-            "offset": 0,
-            "slot": "252",
-            "type": "t_contract(IKittyKart)3422",
-            "contract": "AutoBodyShop",
-            "src": "contracts\\AutoBodyShop.sol:46"
-          },
-          {
-            "label": "kittyAsset",
-            "offset": 0,
-            "slot": "253",
-            "type": "t_contract(IKittyAsset)3392",
-            "contract": "AutoBodyShop",
-            "src": "contracts\\AutoBodyShop.sol:47"
-          }
-        ],
-        "types": {
-          "t_address": {
-            "label": "address",
-            "numberOfBytes": "20"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]",
-            "numberOfBytes": "1568"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]",
-            "numberOfBytes": "1600"
-          },
-          "t_bool": {
-            "label": "bool",
-            "numberOfBytes": "1"
-          },
-          "t_contract(IKittyAsset)3392": {
-            "label": "contract IKittyAsset",
-            "numberOfBytes": "20"
-          },
-          "t_contract(IKittyKart)3422": {
-            "label": "contract IKittyKart",
-            "numberOfBytes": "20"
-          },
-          "t_contract(ITablelandTables)1478": {
-            "label": "contract ITablelandTables",
-            "numberOfBytes": "20"
-          },
-          "t_uint256": {
-            "label": "uint256",
-            "numberOfBytes": "32"
-          },
-          "t_uint8": {
-            "label": "uint8",
-            "numberOfBytes": "1"
           }
         }
       }
