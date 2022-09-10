@@ -49,7 +49,7 @@ contract KittyKartAsset is
   uint256 public constant MINT_FEE = 0;
   uint96 public constant ROYALTY_FEE = 1000;
   bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-  string private constant SIGNING_DOMAIN = "KittyAsset-Voucher";
+  string private constant SIGNING_DOMAIN = "KittyAssetVoucher";
   string private constant SIGNATURE_VERSION = "1";
 
   ITablelandTables public tableland;
@@ -73,13 +73,11 @@ contract KittyKartAsset is
   mapping(address => bool) private _approvedMarketplaces;
 
   struct KittyAssetVoucher {
+    address receiver;
     bytes16[] displayTypes;
     bytes16[] traitTypes;
     bytes16[] values;
-    uint256 nonce;
-    uint256 expiry;
     bytes signature;
-    address receiver;
   }
 
   // -----------------------------------------
@@ -505,8 +503,9 @@ contract KittyKartAsset is
    * @dev game server mints assets to the user
    * @param _voucher The KittyAssetVoucher
    */
-  function safeMint(KittyAssetVoucher calldata _voucher) external onlyGameServer {
+  function safeMint(KittyAssetVoucher calldata _voucher) external nonContract {
     address signer = _verify(_voucher);
+    console.log("address", signer, gameServer);
     require(_voucher.traitTypes.length == _voucher.values.length, "KittyAsset: invalid arguments");
     require(signer == gameServer, "KittyAsset: invalid signature");
     require(msg.sender == _voucher.receiver, "KittyAsset: invalid receiver");
@@ -609,9 +608,7 @@ contract KittyKartAsset is
             _voucher.receiver,
             _voucher.displayTypes,
             _voucher.traitTypes,
-            _voucher.values,
-            _voucher.nonce,
-            _voucher.expiry
+            _voucher.values
           )
         )
       );

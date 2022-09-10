@@ -31,8 +31,8 @@
       "kind": "transparent"
     },
     {
-      "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x6f04b42c9d0579d0e36f4e675ba34c6abb1a32aed2897545b865e00761e8d74e",
+      "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
+      "txHash": "0x7bcb2819f18da102e2bde4debf5d9b5720357be3d46aed76549edb0e4c6da56e",
       "kind": "transparent"
     },
     {
@@ -285,9 +285,164 @@
         }
       }
     },
-    "e8eec58ff577e78b70500a05ecc6980223e7d6ed7fbb34fc1bf8e61ddfdd3819": {
+    "8753b8080318f44ce3c129a6fe1f313aca791df804fea42387d8764546b0e100": {
+      "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
+      "txHash": "0xae488a2bf4c2fb9dc3a8f5c48071fff7e4b64426f33bdc76b7f23efa494e54b7",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\ReentrancyGuardUpgradeable.sol:38"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\ReentrancyGuardUpgradeable.sol:74"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC721HolderUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\utils\\ERC721HolderUpgradeable.sol:40"
+          },
+          {
+            "label": "tableland",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_contract(ITablelandTables)1478",
+            "contract": "AutoBodyShop",
+            "src": "contracts\\AutoBodyShop.sol:44"
+          },
+          {
+            "label": "kittyKart",
+            "offset": 0,
+            "slot": "252",
+            "type": "t_contract(IKittyKart)3382",
+            "contract": "AutoBodyShop",
+            "src": "contracts\\AutoBodyShop.sol:46"
+          },
+          {
+            "label": "kittyAsset",
+            "offset": 0,
+            "slot": "253",
+            "type": "t_contract(IKittyAsset)3352",
+            "contract": "AutoBodyShop",
+            "src": "contracts\\AutoBodyShop.sol:47"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(IKittyAsset)3352": {
+            "label": "contract IKittyAsset",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IKittyKart)3382": {
+            "label": "contract IKittyKart",
+            "numberOfBytes": "20"
+          },
+          "t_contract(ITablelandTables)1478": {
+            "label": "contract ITablelandTables",
+            "numberOfBytes": "20"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          },
+          "t_uint96": {
+            "label": "uint96",
+            "numberOfBytes": "12"
+          }
+        }
+      }
+    },
+    "6be8a7d26d52b65f36c995d3accf87dcfe847e06a408031a5391b1fc8797f937": {
       "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
-      "txHash": "0x51b1042d521b3fe80d1053e08c9d2f90a5dd046e19988e7ae6829711e5314677",
+      "txHash": "0xf326a7ffbbe8518aa7e3a27dffe870e158f29fe80d44ad9e0615d1c427b655b7",
       "layout": {
         "storage": [
           {
@@ -407,97 +562,73 @@
             "label": "tableland",
             "offset": 0,
             "slot": "351",
-            "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:49"
+            "type": "t_contract(ITablelandTables)2016",
+            "contract": "KittyKart",
+            "src": "contracts\\KittyKart.sol:49"
           },
           {
             "label": "metadataTableId",
             "offset": 0,
             "slot": "352",
             "type": "t_uint256",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:50"
+            "contract": "KittyKart",
+            "src": "contracts\\KittyKart.sol:50"
           },
           {
             "label": "baseURIString",
             "offset": 0,
             "slot": "353",
             "type": "t_string_storage",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:51"
+            "contract": "KittyKart",
+            "src": "contracts\\KittyKart.sol:51"
           },
           {
             "label": "metadataTable",
             "offset": 0,
             "slot": "354",
             "type": "t_string_storage",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:52"
+            "contract": "KittyKart",
+            "src": "contracts\\KittyKart.sol:52"
           },
           {
             "label": "assetAttributeTable",
             "offset": 0,
             "slot": "355",
             "type": "t_string_storage",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:53"
+            "contract": "KittyKart",
+            "src": "contracts\\KittyKart.sol:53"
           },
           {
             "label": "tablePrefix",
             "offset": 0,
             "slot": "356",
             "type": "t_string_storage",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:54"
+            "contract": "KittyKart",
+            "src": "contracts\\KittyKart.sol:54"
           },
           {
             "label": "description",
             "offset": 0,
             "slot": "357",
             "type": "t_string_storage",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:55"
+            "contract": "KittyKart",
+            "src": "contracts\\KittyKart.sol:55"
           },
           {
             "label": "defaultImage",
             "offset": 0,
             "slot": "358",
             "type": "t_string_storage",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:56"
+            "contract": "KittyKart",
+            "src": "contracts\\KittyKart.sol:56"
           },
           {
             "label": "externalURL",
             "offset": 0,
             "slot": "359",
             "type": "t_string_storage",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:57"
-          },
-          {
-            "label": "defaultAnimationURL",
-            "offset": 0,
-            "slot": "360",
-            "type": "t_string_storage",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:58"
-          },
-          {
-            "label": "_marketplaceProtection",
-            "offset": 0,
-            "slot": "361",
-            "type": "t_bool",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:61"
-          },
-          {
-            "label": "_approvedMarketplaces",
-            "offset": 0,
-            "slot": "362",
-            "type": "t_mapping(t_address,t_bool)",
-            "contract": "KittyKartGoKart",
-            "src": "contracts\\KittyKartGoKart.sol:62"
+            "contract": "KittyKart",
+            "src": "contracts\\KittyKart.sol:57"
           }
         ],
         "types": {
@@ -521,13 +652,9 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_contract(ITablelandTables)1478": {
+          "t_contract(ITablelandTables)2016": {
             "label": "contract ITablelandTables",
             "numberOfBytes": "20"
-          },
-          "t_mapping(t_address,t_bool)": {
-            "label": "mapping(address => bool)",
-            "numberOfBytes": "32"
           },
           "t_mapping(t_uint256,t_struct(RoyaltyInfo)581_storage)": {
             "label": "mapping(uint256 => struct ERC2981Upgradeable.RoyaltyInfo)",
@@ -570,9 +697,9 @@
         }
       }
     },
-    "30cd3e7f62ed5932a4eb860c689442d8b9a5ca9a437c954bf59eca3034d9d8a1": {
+    "a698a14ca1b17163d0f3a41c478a179d5b47080906cf51226c205461ed111c14": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0xf4e415f743cf9091b9d629f473bbc0599fbbc5e1060e7a2d4104603acc5efc5e",
+      "txHash": "0xdb00dd2c5eab98ddea0c3ca3ae714f1871a290f52e6638c187f4e385e2ae46d0",
       "layout": {
         "storage": [
           {
@@ -689,63 +816,47 @@
             "src": "@openzeppelin\\contracts-upgradeable\\token\\common\\ERC2981Upgradeable.sol:123"
           },
           {
-            "label": "tableland",
+            "label": "_HASHED_NAME",
             "offset": 0,
             "slot": "351",
-            "type": "t_contract(ITablelandTables)1478",
-            "contract": "KittyKartAsset",
-            "src": "contracts\\KittyKartAsset.sol:49"
+            "type": "t_bytes32",
+            "contract": "EIP712Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\cryptography\\draft-EIP712Upgradeable.sol:32"
           },
           {
-            "label": "metadataTable",
+            "label": "_HASHED_VERSION",
             "offset": 0,
             "slot": "352",
-            "type": "t_string_storage",
-            "contract": "KittyKartAsset",
-            "src": "contracts\\KittyKartAsset.sol:50"
+            "type": "t_bytes32",
+            "contract": "EIP712Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\cryptography\\draft-EIP712Upgradeable.sol:33"
           },
           {
-            "label": "metadataTableId",
+            "label": "__gap",
             "offset": 0,
             "slot": "353",
-            "type": "t_uint256",
-            "contract": "KittyKartAsset",
-            "src": "contracts\\KittyKartAsset.sol:51"
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "EIP712Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\cryptography\\draft-EIP712Upgradeable.sol:120"
           },
           {
-            "label": "attributeTable",
+            "label": "tableland",
             "offset": 0,
-            "slot": "354",
-            "type": "t_string_storage",
-            "contract": "KittyKartAsset",
-            "src": "contracts\\KittyKartAsset.sol:52"
-          },
-          {
-            "label": "attributeTableId",
-            "offset": 0,
-            "slot": "355",
-            "type": "t_uint256",
-            "contract": "KittyKartAsset",
-            "src": "contracts\\KittyKartAsset.sol:53"
-          },
-          {
-            "label": "baseURIString",
-            "offset": 0,
-            "slot": "356",
-            "type": "t_string_storage",
+            "slot": "403",
+            "type": "t_contract(ITablelandTables)2016",
             "contract": "KittyKartAsset",
             "src": "contracts\\KittyKartAsset.sol:55"
           },
           {
-            "label": "tablePrefix",
+            "label": "metadataTable",
             "offset": 0,
-            "slot": "357",
+            "slot": "404",
             "type": "t_string_storage",
             "contract": "KittyKartAsset",
             "src": "contracts\\KittyKartAsset.sol:56"
           },
           {
-            "label": "description",
+            "label": "metadataTableId",
             "offset": 0,
             "slot": "358",
             "type": "t_string_storage",
@@ -753,15 +864,15 @@
             "src": "contracts\\KittyKartAsset.sol:57"
           },
           {
-            "label": "defaultImage",
+            "label": "attributeTable",
             "offset": 0,
-            "slot": "359",
+            "slot": "406",
             "type": "t_string_storage",
             "contract": "KittyKartAsset",
             "src": "contracts\\KittyKartAsset.sol:58"
           },
           {
-            "label": "externalURL",
+            "label": "attributeTableId",
             "offset": 0,
             "slot": "360",
             "type": "t_string_storage",
@@ -777,7 +888,7 @@
             "src": "contracts\\KittyKartAsset.sol:60"
           },
           {
-            "label": "gameServer",
+            "label": "baseURIString",
             "offset": 0,
             "slot": "362",
             "type": "t_address",
@@ -785,7 +896,7 @@
             "src": "contracts\\KittyKartAsset.sol:63"
           },
           {
-            "label": "autoBodyShop",
+            "label": "description",
             "offset": 0,
             "slot": "363",
             "type": "t_address",
@@ -801,12 +912,36 @@
             "src": "contracts\\KittyKartAsset.sol:67"
           },
           {
-            "label": "_approvedMarketplaces",
+            "label": "externalURL",
             "offset": 0,
-            "slot": "364",
-            "type": "t_mapping(t_address,t_bool)",
+            "slot": "412",
+            "type": "t_string_storage",
             "contract": "KittyKartAsset",
-            "src": "contracts\\KittyKartAsset.sol:69"
+            "src": "contracts\\KittyKartAsset.sol:65"
+          },
+          {
+            "label": "gameServer",
+            "offset": 0,
+            "slot": "413",
+            "type": "t_address",
+            "contract": "KittyKartAsset",
+            "src": "contracts\\KittyKartAsset.sol:68"
+          },
+          {
+            "label": "autoBodyShop",
+            "offset": 0,
+            "slot": "414",
+            "type": "t_address",
+            "contract": "KittyKartAsset",
+            "src": "contracts\\KittyKartAsset.sol:70"
+          },
+          {
+            "label": "traitTypes",
+            "offset": 0,
+            "slot": "415",
+            "type": "t_mapping(t_uint256,t_array(t_bytes16)dyn_storage)",
+            "contract": "KittyKartAsset",
+            "src": "contracts\\KittyKartAsset.sol:72"
           }
         ],
         "types": {
@@ -830,7 +965,15 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_contract(ITablelandTables)1478": {
+          "t_bytes16": {
+            "label": "bytes16",
+            "numberOfBytes": "16"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(ITablelandTables)2016": {
             "label": "contract ITablelandTables",
             "numberOfBytes": "20"
           },
