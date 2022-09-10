@@ -29,6 +29,8 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/cryptography/ECDSAUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
 import "hardhat/console.sol";
@@ -40,11 +42,15 @@ contract KittyKartAsset is
   PausableUpgradeable,
   ERC721AUpgradeable,
   ERC721HolderUpgradeable,
-  ERC2981Upgradeable
+  ERC2981Upgradeable,
+  EIP712Upgradeable
 {
   uint256 public constant TOTAL_SUPPLY = 15000;
   uint256 public constant MINT_FEE = 0;
   uint96 public constant ROYALTY_FEE = 1000;
+  bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+  string private constant SIGNING_DOMAIN = "KittyAsset-Voucher";
+  string private constant SIGNATURE_VERSION = "1";
 
   ITablelandTables public tableland;
   string public metadataTable;
@@ -65,6 +71,16 @@ contract KittyKartAsset is
   bool private _marketplaceProtection;
   // market restriction
   mapping(address => bool) private _approvedMarketplaces;
+
+  struct KittyAssetVoucher {
+    bytes16[] displayTypes;
+    bytes16[] traitTypes;
+    bytes16[] values;
+    uint256 nonce;
+    uint256 expiry;
+    bytes signature;
+    address receiver;
+  }
 
   // -----------------------------------------
   // KittyKartAsset Events
@@ -122,6 +138,7 @@ contract KittyKartAsset is
     __ERC721A_init("KittyKart Asset", "KKAsset");
     __ERC721Holder_init();
     __ERC2981_init();
+    __EIP712_init(SIGNING_DOMAIN, SIGNATURE_VERSION);
 
     baseURIString = _baseURIString;
     tablePrefix = "kitty_asset_test";
@@ -486,18 +503,13 @@ contract KittyKartAsset is
 
   /**
    * @dev game server mints assets to the user
-   * @param _to receiver address
-   * @param _displayTypes display type of game asset
-   * @param _traitTypes trait type of game asset
-   * @param _values value of trait type
+   * @param _voucher The KittyAssetVoucher
    */
-  function safeMint(
-    address _to,
-    bytes16[] calldata _displayTypes,
-    bytes16[] calldata _traitTypes,
-    bytes16[] calldata _values
-  ) external onlyGameServer {
-    require(_traitTypes.length == _values.length, "KittyKartAsset: invalid arguments");
+  function safeMint(KittyAssetVoucher calldata _voucher) external onlyGameServer {
+    address signer = _verify(_voucher);
+    require(_voucher.traitTypes.length == _voucher.values.length, "KittyAsset: invalid arguments");
+    require(signer == gameServer, "KittyAsset: invalid signature");
+    require(msg.sender == _voucher.receiver, "KittyAsset: invalid receiver");
 
     uint256 tokenId = _nextTokenId();
     tableland.runSQL(
@@ -521,7 +533,7 @@ contract KittyKartAsset is
         "');"
       )
     );
-    for (uint256 i = 0; i < _traitTypes.length; i++) {
+    for (uint256 i = 0; i < _voucher.traitTypes.length; i++) {
       tableland.runSQL(
         address(this),
         attributeTableId,
@@ -531,19 +543,19 @@ contract KittyKartAsset is
           " (asset_id, display_type, trait_type, value, in_use) VALUES (",
           StringsUpgradeable.toString(tokenId),
           ", '",
-          _bytes16ToString(_displayTypes[i]),
+          _bytes16ToString(_voucher.displayTypes[i]),
           "', '",
-          _bytes16ToString(_traitTypes[i]),
+          _bytes16ToString(_voucher.traitTypes[i]),
           "', '",
-          _bytes16ToString(_values[i]),
+          _bytes16ToString(_voucher.values[i]),
           "', 0",
           ");"
         )
       );
     }
-    _mint(_to, 1);
+    _mint(_voucher.receiver, 1);
 
-    emit SafeMint(_to, tokenId, _displayTypes, _traitTypes, _values);
+    emit SafeMint(_voucher.receiver, tokenId, _voucher.displayTypes, _voucher.traitTypes, _voucher.values);
   }
 
   function approve(address to, uint256 tokenId) public virtual override {
@@ -581,5 +593,36 @@ contract KittyKartAsset is
       bytesArray[i] = _bytes16[i];
     }
     return string(bytesArray);
+  }
+
+  /**
+   * @dev return a hash of the givne KittyAssetVoucher
+   */
+  function _hash(KittyAssetVoucher calldata _voucher) internal view returns (bytes32) {
+    return
+      _hashTypedDataV4(
+        keccak256(
+          abi.encodePacked(
+            keccak256(
+              "KittyAssetVoucher(address receiver,bytes16[] displayTypes,bytes16[] traitTypes,bytes16[] values)"
+            ),
+            _voucher.receiver,
+            _voucher.displayTypes,
+            _voucher.traitTypes,
+            _voucher.values,
+            _voucher.nonce,
+            _voucher.expiry
+          )
+        )
+      );
+  }
+
+  /**
+   * @dev verify the signature of a given KittyAssetVoucher
+   * @param _voucher KittyKartVoucher
+   */
+  function _verify(KittyAssetVoucher calldata _voucher) internal view returns (address) {
+    bytes32 digest = _hash(_voucher);
+    return ECDSAUpgradeable.recover(digest, _voucher.signature);
   }
 }
