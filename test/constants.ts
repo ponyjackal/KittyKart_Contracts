@@ -33,8 +33,8 @@ export const SIGNING_AUTOBODY_SHOP_TYPES = {
 export const KITTY_KART_GO_KART_TABLE_ID = 1;
 export const KITTY_KART_ASSET_ATTRIBUTE_TABLE_ID = 2;
 export const SIGNING_ASSET_MINT_DOMAIN = "KittyAssetVoucher";
-export const SIGNING_ASSET_MINT_VERSION = "1";
-export const SIGNING_ASSET_MINT_TYPES = {
+export const SIGNATURE_ASSET_MINT_VERSION = "1";
+export const SIGNATURE_ASSET_MINT_TYPES = {
   KittyAssetVoucher: [
     { name: "receiver", type: "address" },
     { name: "displayTypes", type: "bytes16[]" },
