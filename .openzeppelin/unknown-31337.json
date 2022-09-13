@@ -31,8 +31,8 @@
       "kind": "transparent"
     },
     {
-      "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
-      "txHash": "0x7bcb2819f18da102e2bde4debf5d9b5720357be3d46aed76549edb0e4c6da56e",
+      "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
+      "txHash": "0x48d282376aeb94ca25a2c137213540bdc35ade50424edca3235fd11e99844832",
       "kind": "transparent"
     },
     {
@@ -42,12 +42,12 @@
     },
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
-      "txHash": "0xae8e77e6567da3db8e686694153c7bb9ab7aa0d5fe9349713e1a6667e5abcc57",
+      "txHash": "0x2bfb0336b2b636e29c959f89bc537fae87cffbe8be352500ecfec91616c81fbf",
       "kind": "transparent"
     },
     {
-      "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x48d282376aeb94ca25a2c137213540bdc35ade50424edca3235fd11e99844832",
+      "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
+      "txHash": "0x26d68f619aab8aad75baaa2e39eaed73957c2e477ad7276a18e45934d5e99ef4",
       "kind": "transparent"
     }
   ],
@@ -287,7 +287,7 @@
     },
     "8753b8080318f44ce3c129a6fe1f313aca791df804fea42387d8764546b0e100": {
       "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0xae488a2bf4c2fb9dc3a8f5c48071fff7e4b64426f33bdc76b7f23efa494e54b7",
+      "txHash": "0x80caccb3e94ab5b94485c018a784215bfdecdd8a604770b4b01bcce0256f19a2",
       "layout": {
         "storage": [
           {
@@ -375,7 +375,7 @@
             "label": "tableland",
             "offset": 0,
             "slot": "251",
-            "type": "t_contract(ITablelandTables)1478",
+            "type": "t_contract(ITablelandTables)2016",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:44"
           },
@@ -383,7 +383,7 @@
             "label": "kittyKart",
             "offset": 0,
             "slot": "252",
-            "type": "t_contract(IKittyKart)3382",
+            "type": "t_contract(IKittyKart)4055",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:46"
           },
@@ -391,7 +391,7 @@
             "label": "kittyAsset",
             "offset": 0,
             "slot": "253",
-            "type": "t_contract(IKittyAsset)3352",
+            "type": "t_contract(IKittyAsset)4025",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:47"
           }
@@ -413,15 +413,15 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_contract(IKittyAsset)3352": {
+          "t_contract(IKittyAsset)4025": {
             "label": "contract IKittyAsset",
             "numberOfBytes": "20"
           },
-          "t_contract(IKittyKart)3382": {
+          "t_contract(IKittyKart)4055": {
             "label": "contract IKittyKart",
             "numberOfBytes": "20"
           },
-          "t_contract(ITablelandTables)1478": {
+          "t_contract(ITablelandTables)2016": {
             "label": "contract ITablelandTables",
             "numberOfBytes": "20"
           },
@@ -697,9 +697,9 @@
         }
       }
     },
-    "db8337a6985cc593956f733506bd9b3414a77e990315d1d7948abcb4a9fa1b43": {
+    "9815c35b3fb83824f9389bb4a3ed23fca5f31ec5a3cebf94cc2ce1fe25218547": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0x8c2595928521fbf3dc528ab8c630edf6272c3c394b8d28aa1c3a15828080f475",
+      "txHash": "0x6e8a3accf459538a7199e51fea44146f0280879a76bf061ac0d1bef4fb22da8b",
       "layout": {
         "storage": [
           {
