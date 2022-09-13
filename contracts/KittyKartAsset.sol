@@ -505,7 +505,6 @@ contract KittyKartAsset is
    */
   function safeMint(KittyAssetVoucher calldata _voucher) external nonContract {
     address signer = _verify(_voucher);
-    console.log("address", signer, gameServer);
     require(_voucher.traitTypes.length == _voucher.values.length, "KittyAsset: invalid arguments");
     require(signer == gameServer, "KittyAsset: invalid signature");
     require(msg.sender == _voucher.receiver, "KittyAsset: invalid receiver");
