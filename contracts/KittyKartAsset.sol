@@ -601,7 +601,7 @@ contract KittyKartAsset is
     return
       _hashTypedDataV4(
         keccak256(
-          abi.encodePacked(
+          abi.encode(
             keccak256(
               "KittyAssetVoucher(address receiver,bytes16[] displayTypes,bytes16[] traitTypes,bytes16[] values)"
             ),

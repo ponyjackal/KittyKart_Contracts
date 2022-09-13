@@ -1,5 +1,6 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
-import { ethers, upgrades } from "hardhat";
+import { utils } from "ethers";
+import { ethers, network, upgrades } from "hardhat";
 
 import type { KittyKartAsset } from "../../src/types/contracts/KittyKartAsset";
 import { KittyKartAsset__factory } from "../../src/types/factories/contracts/KittyKartAsset__factory";
@@ -13,9 +14,9 @@ import {
   DEPLOY_ADDRESS,
   GAME_SERVER_ADDRESS,
   REGISTRY_ADDRESS,
-  SIGNATURE_TYPES,
-  SIGNATURE_VERSION,
-  SIGNING_DOMAIN,
+  SIGNATURE_ASSET_MINT_TYPES,
+  SIGNATURE_ASSET_MINT_VERSION,
+  SIGNING_ASSET_MINT_DOMAIN,
 } from "../constants";
 
 export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: KittyKartAsset }> {
@@ -42,7 +43,7 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
   // set game server
   await kittyKartAsset.connect(deployer).setGameServer(admin.address);
   // sign a message for KittyAssetVoucher
-  let voucher = {
+  const data = {
     receiver: alice.address,
     displayTypes: [
       ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
@@ -59,16 +60,19 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
       ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("Alloy"), 0, 16),
       ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("v8"), 0, 16),
     ],
-    signature: "",
   };
   const typedDomain = {
-    name: SIGNING_DOMAIN,
-    version: SIGNATURE_VERSION,
-    chainId: 1,
+    name: SIGNING_ASSET_MINT_DOMAIN,
+    version: SIGNATURE_ASSET_MINT_VERSION,
+    chainId: ethers.BigNumber.from("" + network.config.chainId),
     verifyingContract: kittyKartAsset.address,
   };
-  const signature = await admin._signTypedData(typedDomain, SIGNATURE_TYPES, voucher);
-  voucher.signature = signature;
+  const signature = await admin._signTypedData(typedDomain, SIGNATURE_ASSET_MINT_TYPES, data);
+  let voucher = {
+    ...data,
+    signature,
+  };
+  console.log("voucher", typedDomain, voucher);
 
   // mint 3 tokens to alice
   await kittyKartAsset.connect(alice).safeMint(voucher);
