@@ -43,7 +43,7 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
   // set game server
   await kittyKartAsset.connect(deployer).setGameServer(admin.address);
   // sign a message for KittyAssetVoucher
-  const data = {
+  const data1 = {
     receiver: alice.address,
     displayTypes: [
       ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
@@ -67,13 +67,27 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
     chainId: network.config.chainId,
     verifyingContract: kittyKartAsset.address,
   };
-  const signature = await admin._signTypedData(typedDomain, SIGNATURE_ASSET_MINT_TYPES, data);
-  let voucher = {
-    ...data,
-    signature,
+  const signature1 = await admin._signTypedData(typedDomain, SIGNATURE_ASSET_MINT_TYPES, data1);
+  const voucher1 = {
+    ...data1,
+    signature: signature1,
   };
+  // mint a token to alice
+  await kittyKartAsset.connect(alice).safeMint(voucher1);
+  // sign a message for KittyAssetVoucher
+  const data2 = {
+    receiver: alice.address,
+    displayTypes: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
+    traitTypes: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
+    values: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("pink"), 0, 16)],
+  };
+  const signature2 = await admin._signTypedData(typedDomain, SIGNATURE_ASSET_MINT_TYPES, data2);
+  const voucher2 = {
+    ...data2,
+    signature: signature2,
+  };
+  // mint a token to alice
+  await kittyKartAsset.connect(alice).safeMint(voucher2);
 
-  // mint 3 tokens to alice
-  await kittyKartAsset.connect(alice).safeMint(voucher);
   return { kittyKartAsset };
 }
