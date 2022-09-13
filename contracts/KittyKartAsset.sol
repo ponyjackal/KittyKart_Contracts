@@ -606,9 +606,9 @@ contract KittyKartAsset is
               "KittyAssetVoucher(address receiver,bytes16[] displayTypes,bytes16[] traitTypes,bytes16[] values)"
             ),
             _voucher.receiver,
-            _voucher.displayTypes,
-            _voucher.traitTypes,
-            _voucher.values
+            keccak256(abi.encodePacked(_voucher.displayTypes)),
+            keccak256(abi.encodePacked(_voucher.traitTypes)),
+            keccak256(abi.encodePacked(_voucher.values))
           )
         )
       );
