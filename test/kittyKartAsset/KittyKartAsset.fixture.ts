@@ -64,7 +64,7 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
   const typedDomain = {
     name: SIGNING_ASSET_MINT_DOMAIN,
     version: SIGNATURE_ASSET_MINT_VERSION,
-    chainId: ethers.BigNumber.from("" + network.config.chainId),
+    chainId: network.config.chainId,
     verifyingContract: kittyKartAsset.address,
   };
   const signature = await admin._signTypedData(typedDomain, SIGNATURE_ASSET_MINT_TYPES, data);
@@ -72,7 +72,6 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
     ...data,
     signature,
   };
-  console.log("voucher", typedDomain, voucher);
 
   // mint 3 tokens to alice
   await kittyKartAsset.connect(alice).safeMint(voucher);
