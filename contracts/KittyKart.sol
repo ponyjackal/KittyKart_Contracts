@@ -224,14 +224,7 @@ contract KittyKart is
     tableland.runSQL(
       address(this),
       metadataTableId,
-      string.concat(
-        "UPDATE ",
-        metadataTable,
-        " SET external_url = ",
-        _externalURL,
-        "||'?id='||id", // Turns every row's URL into a URL including get param for tokenId
-        ";"
-      )
+      string.concat("UPDATE ", metadataTable, " SET external_url = ", "'", _externalURL, "'", ";")
     );
 
     emit SetExternalURL(_externalURL);
@@ -246,7 +239,7 @@ contract KittyKart is
     tableland.runSQL(
       address(this),
       metadataTableId,
-      string.concat("UPDATE ", metadataTable, " SET description = ", _description, "||'?id='||id", ";")
+      string.concat("UPDATE ", metadataTable, " SET description = ", "'", _description, "'", ";")
     );
 
     emit SetDescription(_description);
@@ -294,9 +287,9 @@ contract KittyKart is
       string.concat(
         "UPDATE ",
         metadataTable,
-        " SET image = ",
+        " SET image = '",
         _image,
-        "WHERE id = ",
+        "' WHERE id = ",
         StringsUpgradeable.toString(_tokenId),
         ";"
       )
