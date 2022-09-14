@@ -83,16 +83,16 @@ contract KittyKart is
    * @dev Initializer function
    * @param _baseURIString Base URI
    * @param _description description
-   * @param _image default image url
-   * @param _animation default image url
+   * @param _defaultImage default image url
+   * @param _defaultAnimation default animation url
    * @param _externalURL External URL
    * @param _royaltyReceiver Royalty receiver address
    */
   function initialize(
     string memory _baseURIString,
     string memory _description,
-    string memory _image,
-    string memory _animation,
+    string memory _defaultImage,
+    string memory _defaultAnimation,
     string memory _externalURL,
     address payable _royaltyReceiver
   ) external initializerERC721A initializer {
@@ -107,9 +107,9 @@ contract KittyKart is
     baseURIString = _baseURIString;
     tablePrefix = "kitty_kart_test";
     description = _description;
-    defaultImage = _image;
+    defaultImage = _defaultImage;
     externalURL = _externalURL;
-    defaultAnimationURL = _animation;
+    defaultAnimationURL = _defaultAnimation;
 
     // set restriction on marketplace
     _marketplaceProtection = true;
@@ -289,7 +289,7 @@ contract KittyKart is
   function setDefaultAnimationURL(string memory _animationURL) external onlyOwner {
     defaultAnimationURL = _animationURL;
 
-    emit SetDefaultImage(_animationURL);
+    emit SetDefaultAnimationURL(_animationURL);
   }
 
   /**
