@@ -2,7 +2,7 @@
   "manifestVersion": "3.2",
   "admin": {
     "address": "0x1E91c71c40F4664C1F2e7191D235dC1AA4F39aa3",
-    "txHash": "0x6453379d0b78cf7ec49181977ea0578ebd44592c6e33413e31e03bc12ddff7cf"
+    "txHash": "0x636bd8f03c2e9ad322c99b40c2274bf27186f8ee32c464d55def14cfe13242b5"
   },
   "proxies": [
     {
@@ -37,17 +37,17 @@
     },
     {
       "address": "0x12Adb13Dc47f3DdC9fE0F7A7180312350477d909",
-      "txHash": "0x1e3c84d219b74fb419759df17d708fa367d8a9ffe9268551d7b9c5e7fef280c0",
+      "txHash": "0xb177f3a4cdaf5936ad6069724483fa1c148f4112b819ec060b2bffc9e11dd693",
       "kind": "transparent"
     },
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
-      "txHash": "0x5b739b13050060faa9461ef93edbc19e03b41a2baa7115dcdb2f4af2bca68cc1",
+      "txHash": "0x95407e926f2f9b3e8a4dd56706e45ebc081c01caf8f4bcc1bca5addfce0301d0",
       "kind": "transparent"
     },
     {
       "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
-      "txHash": "0x7bcb2819f18da102e2bde4debf5d9b5720357be3d46aed76549edb0e4c6da56e",
+      "txHash": "0x917cbd49d64dfcc58cecc600449d01aa6822ef24b8acbbaea341fce77c6cf091",
       "kind": "transparent"
     }
   ],
@@ -287,7 +287,7 @@
     },
     "8753b8080318f44ce3c129a6fe1f313aca791df804fea42387d8764546b0e100": {
       "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0xae488a2bf4c2fb9dc3a8f5c48071fff7e4b64426f33bdc76b7f23efa494e54b7",
+      "txHash": "0x1b9bfa363b4f455c835817aaab32e1a93bfc80c06164864578a05ece6daf306c",
       "layout": {
         "storage": [
           {
@@ -383,7 +383,7 @@
             "label": "kittyKart",
             "offset": 0,
             "slot": "252",
-            "type": "t_contract(IKittyKart)3382",
+            "type": "t_contract(IKittyKart)3461",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:46"
           },
@@ -391,7 +391,7 @@
             "label": "kittyAsset",
             "offset": 0,
             "slot": "253",
-            "type": "t_contract(IKittyAsset)3352",
+            "type": "t_contract(IKittyAsset)3431",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:47"
           }
@@ -413,11 +413,11 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_contract(IKittyAsset)3352": {
+          "t_contract(IKittyAsset)3431": {
             "label": "contract IKittyAsset",
             "numberOfBytes": "20"
           },
-          "t_contract(IKittyKart)3382": {
+          "t_contract(IKittyKart)3461": {
             "label": "contract IKittyKart",
             "numberOfBytes": "20"
           },
@@ -436,9 +436,9 @@
         }
       }
     },
-    "6be8a7d26d52b65f36c995d3accf87dcfe847e06a408031a5391b1fc8797f937": {
+    "593c158b6ea6f7e990fc490a3b869bfa58e7423b7a682d4a5d0bc360d82a2cb7": {
       "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
-      "txHash": "0xf326a7ffbbe8518aa7e3a27dffe870e158f29fe80d44ad9e0615d1c427b655b7",
+      "txHash": "0xd11ff07ec48b08c1ae65350426cab985cefa069c753ff74905742fbd06af7977",
       "layout": {
         "storage": [
           {
@@ -625,6 +625,14 @@
             "type": "t_string_storage",
             "contract": "KittyKart",
             "src": "contracts\\KittyKart.sol:57"
+          },
+          {
+            "label": "defaultAnimationURL",
+            "offset": 0,
+            "slot": "360",
+            "type": "t_string_storage",
+            "contract": "KittyKart",
+            "src": "contracts\\KittyKart.sol:58"
           }
         ],
         "types": {
@@ -693,9 +701,9 @@
         }
       }
     },
-    "1d7080af784278082ac069ba1b406c03891d2dfcb30bd652efc12273d4ace5c9": {
+    "a9bd80834446869f75ed1eb1b1fe6e002592025fa286bcf5feb34450e2ecf54c": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0xbaa7df594a5abba3669fdb1d06d9460db04b5c0b7dc57ccfbe4cd78585dd07c3",
+      "txHash": "0xe318fb1da1b58e017ee7c05535550a0ca414658bbfc5600a4c1da8f59ff22acb",
       "layout": {
         "storage": [
           {
