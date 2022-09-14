@@ -2,7 +2,7 @@
   "manifestVersion": "3.2",
   "admin": {
     "address": "0x1E91c71c40F4664C1F2e7191D235dC1AA4F39aa3",
-    "txHash": "0x636bd8f03c2e9ad322c99b40c2274bf27186f8ee32c464d55def14cfe13242b5"
+    "txHash": "0x34b91e36b0dd3650376c1afd8b7b047e0c0579f8c98f0523a42d644211dff4ad"
   },
   "proxies": [
     {
@@ -37,17 +37,17 @@
     },
     {
       "address": "0x12Adb13Dc47f3DdC9fE0F7A7180312350477d909",
-      "txHash": "0xb177f3a4cdaf5936ad6069724483fa1c148f4112b819ec060b2bffc9e11dd693",
+      "txHash": "0x496839af02b064c387c353e89e54d9b158d3dd8aedbdf8a5dfdfc169939db2ab",
       "kind": "transparent"
     },
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
-      "txHash": "0x95407e926f2f9b3e8a4dd56706e45ebc081c01caf8f4bcc1bca5addfce0301d0",
+      "txHash": "0x184c439db47b72c083c00b8f41d8731f3d27e04fb8bd86814fc81888871a42c6",
       "kind": "transparent"
     },
     {
       "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
-      "txHash": "0x917cbd49d64dfcc58cecc600449d01aa6822ef24b8acbbaea341fce77c6cf091",
+      "txHash": "0x40d0a0b8d9216aadabfce386eebc01edc314c717ae5a1ebe07f8fc4b584a28bc",
       "kind": "transparent"
     }
   ],
@@ -287,7 +287,7 @@
     },
     "8753b8080318f44ce3c129a6fe1f313aca791df804fea42387d8764546b0e100": {
       "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x1b9bfa363b4f455c835817aaab32e1a93bfc80c06164864578a05ece6daf306c",
+      "txHash": "0x4ab4e9541910bcc0eff1200ca92de7be1920241182531b9bdcea357afb2ea69c",
       "layout": {
         "storage": [
           {
@@ -383,7 +383,7 @@
             "label": "kittyKart",
             "offset": 0,
             "slot": "252",
-            "type": "t_contract(IKittyKart)3461",
+            "type": "t_contract(IKittyKart)3498",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:46"
           },
@@ -391,7 +391,7 @@
             "label": "kittyAsset",
             "offset": 0,
             "slot": "253",
-            "type": "t_contract(IKittyAsset)3431",
+            "type": "t_contract(IKittyAsset)3468",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:47"
           }
@@ -413,11 +413,11 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_contract(IKittyAsset)3431": {
+          "t_contract(IKittyAsset)3468": {
             "label": "contract IKittyAsset",
             "numberOfBytes": "20"
           },
-          "t_contract(IKittyKart)3461": {
+          "t_contract(IKittyKart)3498": {
             "label": "contract IKittyKart",
             "numberOfBytes": "20"
           },
@@ -436,9 +436,9 @@
         }
       }
     },
-    "593c158b6ea6f7e990fc490a3b869bfa58e7423b7a682d4a5d0bc360d82a2cb7": {
+    "6462fa8cc603ce67e479357d3f5a14da3aad82e0342104aa246464be13df63e4": {
       "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
-      "txHash": "0xd11ff07ec48b08c1ae65350426cab985cefa069c753ff74905742fbd06af7977",
+      "txHash": "0xde4861413d00af7e4ece5eb0935b742530fcfe89218a28845b5bd4d276189123",
       "layout": {
         "storage": [
           {
@@ -701,9 +701,9 @@
         }
       }
     },
-    "a9bd80834446869f75ed1eb1b1fe6e002592025fa286bcf5feb34450e2ecf54c": {
+    "32a701614943694c4d2eadb1b611d6ed06c56ce6a7b1398532d8566bb2b41d00": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0xe318fb1da1b58e017ee7c05535550a0ca414658bbfc5600a4c1da8f59ff22acb",
+      "txHash": "0xea847926d0811ae985729229545ba81a109ca16c4b296c049783178cfad286fd",
       "layout": {
         "storage": [
           {
@@ -900,28 +900,36 @@
             "src": "contracts\\KittyAsset.sol:59"
           },
           {
-            "label": "gameServer",
+            "label": "defaultAnimationURL",
             "offset": 0,
             "slot": "361",
-            "type": "t_address",
+            "type": "t_string_storage",
             "contract": "KittyAsset",
-            "src": "contracts\\KittyAsset.sol:62"
+            "src": "contracts\\KittyAsset.sol:60"
           },
           {
-            "label": "autoBodyShop",
+            "label": "gameServer",
             "offset": 0,
             "slot": "362",
             "type": "t_address",
             "contract": "KittyAsset",
-            "src": "contracts\\KittyAsset.sol:64"
+            "src": "contracts\\KittyAsset.sol:63"
+          },
+          {
+            "label": "autoBodyShop",
+            "offset": 0,
+            "slot": "363",
+            "type": "t_address",
+            "contract": "KittyAsset",
+            "src": "contracts\\KittyAsset.sol:65"
           },
           {
             "label": "traitTypes",
             "offset": 0,
-            "slot": "363",
-            "type": "t_mapping(t_uint256,t_array(t_bytes16)dyn_storage)",
+            "slot": "364",
+            "type": "t_mapping(t_uint256,t_array(t_string_storage)dyn_storage)",
             "contract": "KittyAsset",
-            "src": "contracts\\KittyAsset.sol:66"
+            "src": "contracts\\KittyAsset.sol:67"
           }
         ],
         "types": {

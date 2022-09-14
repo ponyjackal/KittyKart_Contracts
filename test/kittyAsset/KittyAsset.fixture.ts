@@ -6,6 +6,7 @@ import type { KittyAsset } from "../../src/types/contracts/KittyAsset";
 import { KittyAsset__factory } from "../../src/types/factories/contracts/KittyAsset__factory";
 import {
   ALICE_ADDRESS,
+  ASSET_ANIMATION_URL,
   ASSET_DESCRIPTION,
   ASSET_EXTERNAL_URL,
   ASSET_IMAGE,
@@ -28,6 +29,7 @@ export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsse
       BASE_URI,
       ASSET_DESCRIPTION,
       ASSET_IMAGE,
+      ASSET_ANIMATION_URL,
       ASSET_EXTERNAL_URL,
       admin.address,
     ])
