@@ -7,6 +7,7 @@ import {
   ALICE_ADDRESS,
   BASE_URI,
   DEPLOY_ADDRESS,
+  KART_ANIMATION_URL,
   KART_DESCRIPTION,
   KART_EXTERNAL_URL,
   KART_IMAGE,
@@ -25,6 +26,7 @@ export async function deployKittyKartFixture(): Promise<{ kittyKart: KittyKart }
       BASE_URI,
       KART_DESCRIPTION,
       KART_IMAGE,
+      KART_ANIMATION_URL,
       KART_EXTERNAL_URL,
       admin.address,
     ])

@@ -10,7 +10,9 @@
   "kartDescription": "Kitty Kart Test",
   "kartImage": "",
   "kartExternalURL": "",
+  "kartAnimationURL": "",
   "assetDescription": "Kitty Asset Test",
   "assetImage": "",
-  "assetExternalURL": ""
+  "assetExternalURL": "",
+  "assetAnimationURL": ""
 }
