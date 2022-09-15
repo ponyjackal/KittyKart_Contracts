@@ -184,7 +184,7 @@ contract KittyAsset is
       string.concat(
         base,
         "SELECT%20json_object(%27id%27,id,%27name%27,name,%27description%27,description",
-        ",%27image%27,image,%27external_url%27,external_url,%animation_url%27,animation_url",
+        ",%27image%27,image,%27external_url%27,external_url,%27animation_url%27,animation_url",
         ",%27attributes%27,json_group_array(json_object(%27display_type%27,display_type",
         ",%27trait_type%27,trait_type,%27value%27,value)))",
         "%20as%20meta%20FROM%20",
