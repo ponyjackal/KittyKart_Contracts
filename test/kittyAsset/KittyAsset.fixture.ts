@@ -1,4 +1,5 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
+import { utils } from "ethers";
 import { ethers, upgrades } from "hardhat";
 
 import type { KittyAsset } from "../../src/types/contracts/KittyAsset";
@@ -37,9 +38,50 @@ export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsse
   // set game server
   await kittyAsset.connect(deployer).setGameServer(gameServer.address);
   // mint 4 tokens to alice
-  await kittyAsset.connect(gameServer).safeMint(alice.address, "paint", "paint", "blue");
-  await kittyAsset.connect(gameServer).safeMint(alice.address, "paint", "paint", "blue");
-  await kittyAsset.connect(gameServer).safeMint(alice.address, "wheel", "wheel", "Alloy");
-  await kittyAsset.connect(gameServer).safeMint(alice.address, "engine", "engine", "V8");
+  await kittyAsset
+    .connect(gameServer)
+    .safeMint(
+      alice.address,
+      [
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+      ],
+      [
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+      ],
+      [
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("blue"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("Alloy"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("v8"), 0, 16),
+      ],
+    );
+  await kittyAsset
+    .connect(gameServer)
+    .safeMint(
+      alice.address,
+      [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
+      [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
+      [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("pink"), 0, 16)],
+    );
+  await kittyAsset
+    .connect(gameServer)
+    .safeMint(
+      alice.address,
+      [
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+      ],
+      [
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+      ],
+      [
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("Alloy"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("v8"), 0, 16),
+      ],
+    );
   return { kittyAsset };
 }

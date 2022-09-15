@@ -65,7 +65,7 @@ contract KittyAsset is
   // AutoBodyShop address
   address public autoBodyShop;
   // assetId => trait_type array
-  mapping(uint256 => string[]) public traitTypes;
+  mapping(uint256 => bytes16[]) public traitTypes;
   // market restriction
   mapping(address => bool) private _approvedMarketplaces;
 
@@ -86,13 +86,12 @@ contract KittyAsset is
   event SetImage(uint256 tokenId, string image);
   event SetGameServer(address gameServer);
   event SetAutoBodyShop(address autoBodyShop);
-  event SafeMint(address indexed to, uint256 tokenId, string displayType, string indexed traitType, string value);
-  event SafeBatchMint(
+  event SafeMint(
     address indexed to,
     uint256 tokenId,
-    string[] displayTypes,
-    string[] indexed traitTypes,
-    string[] values
+    bytes16[] displayTypes,
+    bytes16[] indexed traitTypes,
+    bytes16[] values
   );
 
   // -----------------------------------------
@@ -388,68 +387,6 @@ contract KittyAsset is
   // -----------------------------------------
   // KittyAsset Mutative Functions
   // -----------------------------------------
-
-  /**
-   * @dev game server mints asset to the user
-   * @param _to receiver address
-   * @param _displayType display type of game asset
-   * @param _traitType trait type of game asset
-   * @param _value value of trait type
-   */
-  function safeMint(
-    address _to,
-    string memory _displayType,
-    string memory _traitType,
-    string memory _value
-  ) external onlyGameServer {
-    uint256 tokenId = _nextTokenId();
-
-    tableland.runSQL(
-      address(this),
-      metadataTableId,
-      string.concat(
-        "INSERT INTO ",
-        metadataTable,
-        " (id, name, description, image, external_url) VALUES (",
-        StringsUpgradeable.toString(tokenId),
-        ", '#",
-        StringsUpgradeable.toString(tokenId),
-        "', '",
-        description,
-        "', '",
-        defaultImage,
-        "', '",
-        externalURL,
-        "');"
-      )
-    );
-
-    tableland.runSQL(
-      address(this),
-      attributeTableId,
-      string.concat(
-        "INSERT INTO ",
-        attributeTable,
-        " (asset_id, display_type, trait_type, value, in_use) VALUES (",
-        StringsUpgradeable.toString(tokenId),
-        ", '",
-        _displayType,
-        "', '",
-        _traitType,
-        "', '",
-        _value,
-        "', 0",
-        ");"
-      )
-    );
-
-    traitTypes[tokenId].push(_traitType);
-
-    _mint(_to, 1);
-
-    emit SafeMint(_to, tokenId, _displayType, _traitType, _value);
-  }
-
   /**
    * @dev game server mints assets to the user
    * @param _to receiver address
@@ -457,11 +394,11 @@ contract KittyAsset is
    * @param _traitTypes trait type of game asset
    * @param _values value of trait type
    */
-  function safeBatchMint(
+  function safeMint(
     address _to,
-    string[] calldata _displayTypes,
-    string[] calldata _traitTypes,
-    string[] calldata _values
+    bytes16[] calldata _displayTypes,
+    bytes16[] calldata _traitTypes,
+    bytes16[] calldata _values
   ) external onlyGameServer {
     require(_traitTypes.length == _values.length, "KittyAsset: invalid arguments");
 
@@ -495,11 +432,11 @@ contract KittyAsset is
           " (asset_id, display_type, trait_type, value, in_use) VALUES (",
           StringsUpgradeable.toString(tokenId),
           ", '",
-          _displayTypes[i],
+          _bytes16ToString(_displayTypes[i]),
           "', '",
-          _traitTypes[i],
+          _bytes16ToString(_traitTypes[i]),
           "', '",
-          _values[i],
+          _bytes16ToString(_values[i]),
           "', 0",
           ");"
         )
@@ -509,7 +446,7 @@ contract KittyAsset is
     }
     _mint(_to, 1);
 
-    emit SafeBatchMint(_to, tokenId, _displayTypes, _traitTypes, _values);
+    emit SafeMint(_to, tokenId, _displayTypes, _traitTypes, _values);
   }
 
   /**
@@ -518,12 +455,17 @@ contract KittyAsset is
    * @param _kartId The kitty kart id
    */
   function setKittyKart(uint256 _assetId, uint256 _kartId) external onlyAutoBodyShop nonReentrant {
-    string[] memory assetTraitTypes = traitTypes[_assetId];
+    bytes16[] memory assetTraitTypes = traitTypes[_assetId];
     string memory traitTypesString = "(";
     for (uint256 i = 0; i < assetTraitTypes.length - 1; i++) {
-      traitTypesString = string.concat(traitTypesString, "'", assetTraitTypes[i], "',");
+      traitTypesString = string.concat(traitTypesString, "'", _bytes16ToString(assetTraitTypes[i]), "',");
     }
-    traitTypesString = string.concat(traitTypesString, "'", assetTraitTypes[assetTraitTypes.length - 1], "')");
+    traitTypesString = string.concat(
+      traitTypesString,
+      "'",
+      _bytes16ToString(assetTraitTypes[assetTraitTypes.length - 1]),
+      "')"
+    );
     // update in_use for previously applied asset
     tableland.runSQL(
       address(this),
@@ -576,5 +518,21 @@ contract KittyAsset is
     returns (bool)
   {
     return super.supportsInterface(interfaceId);
+  }
+
+  // -----------------------------------------
+  // KittyAsset Internal Functions
+  // -----------------------------------------
+
+  function _bytes16ToString(bytes16 _bytes16) internal pure returns (string memory) {
+    uint8 i = 0;
+    while (i < 16 && _bytes16[i] != 0) {
+      i++;
+    }
+    bytes memory bytesArray = new bytes(i);
+    for (i = 0; i < 16 && _bytes16[i] != 0; i++) {
+      bytesArray[i] = _bytes16[i];
+    }
+    return string(bytesArray);
   }
 }
