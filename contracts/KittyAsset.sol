@@ -57,6 +57,8 @@ contract KittyAsset is
   string public description;
   string public defaultImage;
   string public externalURL;
+  // market restriction
+  bool private _marketplaceProtection;
 
   // Game server address
   address public gameServer;
@@ -64,6 +66,8 @@ contract KittyAsset is
   address public autoBodyShop;
   // assetId => trait_type array
   mapping(uint256 => bytes16[]) public traitTypes;
+  // market restriction
+  mapping(address => bool) private _approvedMarketplaces;
 
   // -----------------------------------------
   // KittyAsset Events
@@ -122,6 +126,9 @@ contract KittyAsset is
     description = _description;
     defaultImage = _image;
     externalURL = _externalURL;
+
+    // set restriction on marketplace
+    _marketplaceProtection = true;
 
     // Use ERC2981 to set royalty receiver and fee
     _setDefaultRoyalty(_royaltyReceiver, ROYALTY_FEE);
@@ -369,6 +376,14 @@ contract KittyAsset is
     emit SetAutoBodyShop(_autoBodyShop);
   }
 
+  function setApprovedMarketplace(address market, bool approved) public onlyOwner {
+    _approvedMarketplaces[market] = approved;
+  }
+
+  function setProtectionSettings(bool marketProtect) external onlyOwner {
+    _marketplaceProtection = marketProtect;
+  }
+
   // -----------------------------------------
   // KittyAsset Mutative Functions
   // -----------------------------------------
@@ -482,6 +497,18 @@ contract KittyAsset is
         ";"
       )
     );
+  }
+
+  function approve(address to, uint256 tokenId) public virtual override {
+    if (_marketplaceProtection) {
+      require(_approvedMarketplaces[to], "KittyAsset: invalid Marketplace");
+    }
+    super.approve(to, tokenId);
+  }
+
+  function setApprovalForAll(address operator, bool approved) public virtual override {
+    require(_approvedMarketplaces[operator], "KittyAsset: invalid Marketplace");
+    super.setApprovalForAll(operator, approved);
   }
 
   function supportsInterface(bytes4 interfaceId)
