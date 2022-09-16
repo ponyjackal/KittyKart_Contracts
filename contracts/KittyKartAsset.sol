@@ -71,12 +71,16 @@ contract KittyKartAsset is
   bool private _marketplaceProtection;
   // market restriction
   mapping(address => bool) private _approvedMarketplaces;
+  // KittyAssetVoucher nonces
+  mapping(address => uint256) public nonces;
 
   struct KittyAssetVoucher {
     address receiver;
     bytes16[] displayTypes;
     bytes16[] traitTypes;
     bytes16[] values;
+    uint256 nonce;
+    uint256 expiry;
     bytes signature;
   }
 
@@ -508,8 +512,12 @@ contract KittyKartAsset is
     require(_voucher.traitTypes.length == _voucher.values.length, "KittyAsset: invalid arguments");
     require(signer == gameServer, "KittyAsset: invalid signature");
     require(msg.sender == _voucher.receiver, "KittyAsset: invalid receiver");
+    require(_voucher.nonce == nonces[_voucher.receiver], "KittyAsset: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyAsset: asset is expired");
 
     uint256 tokenId = _nextTokenId();
+    nonces[_voucher.receiver]++;
+
     tableland.runSQL(
       address(this),
       metadataTableId,
