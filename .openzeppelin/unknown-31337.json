@@ -32,7 +32,7 @@
     },
     {
       "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x48d282376aeb94ca25a2c137213540bdc35ade50424edca3235fd11e99844832",
+      "txHash": "0x40b935ab34c1786fec2b63fe4b4e1d0c0c82515685d8c36e14437f995ff6a949",
       "kind": "transparent"
     },
     {
@@ -42,12 +42,12 @@
     },
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
-      "txHash": "0x99dbbe097408adf8997601bb9c2bcb1afc8aca5143f31203b157fdda4e65dc97",
+      "txHash": "0x5a5c3e10dfc87ded144c91eccd02bc83b11da72b83eb48b36406c73f359553e0",
       "kind": "transparent"
     },
     {
       "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
-      "txHash": "0x43ad21a43d79e28658f336d5d9b903230a113515d2cad5a7309bc03d7cc935f7",
+      "txHash": "0xa20118c9c936ae2e9cb338129a3c3c98f86fa8f40c16c08cf34befb229a34e87",
       "kind": "transparent"
     }
   ],
@@ -287,7 +287,7 @@
     },
     "8753b8080318f44ce3c129a6fe1f313aca791df804fea42387d8764546b0e100": {
       "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x28ef2f51a32e4e3627a4ff11d27fdcdc49117882b754216bd77ac1300d6d9cf3",
+      "txHash": "0xb534f4645115519ef8a6389eaef91b8410c1fdd47e414d1b7f059f44125e5afa",
       "layout": {
         "storage": [
           {
@@ -383,7 +383,7 @@
             "label": "kittyKart",
             "offset": 0,
             "slot": "252",
-            "type": "t_contract(IKittyKart)4047",
+            "type": "t_contract(IKittyKart)4090",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:46"
           },
@@ -391,7 +391,7 @@
             "label": "kittyAsset",
             "offset": 0,
             "slot": "253",
-            "type": "t_contract(IKittyAsset)4017",
+            "type": "t_contract(IKittyAsset)4060",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:47"
           }
@@ -413,11 +413,11 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_contract(IKittyAsset)4017": {
+          "t_contract(IKittyAsset)4060": {
             "label": "contract IKittyAsset",
             "numberOfBytes": "20"
           },
-          "t_contract(IKittyKart)4047": {
+          "t_contract(IKittyKart)4090": {
             "label": "contract IKittyKart",
             "numberOfBytes": "20"
           },
@@ -697,9 +697,9 @@
         }
       }
     },
-    "7c608ce280b6eb1dc50f780bf9a487687423807ba5c748d89753b2141fe40679": {
+    "0fea5e001b597ab90c6ad99c96107b40e4ca33018b03ae705812ee8247abb262": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0xf9aa659ea9fc5954e6fd83e2af97fba951f8489f5a6406cb73e4b01a02791aa9",
+      "txHash": "0x6795c2ac33d07f7de51c08e91673445245810c8ed8c980750ba25b6b7e083e5a",
       "layout": {
         "storage": [
           {
@@ -940,8 +940,16 @@
             "offset": 0,
             "slot": "415",
             "type": "t_mapping(t_uint256,t_array(t_bytes16)dyn_storage)",
-            "contract": "KittyKartAsset",
-            "src": "contracts\\KittyKartAsset.sol:72"
+            "contract": "KittyAsset",
+            "src": "contracts\\KittyAsset.sol:72"
+          },
+          {
+            "label": "nonces",
+            "offset": 0,
+            "slot": "416",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "KittyAsset",
+            "src": "contracts\\KittyAsset.sol:74"
           }
         ],
         "types": {
@@ -977,8 +985,8 @@
             "label": "contract ITablelandTables",
             "numberOfBytes": "20"
           },
-          "t_mapping(t_address,t_bool)": {
-            "label": "mapping(address => bool)",
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
             "numberOfBytes": "32"
           },
           "t_mapping(t_uint256,t_struct(RoyaltyInfo)581_storage)": {

@@ -60,6 +60,8 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
       ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("Alloy"), 0, 16),
       ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("v8"), 0, 16),
     ],
+    nonce: 0,
+    expiry: 1663289367,
   };
   const typedDomain = {
     name: SIGNING_ASSET_MINT_DOMAIN,
@@ -80,6 +82,8 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
     displayTypes: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
     traitTypes: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
     values: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("pink"), 0, 16)],
+    nonce: 1,
+    expiry: 0,
   };
   const signature2 = await admin._signTypedData(typedDomain, SIGNATURE_ASSET_MINT_TYPES, data2);
   const voucher2 = {

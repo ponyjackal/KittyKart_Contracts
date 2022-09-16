@@ -610,12 +610,14 @@ contract KittyKartAsset is
         keccak256(
           abi.encode(
             keccak256(
-              "KittyAssetVoucher(address receiver,bytes16[] displayTypes,bytes16[] traitTypes,bytes16[] values)"
+              "KittyAssetVoucher(address receiver,bytes16[] displayTypes,bytes16[] traitTypes,bytes16[] values,uint256 nonce,uint256 expiry)"
             ),
             _voucher.receiver,
             keccak256(abi.encodePacked(_voucher.displayTypes)),
             keccak256(abi.encodePacked(_voucher.traitTypes)),
-            keccak256(abi.encodePacked(_voucher.values))
+            keccak256(abi.encodePacked(_voucher.values)),
+            _voucher.nonce,
+            _voucher.expiry
           )
         )
       );
