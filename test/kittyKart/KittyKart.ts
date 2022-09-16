@@ -4,8 +4,8 @@ import { ethers } from "hardhat";
 
 import { ALICE_ADDRESS, DEPLOY_ADDRESS } from "../constants";
 import type { Signers } from "../types";
-import { shouldBehaveLikeKittyKart } from "./KittyKart.behavior";
-import { deployKittyKartFixture } from "./KittyKart.fixture";
+import { shouldBehaveLikeKittyKartGoKart } from "./KittyKartGoKart.behavior";
+import { deployKittyKartGoKartFixture } from "./KittyKartGoKart.fixture";
 
 describe("Unit tests", function () {
   before(async function () {
@@ -20,12 +20,12 @@ describe("Unit tests", function () {
     this.loadFixture = loadFixture;
   });
 
-  describe("KittyKart", function () {
+  describe("KittyKartGoKart", function () {
     beforeEach(async function () {
-      const { kittyKart } = await this.loadFixture(deployKittyKartFixture);
-      this.kittyKart = kittyKart;
+      const { kittyKartGoKart } = await this.loadFixture(deployKittyKartGoKartFixture);
+      this.kittyKartGoKart = kittyKartGoKart;
     });
 
-    shouldBehaveLikeKittyKart();
+    shouldBehaveLikeKittyKartGoKart();
   });
 });

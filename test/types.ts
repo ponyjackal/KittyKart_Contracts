@@ -1,16 +1,16 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 
 import type { AutoBodyShop } from "../src/types/contracts/AutoBodyShop";
-import type { KittyAsset } from "../src/types/contracts/KittyAsset";
-import type { KittyKart } from "../src/types/contracts/KittyKart";
+import type { KittyKartAsset } from "../src/types/contracts/KittyKartAsset";
+import type { KittyKartGoKart } from "../src/types/contracts/KittyKartGoKart";
 
 type Fixture<T> = () => Promise<T>;
 
 declare module "mocha" {
   export interface Context {
     autoBodyShop: AutoBodyShop;
-    kittyKart: KittyKart;
-    kittyAsset: KittyAsset;
+    kittyKartGoKart: KittyKartGoKart;
+    kittyKartAsset: KittyKartAsset;
     loadFixture: <T>(fixture: Fixture<T>) => Promise<T>;
     signers: Signers;
   }
