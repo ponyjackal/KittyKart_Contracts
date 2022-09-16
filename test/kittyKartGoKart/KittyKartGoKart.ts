@@ -2,10 +2,10 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { ethers } from "hardhat";
 
-import { ALICE_ADDRESS, DEPLOY_ADDRESS, GAME_SERVER_ADDRESS } from "../constants";
+import { ALICE_ADDRESS, DEPLOY_ADDRESS } from "../constants";
 import type { Signers } from "../types";
-import { shouldBehaveLikekittyAsset } from "./KittyAsset.behavior";
-import { deploykittyAssetFixture } from "./KittyAsset.fixture";
+import { shouldBehaveLikeKittyKartGoKart } from "./KittyKartGoKart.behavior";
+import { deployKittyKartGoKartFixture } from "./KittyKartGoKart.fixture";
 
 describe("Unit tests", function () {
   before(async function () {
@@ -14,19 +14,18 @@ describe("Unit tests", function () {
     const signers: SignerWithAddress[] = await ethers.getSigners();
     // impersonate account on goerli
     this.signers.deployer = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
-    this.signers.gameServer = await ethers.getImpersonatedSigner(GAME_SERVER_ADDRESS);
     this.signers.alice = await ethers.getImpersonatedSigner(ALICE_ADDRESS);
     this.signers.admin = signers[0];
 
     this.loadFixture = loadFixture;
   });
 
-  describe("kittyAsset", function () {
+  describe("KittyKartGoKart", function () {
     beforeEach(async function () {
-      const { kittyAsset } = await this.loadFixture(deploykittyAssetFixture);
-      this.kittyAsset = kittyAsset;
+      const { kittyKartGoKart } = await this.loadFixture(deployKittyKartGoKartFixture);
+      this.kittyKartGoKart = kittyKartGoKart;
     });
 
-    shouldBehaveLikekittyAsset();
+    shouldBehaveLikeKittyKartGoKart();
   });
 });

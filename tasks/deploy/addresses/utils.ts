@@ -5,10 +5,10 @@ import * as path from "path";
 dotenvConfig({ path: path.resolve(__dirname, "../../../.env") });
 
 type FileName =
-  | "kittyKart"
-  | "kittyKartProxy"
-  | "kittyAsset"
-  | "kittyAssetProxy"
+  | "kittyKartGoKart"
+  | "kittyKartGoKartProxy"
+  | "kittyKartAsset"
+  | "kittyKartAssetProxy"
   | "autoBodyShop"
   | "autoBodyShopProxy";
 

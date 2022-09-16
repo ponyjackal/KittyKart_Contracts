@@ -26,10 +26,10 @@ task("AutoBodyShop:setRegistry").setAction(async function (taskArguments: TaskAr
   }
 });
 
-task("AutoBodyShop:setKittyKart").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+task("AutoBodyShop:setKittyKartGoKart").setAction(async function (taskArguments: TaskArguments, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
-  const kittyKartProxyAddress = readContractAddress("kittyKartProxy");
+  const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
 
   // attatch AutoBodyShop
   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
@@ -38,17 +38,17 @@ task("AutoBodyShop:setKittyKart").setAction(async function (taskArguments: TaskA
   const autoBodyShop: AutoBodyShop = await autoBodyShopFactory.attach(autoBodyShopProxyAddress);
 
   try {
-    await autoBodyShop.setKittyKart(kittyKartProxyAddress);
-    console.log("AutoBodyShop:setKittyKart success", kittyKartProxyAddress);
+    await autoBodyShop.setKittyKartGoKart(kittyKartGoKartProxyAddress);
+    console.log("AutoBodyShop:setKittyKartGoKart success", kittyKartGoKartProxyAddress);
   } catch (err) {
-    console.log("AutoBodyShop:setKittyKart error", err);
+    console.log("AutoBodyShop:setKittyKartGoKart error", err);
   }
 });
 
-task("AutoBodyShop:setKittyAsset").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+task("AutoBodyShop:setKittyKartAsset").setAction(async function (taskArguments: TaskArguments, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
-  const kittyAssetProxyAddress = readContractAddress("kittyAssetProxy");
+  const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
 
   // attatch AutoBodyShop
   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
@@ -57,10 +57,10 @@ task("AutoBodyShop:setKittyAsset").setAction(async function (taskArguments: Task
   const autoBodyShop: AutoBodyShop = await autoBodyShopFactory.attach(autoBodyShopProxyAddress);
 
   try {
-    await autoBodyShop.setKittyAsset(kittyAssetProxyAddress);
-    console.log("AutoBodyShop:setKittyAsset success", kittyAssetProxyAddress);
+    await autoBodyShop.setKittyKartAsset(kittyKartAssetProxyAddress);
+    console.log("AutoBodyShop:setKittyKartAsset success", kittyKartAssetProxyAddress);
   } catch (err) {
-    console.log("AutoBodyShop:setKittyAsset error", err);
+    console.log("AutoBodyShop:setKittyKartAsset error", err);
   }
 });
 

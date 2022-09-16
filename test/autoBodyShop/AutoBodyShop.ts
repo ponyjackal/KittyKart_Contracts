@@ -4,8 +4,8 @@ import { createFixtureLoader } from "ethereum-waffle";
 import { ethers } from "hardhat";
 
 import { ALICE_ADDRESS, DEPLOY_ADDRESS, REGISTRY_ADDRESS } from "../constants";
-import { deploykittyAssetFixture } from "../kittyAsset/KittyAsset.fixture";
-import { deployKittyKartFixture } from "../kittyKart/KittyKart.fixture";
+import { deploykittyKartAssetFixture } from "../kittyKartAsset/KittyKartAsset.fixture";
+import { deployKittyKartGoKartFixture } from "../kittyKartGoKart/KittyKartGoKart.fixture";
 import type { Signers } from "../types";
 import { shouldBehaveLikeAutoBodyShop } from "./AutoBodyShop.behavior";
 import { deployAutoBodyShopFixture } from "./AutoBodyShop.fixture";
@@ -25,27 +25,27 @@ describe("Unit tests", function () {
 
   describe("AutoBodyShop", function () {
     before(async function () {
-      const { kittyKart } = await this.loadFixture(deployKittyKartFixture);
-      this.kittyKart = kittyKart;
+      const { kittyKartGoKart } = await this.loadFixture(deployKittyKartGoKartFixture);
+      this.kittyKartGoKart = kittyKartGoKart;
 
-      const { kittyAsset } = await this.loadFixture(deploykittyAssetFixture);
-      this.kittyAsset = kittyAsset;
+      const { kittyKartAsset } = await this.loadFixture(deploykittyKartAssetFixture);
+      this.kittyKartAsset = kittyKartAsset;
 
       const { autoBodyShop } = await this.loadFixture(deployAutoBodyShopFixture);
       this.autoBodyShop = autoBodyShop;
-      // set KittyKart address
-      await this.autoBodyShop.connect(this.signers.deployer).setKittyKart(this.kittyKart.address);
-      // set KittyAsset address
-      await this.autoBodyShop.connect(this.signers.deployer).setKittyAsset(this.kittyAsset.address);
-      // set AutoBodyShop address on kittyAsset
-      await this.kittyAsset.connect(this.signers.deployer).setAutoBodyShop(this.autoBodyShop.address);
-      // set assetAttribute table in KittyKart
-      const assetAttributeTable = await this.kittyAsset.attributeTable();
-      await this.kittyKart.connect(this.signers.deployer).setAssetAttributeTable(assetAttributeTable);
+      // set KittyKartGoKart address
+      await this.autoBodyShop.connect(this.signers.deployer).setKittyKartGoKart(this.kittyKartGoKart.address);
+      // set KittyKartAsset address
+      await this.autoBodyShop.connect(this.signers.deployer).setKittyKartAsset(this.kittyKartAsset.address);
+      // set AutoBodyShop address on kittyKartAsset
+      await this.kittyKartAsset.connect(this.signers.deployer).setAutoBodyShop(this.autoBodyShop.address);
+      // set assetAttribute table in KittyKartGoKart
+      const assetAttributeTable = await this.kittyKartAsset.attributeTable();
+      await this.kittyKartGoKart.connect(this.signers.deployer).setAssetAttributeTable(assetAttributeTable);
       // add AutoBodyShop to approved marketplaces
-      await this.kittyAsset.connect(this.signers.deployer).setApprovedMarketplace(this.autoBodyShop.address, true);
+      await this.kittyKartAsset.connect(this.signers.deployer).setApprovedMarketplace(this.autoBodyShop.address, true);
       // approve asset tokens to AutoBodyShop
-      await this.kittyAsset.connect(this.signers.alice).setApprovalForAll(this.autoBodyShop.address, true);
+      await this.kittyKartAsset.connect(this.signers.alice).setApprovalForAll(this.autoBodyShop.address, true);
     });
 
     shouldBehaveLikeAutoBodyShop();

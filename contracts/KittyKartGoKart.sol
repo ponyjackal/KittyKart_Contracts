@@ -33,7 +33,7 @@ import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
 import "hardhat/console.sol";
 
-contract KittyAsset is
+contract KittyKartGoKart is
   Initializable,
   ReentrancyGuardUpgradeable,
   OwnableUpgradeable,
@@ -47,63 +47,42 @@ contract KittyAsset is
   uint96 public constant ROYALTY_FEE = 1000;
 
   ITablelandTables public tableland;
-  string public metadataTable;
   uint256 public metadataTableId;
-  string public attributeTable;
-  uint256 public attributeTableId;
-
   string public baseURIString;
+  string public metadataTable;
+  string public assetAttributeTable;
   string public tablePrefix;
   string public description;
   string public defaultImage;
   string public externalURL;
   string public defaultAnimationURL;
 
-  // Game server address
-  address public gameServer;
-  // AutoBodyShop address
-  address public autoBodyShop;
   // market restriction
   bool private _marketplaceProtection;
-  // assetId => trait_type array
-  mapping(uint256 => bytes16[]) public traitTypes;
-  // market restriction
   mapping(address => bool) private _approvedMarketplaces;
 
   // -----------------------------------------
-  // KittyAsset Events
+  // KittyKartGoKart Events
   // -----------------------------------------
 
-  event CreateMetadataTable(
-    string metadataTable,
-    uint256 metadataTableId,
-    string attributeTable,
-    uint256 attributeTableId
-  );
+  event CreateMetadataTable(string metadataTable, uint256 metadataTableId);
   event SetExternalURL(string externalURL);
-  event SetBaseURI(string baseURIString);
+  event SetDescription(string description);
+  event SetAssetAttributeTable(string assetAttributeTable);
+  event SetBaseURI(string baseURI);
   event SetDefaultImage(string defaultImage);
   event SetDefaultAnimationURL(string defaultAnimationURL);
-  event SetDescription(string description);
   event SetImage(uint256 tokenId, string image);
-  event SetGameServer(address gameServer);
-  event SetAutoBodyShop(address autoBodyShop);
-  event SafeMint(
-    address indexed to,
-    uint256 tokenId,
-    bytes16[] displayTypes,
-    bytes16[] indexed traitTypes,
-    bytes16[] values
-  );
+  event Mint(address indexed to, uint256 quantity);
 
   // -----------------------------------------
-  // KittyAsset Initializer
+  // KittyKartGoKart Initializer
   // -----------------------------------------
 
   /**
    * @dev Initializer function
    * @param _baseURIString Base URI
-   * @param _description Description
+   * @param _description description
    * @param _defaultImage default image url
    * @param _defaultAnimation default animation url
    * @param _externalURL External URL
@@ -121,12 +100,12 @@ contract KittyAsset is
     __Ownable_init();
     __ReentrancyGuard_init();
     __Pausable_init();
-    __ERC721A_init("Kitty Asset", "KAsset");
+    __ERC721A_init("Kitty Kart", "KKart");
     __ERC721Holder_init();
     __ERC2981_init();
 
     baseURIString = _baseURIString;
-    tablePrefix = "kitty_asset_test";
+    tablePrefix = "kitty_kart_test";
     description = _description;
     defaultImage = _defaultImage;
     externalURL = _externalURL;
@@ -140,26 +119,16 @@ contract KittyAsset is
   }
 
   // -----------------------------------------
-  // kittyAsset Modifiers
+  // KittyKartGoKart Modifiers
   // -----------------------------------------
 
   modifier nonContract() {
-    require(tx.origin == msg.sender, "KittyAsset: caller not a user");
-    _;
-  }
-
-  modifier onlyGameServer() {
-    require(msg.sender == gameServer, "KittyAsset: not a GameServer");
-    _;
-  }
-
-  modifier onlyAutoBodyShop() {
-    require(msg.sender == autoBodyShop, "KittyAsset: not an AutoBodyShp");
+    require(tx.origin == msg.sender, "KittyKartGoKart: caller not a user");
     _;
   }
 
   // -----------------------------------------
-  // KittyAsset View Functions
+  // KittyKartGoKart View Functions
   // -----------------------------------------
 
   function metadataURI() public view returns (string memory) {
@@ -177,7 +146,7 @@ contract KittyAsset is
    * with function that converts the result into json.
    */
   function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
-    require(_exists(_tokenId), "KittyAsset: URI query for nonexistent token");
+    require(_exists(_tokenId), "KittyKartGoKart: URI query for nonexistent token");
     string memory base = _baseURI();
 
     return
@@ -187,15 +156,17 @@ contract KittyAsset is
         ",%27image%27,image,%27external_url%27,external_url,%27animation_url%27,animation_url",
         ",%27attributes%27,json_group_array(json_object(%27display_type%27,display_type",
         ",%27trait_type%27,trait_type,%27value%27,value)))",
-        "%20as%20meta%20FROM%20",
+        "%20FROM%20",
         metadataTable,
-        "%20JOIN%20",
-        attributeTable,
-        "%20ON%20",
+        "%20LEFT%20JOIN%20",
+        assetAttributeTable,
+        "%20ON%20(",
         metadataTable,
         ".id=",
-        attributeTable,
-        ".asset_id"
+        assetAttributeTable,
+        ".kart_id%20AND%20",
+        assetAttributeTable,
+        ".in_use=1)",
         "%20WHERE%20id=",
         StringsUpgradeable.toString(_tokenId),
         "%20GROUP%20BY%20id",
@@ -204,7 +175,7 @@ contract KittyAsset is
   }
 
   // -----------------------------------------
-  // KittyAsset Owner Functions
+  // KittyKartGoKart Owner Functions
   // -----------------------------------------
   /**
    * @dev create table in TableLand
@@ -246,36 +217,7 @@ contract KittyAsset is
       StringsUpgradeable.toString(metadataTableId)
     );
 
-    attributeTableId = tableland.createTable(
-      address(this),
-      /*
-       *  CREATE TABLE prefix_chainId (
-       *    int asset_id,
-       *    int kart_id DEFAULT NULL,
-       *    string display_type,
-       *    string trait_type,
-       *    string value,
-       *    int in_use, 0: not-applied, 1: currenly applied, 2: already applied and can't be applied anymore
-       *  );
-       */
-      string.concat(
-        "CREATE TABLE ",
-        tablePrefix,
-        "_attribute_",
-        StringsUpgradeable.toString(block.chainid),
-        " (asset_id int, kart_id int, display_type text, trait_type text, value text, in_use int);"
-      )
-    );
-
-    attributeTable = string.concat(
-      tablePrefix,
-      "_attribute_",
-      StringsUpgradeable.toString(block.chainid),
-      "_",
-      StringsUpgradeable.toString(attributeTableId)
-    );
-
-    emit CreateMetadataTable(metadataTable, metadataTableId, attributeTable, attributeTableId);
+    emit CreateMetadataTable(metadataTable, metadataTableId);
 
     return metadataTableId;
   }
@@ -284,7 +226,7 @@ contract KittyAsset is
    * @dev Set external URL
    * @param _externalURL The external URL
    */
-  function setExternalURL(string memory _externalURL) external onlyOwner {
+  function setExternalURL(string calldata _externalURL) external onlyOwner {
     externalURL = _externalURL;
     tableland.runSQL(
       address(this),
@@ -293,36 +235,6 @@ contract KittyAsset is
     );
 
     emit SetExternalURL(_externalURL);
-  }
-
-  /**
-   * @dev Set base URI
-   * @param _baseURIString baseURIString
-   */
-  function setBaseURI(string memory _baseURIString) external onlyOwner {
-    baseURIString = _baseURIString;
-
-    emit SetBaseURI(_baseURIString);
-  }
-
-  /**
-   * @dev Set default image
-   * @param _defaultImage defaultImage
-   */
-  function setDefaultImage(string memory _defaultImage) external onlyOwner {
-    defaultImage = _defaultImage;
-
-    emit SetDefaultImage(_defaultImage);
-  }
-
-  /**
-   * @dev Set default animation URL
-   * @param _animationURL Animation URL
-   */
-  function setDefaultAnimationURL(string memory _animationURL) external onlyOwner {
-    defaultAnimationURL = _animationURL;
-
-    emit SetDefaultAnimationURL(_animationURL);
   }
 
   /**
@@ -338,6 +250,46 @@ contract KittyAsset is
     );
 
     emit SetDescription(_description);
+  }
+
+  /**
+   * @dev Set asset attributes table
+   * @param _assetAttributeTable description
+   */
+  function setAssetAttributeTable(string memory _assetAttributeTable) external onlyOwner {
+    assetAttributeTable = _assetAttributeTable;
+
+    emit SetAssetAttributeTable(_assetAttributeTable);
+  }
+
+  /**
+   * @dev Set base URI
+   * @param _baseURIString baseURIString
+   */
+  function setBaseURI(string memory _baseURIString) external onlyOwner {
+    baseURIString = _baseURIString;
+
+    emit SetBaseURI(_baseURIString);
+  }
+
+  /**
+   * @dev Set default image
+   * @param _image Image URL
+   */
+  function setDefaultImage(string memory _image) external onlyOwner {
+    defaultImage = _image;
+
+    emit SetDefaultImage(_image);
+  }
+
+  /**
+   * @dev Set default animation URL
+   * @param _animationURL Animation URL
+   */
+  function setDefaultAnimationURL(string memory _animationURL) external onlyOwner {
+    defaultAnimationURL = _animationURL;
+
+    emit SetDefaultAnimationURL(_animationURL);
   }
 
   /**
@@ -370,28 +322,6 @@ contract KittyAsset is
     emit SetImage(_tokenId, _image);
   }
 
-  /**
-   * @dev Set game server
-   * @param _gameServer The external URL
-   */
-  function setGameServer(address _gameServer) external onlyOwner {
-    require(_gameServer != address(0), "KittyAsset: invalid game server address");
-    gameServer = _gameServer;
-
-    emit SetGameServer(_gameServer);
-  }
-
-  /**
-   * @dev Set auto body shop
-   * @param _autoBodyShop AutoBodyShop address
-   */
-  function setAutoBodyShop(address _autoBodyShop) external onlyOwner {
-    require(_autoBodyShop != address(0), "KittyAsset: invalid address");
-    autoBodyShop = _autoBodyShop;
-
-    emit SetAutoBodyShop(_autoBodyShop);
-  }
-
   function setApprovedMarketplace(address market, bool approved) public onlyOwner {
     _approvedMarketplaces[market] = approved;
   }
@@ -401,132 +331,53 @@ contract KittyAsset is
   }
 
   // -----------------------------------------
-  // KittyAsset Mutative Functions
+  // KittyKartGoKart Mutative Functions
   // -----------------------------------------
 
+  // TODO: need to update later
   /**
-   * @dev game server mints assets to the user
-   * @param _to receiver address
-   * @param _displayTypes display type of game asset
-   * @param _traitTypes trait type of game asset
-   * @param _values value of trait type
+   * @dev Its free mint for test
+   * @param _quantity The quantity value to mint
    */
-  function safeMint(
-    address _to,
-    bytes16[] calldata _displayTypes,
-    bytes16[] calldata _traitTypes,
-    bytes16[] calldata _values
-  ) external onlyGameServer {
-    require(_traitTypes.length == _values.length, "KittyAsset: invalid arguments");
-
+  function publicMint(uint256 _quantity) external nonContract {
     uint256 tokenId = _nextTokenId();
-    tableland.runSQL(
-      address(this),
-      metadataTableId,
-      string.concat(
-        "INSERT INTO ",
-        metadataTable,
-        " (id, name, description, image, external_url, animation_url) VALUES (",
-        StringsUpgradeable.toString(tokenId),
-        ", '#",
-        StringsUpgradeable.toString(tokenId),
-        "', '",
-        description,
-        "', '",
-        defaultImage,
-        "', '",
-        externalURL,
-        "', '",
-        defaultAnimationURL,
-        "');"
-      )
-    );
-    for (uint256 i = 0; i < _traitTypes.length; i++) {
+    for (uint256 i = 0; i < _quantity; i++) {
       tableland.runSQL(
         address(this),
-        attributeTableId,
+        metadataTableId,
         string.concat(
           "INSERT INTO ",
-          attributeTable,
-          " (asset_id, display_type, trait_type, value, in_use) VALUES (",
-          StringsUpgradeable.toString(tokenId),
-          ", '",
-          _bytes16ToString(_displayTypes[i]),
+          metadataTable,
+          " (id, name, description, image, external_url, animation_url) VALUES (",
+          StringsUpgradeable.toString(tokenId + i),
+          ", '#",
+          StringsUpgradeable.toString(tokenId + i),
           "', '",
-          _bytes16ToString(_traitTypes[i]),
+          description,
           "', '",
-          _bytes16ToString(_values[i]),
-          "', 0",
-          ");"
+          defaultImage,
+          "', '",
+          externalURL,
+          "', '",
+          defaultAnimationURL,
+          "');"
         )
       );
-
-      traitTypes[tokenId].push(_traitTypes[i]);
     }
-    _mint(_to, 1);
+    _mint(msg.sender, _quantity);
 
-    emit SafeMint(_to, tokenId, _displayTypes, _traitTypes, _values);
-  }
-
-  /**
-   * @dev Apply asset to kart (set kitty kart in asset attributes)
-   * @param _assetId The asset id
-   * @param _kartId The kitty kart id
-   */
-  function setKittyKart(uint256 _assetId, uint256 _kartId) external onlyAutoBodyShop nonReentrant {
-    bytes16[] memory assetTraitTypes = traitTypes[_assetId];
-    string memory traitTypesString = "(";
-    for (uint256 i = 0; i < assetTraitTypes.length - 1; i++) {
-      traitTypesString = string.concat(traitTypesString, "'", _bytes16ToString(assetTraitTypes[i]), "',");
-    }
-    traitTypesString = string.concat(
-      traitTypesString,
-      "'",
-      _bytes16ToString(assetTraitTypes[assetTraitTypes.length - 1]),
-      "')"
-    );
-    // update in_use for previously applied asset
-    tableland.runSQL(
-      address(this),
-      attributeTableId,
-      string.concat(
-        "UPDATE ",
-        attributeTable,
-        " SET in_use = 2",
-        " WHERE kart_id = ",
-        StringsUpgradeable.toString(_kartId),
-        " AND in_use = 1",
-        " AND trait_type IN ",
-        traitTypesString,
-        ";"
-      )
-    );
-    // set kart_id in asset attribute table
-    tableland.runSQL(
-      address(this),
-      attributeTableId,
-      string.concat(
-        "UPDATE ",
-        attributeTable,
-        " SET in_use = 1",
-        ", kart_id = ",
-        StringsUpgradeable.toString(_kartId),
-        " WHERE asset_id = ",
-        StringsUpgradeable.toString(_assetId),
-        ";"
-      )
-    );
+    emit Mint(msg.sender, _quantity);
   }
 
   function approve(address to, uint256 tokenId) public virtual override {
     if (_marketplaceProtection) {
-      require(_approvedMarketplaces[to], "KittyAsset: invalid Marketplace");
+      require(_approvedMarketplaces[to], "KittyKartGoKart: invalid Marketplace");
     }
     super.approve(to, tokenId);
   }
 
   function setApprovalForAll(address operator, bool approved) public virtual override {
-    require(_approvedMarketplaces[operator], "KittyAsset: invalid Marketplace");
+    require(_approvedMarketplaces[operator], "KittyKartGoKart: invalid Marketplace");
     super.setApprovalForAll(operator, approved);
   }
 
@@ -537,21 +388,5 @@ contract KittyAsset is
     returns (bool)
   {
     return super.supportsInterface(interfaceId);
-  }
-
-  // -----------------------------------------
-  // KittyAsset Internal Functions
-  // -----------------------------------------
-
-  function _bytes16ToString(bytes16 _bytes16) internal pure returns (string memory) {
-    uint8 i = 0;
-    while (i < 16 && _bytes16[i] != 0) {
-      i++;
-    }
-    bytes memory bytesArray = new bytes(i);
-    for (i = 0; i < 16 && _bytes16[i] != 0; i++) {
-      bytesArray[i] = _bytes16[i];
-    }
-    return string(bytesArray);
   }
 }
