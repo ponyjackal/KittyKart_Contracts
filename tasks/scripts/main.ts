@@ -15,12 +15,44 @@ import { readValue, writeValue } from "./values/utils";
  * @note AutoBodyShop contract will be deprecated once we build out backend service for it
  */
 
-task("main").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+task("main:createTables").setAction(async function (taskArguments: TaskArguments, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const registryAddress = readValue("registry");
+
+  // attatch KittyKartGoKart
+  const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
+    await ethers.getContractFactory("KittyKartGoKart", accounts[0])
+  );
+  const kittyKartGoKart: KittyKartGoKart = await kittyKartGoKartFactory.attach(kittyKartGoKartProxyAddress);
+  // attatch kittyKartAsset
+  const kittyKartAssetFactory: KittyKartAsset__factory = <KittyKartAsset__factory>(
+    await ethers.getContractFactory("KittyKartAsset", accounts[0])
+  );
+  const kittyKartAsset: KittyKartAsset = await kittyKartAssetFactory.attach(kittyKartAssetProxyAddress);
+
+  try {
+    // create metadata table for KittyKartGoKart
+    await kittyKartGoKart.createMetadataTable(registryAddress);
+    console.log("KittyKartGoKart:createMetadataTable success");
+
+    // create metadata table for KittyKartAsset
+    await kittyKartAsset.createMetadataTable(registryAddress);
+    console.log("KittyKartAsset:createMetadataTable success");
+
+    console.log("main:createTable success");
+  } catch (err) {
+    console.log("main:createTable error", err);
+  }
+});
+
+task("main:initContracts").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
+  const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
+  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const gameServerAddress = readValue("gameServer");
 
   // attatch KittyKartGoKart
@@ -40,10 +72,6 @@ task("main").setAction(async function (taskArguments: TaskArguments, { ethers })
   const autoBodyShop: AutoBodyShop = await autoBodyShopFactory.attach(autoBodyShopProxyAddress);
 
   try {
-    // create metadata table for KittyKartGoKart
-    await kittyKartGoKart.createMetadataTable(registryAddress);
-    console.log("KittyKartGoKart:createMetadataTable success");
-
     // get metadata table id for KittyKartGoKart
     const kittyKartGoKartTableIdBN = await kittyKartGoKart.metadataTableId();
     const kittyKartGoKartTableId = +kittyKartGoKartTableIdBN.toString();
@@ -53,10 +81,6 @@ task("main").setAction(async function (taskArguments: TaskArguments, { ethers })
     const kittyKartGoKartTable = await kittyKartGoKart.metadataTable();
     writeValue("kittyKartGoKartTable", kittyKartGoKartTable);
     console.log("KittyKartGoKart:getMetadataTable success", kittyKartGoKartTableId, kittyKartGoKartTable);
-
-    // create metadata table for KittyKartAsset
-    await kittyKartAsset.createMetadataTable(registryAddress);
-    console.log("KittyKartAsset:createMetadataTable success");
 
     // get metadata table id for KittyKartAsset
     const kittyKartAssetTableIdBN = await kittyKartAsset.metadataTableId();
@@ -96,7 +120,9 @@ task("main").setAction(async function (taskArguments: TaskArguments, { ethers })
     // set KittyKartAsset in AutoBodyShop
     await autoBodyShop.setKittyKartAsset(kittyKartAssetProxyAddress);
     console.log("AutoBodyShop:setKittyKartAsset success", kittyKartAssetProxyAddress);
+
+    console.log("main:initContracts success");
   } catch (err) {
-    console.log("KittyKartGoKart:createMetadataTable error", err);
+    console.log("main:initContracts error", err);
   }
 });
