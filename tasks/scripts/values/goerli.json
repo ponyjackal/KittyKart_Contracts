@@ -14,5 +14,10 @@
   "assetDescription": "Kitty Asset Test",
   "assetImage": "",
   "assetExternalURL": "",
-  "assetAnimationURL": ""
+  "assetAnimationURL": "",
+  "kittyKartGoKartTableId": 714,
+  "kittyKartGoKartTable": "kitty_kart_test_5_714",
+  "kittyKartAssetTableId": 715,
+  "kittyKartAssetTable": "kitty_asset_test_5_715",
+  "kittyKartAssetAttributeTable": "kitty_asset_test_attribute_5_716"
 }
