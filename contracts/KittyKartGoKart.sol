@@ -54,6 +54,7 @@ contract KittyKartGoKart is
   string public tablePrefix;
   string public description;
   string public defaultImage;
+  string public backgroundColor;
   string public externalURL;
   string public defaultAnimationURL;
 
@@ -73,6 +74,7 @@ contract KittyKartGoKart is
   event SetDefaultImage(string defaultImage);
   event SetDefaultAnimationURL(string defaultAnimationURL);
   event SetImage(uint256 tokenId, string image);
+  event SetBackgroundColor(uint256 tokenId, string color);
   event Mint(address indexed to, uint256 quantity);
 
   // -----------------------------------------
@@ -153,7 +155,7 @@ contract KittyKartGoKart is
       string.concat(
         base,
         "SELECT%20json_object(%27id%27,id,%27name%27,name,%27description%27,description",
-        ",%27image%27,image,%27external_url%27,external_url,%27animation_url%27,animation_url",
+        ",%27image%27,image,background_color,%27external_url%27,external_url,%27animation_url%27,animation_url",
         ",%27attributes%27,json_group_array(json_object(%27display_type%27,display_type",
         ",%27trait_type%27,trait_type,%27value%27,value)))",
         "%20FROM%20",
@@ -196,6 +198,7 @@ contract KittyKartGoKart is
        *    string name,
        *    string description,
        *    string image,
+       *    string background_color,
        *    string external_url,
        *    string animation_url,
        *  );
@@ -205,7 +208,7 @@ contract KittyKartGoKart is
         tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, name text, description text, image text, external_url text, animation_url text);"
+        " (id int, name text, description text, image text, background_color text, external_url text, animation_url text);"
       )
     );
 
@@ -320,6 +323,30 @@ contract KittyKartGoKart is
     );
 
     emit SetImage(_tokenId, _image);
+  }
+
+  /**
+   * @dev Update background color
+   * @param _tokenId TokenId
+   * @param _color Background Color
+   */
+  function setBackgroundColor(uint256 _tokenId, string memory _color) external onlyOwner {
+    backgroundColor = _color;
+    tableland.runSQL(
+      address(this),
+      metadataTableId,
+      string.concat(
+        "UPDATE ",
+        metadataTable,
+        " SET background_color = '",
+        _color,
+        "' WHERE id = ",
+        StringsUpgradeable.toString(_tokenId),
+        ";"
+      )
+    );
+
+    emit SetBackgroundColor(_tokenId, _color);
   }
 
   function setApprovedMarketplace(address market, bool approved) public onlyOwner {
