@@ -2,8 +2,8 @@ import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signe
 import { utils } from "ethers";
 import { ethers, upgrades } from "hardhat";
 
-import type { KittyAsset } from "../../src/types/contracts/KittyAsset";
-import { KittyAsset__factory } from "../../src/types/factories/contracts/KittyAsset__factory";
+import type { KittyKartAsset } from "../../src/types/contracts/KittyKartAsset";
+import { KittyKartAsset__factory } from "../../src/types/factories/contracts/KittyKartAsset__factory";
 import {
   ALICE_ADDRESS,
   ASSET_ANIMATION_URL,
@@ -16,16 +16,16 @@ import {
   REGISTRY_ADDRESS,
 } from "../constants";
 
-export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsset }> {
+export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: KittyKartAsset }> {
   const signers: SignerWithAddress[] = await ethers.getSigners();
   const admin: SignerWithAddress = signers[0];
   const deployer: SignerWithAddress = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
   const gameServer: SignerWithAddress = await ethers.getImpersonatedSigner(GAME_SERVER_ADDRESS);
   const alice: SignerWithAddress = await ethers.getImpersonatedSigner(ALICE_ADDRESS);
-  // deploy kittyAsset
-  const kittyAssetFactory: KittyAsset__factory = await ethers.getContractFactory("KittyAsset", deployer);
-  const kittyAsset: KittyAsset = <KittyAsset>(
-    await upgrades.deployProxy(kittyAssetFactory, [
+  // deploy kittyKartAsset
+  const kittyKartAssetFactory: KittyKartAsset__factory = await ethers.getContractFactory("KittyKartAsset", deployer);
+  const kittyKartAsset: KittyKartAsset = <KittyKartAsset>(
+    await upgrades.deployProxy(kittyKartAssetFactory, [
       BASE_URI,
       ASSET_DESCRIPTION,
       ASSET_IMAGE,
@@ -34,13 +34,13 @@ export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsse
       admin.address,
     ])
   );
-  await kittyAsset.deployed();
+  await kittyKartAsset.deployed();
   // create table
-  await kittyAsset.connect(deployer).createMetadataTable(REGISTRY_ADDRESS);
+  await kittyKartAsset.connect(deployer).createMetadataTable(REGISTRY_ADDRESS);
   // set game server
-  await kittyAsset.connect(deployer).setGameServer(gameServer.address);
+  await kittyKartAsset.connect(deployer).setGameServer(gameServer.address);
   // mint 4 tokens to alice
-  await kittyAsset
+  await kittyKartAsset
     .connect(gameServer)
     .safeMint(
       alice.address,
@@ -60,7 +60,7 @@ export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsse
         ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("v8"), 0, 16),
       ],
     );
-  await kittyAsset
+  await kittyKartAsset
     .connect(gameServer)
     .safeMint(
       alice.address,
@@ -68,7 +68,7 @@ export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsse
       [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
       [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("pink"), 0, 16)],
     );
-  await kittyAsset
+  await kittyKartAsset
     .connect(gameServer)
     .safeMint(
       alice.address,
@@ -85,5 +85,5 @@ export async function deploykittyAssetFixture(): Promise<{ kittyAsset: KittyAsse
         ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("v8"), 0, 16),
       ],
     );
-  return { kittyAsset };
+  return { kittyKartAsset };
 }

@@ -31,8 +31,8 @@ import "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeab
 import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
 
-import "./interfaces/IKittyAsset.sol";
-import "./interfaces/IKittyKart.sol";
+import "./interfaces/IKittyKartAsset.sol";
+import "./interfaces/IKittyKartGoKart.sol";
 
 contract AutoBodyShop is
   Initializable,
@@ -43,16 +43,16 @@ contract AutoBodyShop is
 {
   ITablelandTables public tableland;
 
-  IKittyKart public kittyKart;
-  IKittyAsset public kittyAsset;
+  IKittyKartGoKart public kittyKartGoKart;
+  IKittyKartAsset public kittyKartAsset;
 
   // -----------------------------------------
   // AutoBodyShop Events
   // -----------------------------------------
 
   event SetRegistry(address registry);
-  event SetKittyKart(address kittyKart);
-  event SetKittyAsseet(address kittyAsset);
+  event SetKittyKartGoKart(address kittyKartGoKart);
+  event SetKittyAsseet(address kittyKartAsset);
   event ApplyAssets(uint256 indexed tokenId, uint256[] indexed assetId);
 
   // -----------------------------------------
@@ -60,13 +60,13 @@ contract AutoBodyShop is
   // -----------------------------------------
   /**
    * @dev Initializer function
-   * @param _kittyKart KittyKart address
-   * @param _kittyAsset kittyAsset address
+   * @param _kittyKartGoKart KittyKartGoKart address
+   * @param _kittyKartAsset kittyKartAsset address
    * @param _registry The registry address
    */
   function initialize(
-    address _kittyKart,
-    address _kittyAsset,
+    address _kittyKartGoKart,
+    address _kittyKartAsset,
     address _registry
   ) external initializer {
     __Context_init();
@@ -75,11 +75,11 @@ contract AutoBodyShop is
     __Pausable_init();
     __ERC721Holder_init();
 
-    require(_kittyKart != address(0) && _kittyAsset != address(0), "AutoBodyShop: invalid token address.");
+    require(_kittyKartGoKart != address(0) && _kittyKartAsset != address(0), "AutoBodyShop: invalid token address.");
     require(_registry != address(0), "AutoBodyShop: invalid registry address");
 
-    kittyKart = IKittyKart(_kittyKart);
-    kittyAsset = IKittyAsset(_kittyAsset);
+    kittyKartGoKart = IKittyKartGoKart(_kittyKartGoKart);
+    kittyKartAsset = IKittyKartAsset(_kittyKartAsset);
     tableland = ITablelandTables(_registry);
   }
 
@@ -108,25 +108,25 @@ contract AutoBodyShop is
   }
 
   /**
-   * @dev set the KittyKart address
-   * @param _kittyKart The registry address
+   * @dev set the KittyKartGoKart address
+   * @param _kittyKartGoKart The registry address
    */
-  function setKittyKart(address _kittyKart) external onlyOwner {
-    require(_kittyKart != address(0), "AutoBodyShop: invalid kart token address");
-    kittyKart = IKittyKart(_kittyKart);
+  function setKittyKartGoKart(address _kittyKartGoKart) external onlyOwner {
+    require(_kittyKartGoKart != address(0), "AutoBodyShop: invalid kart token address");
+    kittyKartGoKart = IKittyKartGoKart(_kittyKartGoKart);
 
-    emit SetKittyKart(_kittyKart);
+    emit SetKittyKartGoKart(_kittyKartGoKart);
   }
 
   /**
-   * @dev set the KittyAsset address
-   * @param _kittyAsset The registry address
+   * @dev set the KittyKartAsset address
+   * @param _kittyKartAsset The registry address
    */
-  function setKittyAsset(address _kittyAsset) external onlyOwner {
-    require(_kittyAsset != address(0), "AutoBodyShop: invalid asset token address");
-    kittyAsset = IKittyAsset(_kittyAsset);
+  function setKittyKartAsset(address _kittyKartAsset) external onlyOwner {
+    require(_kittyKartAsset != address(0), "AutoBodyShop: invalid asset token address");
+    kittyKartAsset = IKittyKartAsset(_kittyKartAsset);
 
-    emit SetKittyAsseet(_kittyAsset);
+    emit SetKittyAsseet(_kittyKartAsset);
   }
 
   // -----------------------------------------
@@ -135,16 +135,16 @@ contract AutoBodyShop is
 
   /**
    * @dev Apply assets attributes to a kart
-   * @param _kartId KittyKart token id
-   * @param _assetIds The array of kittyAsset token ids
+   * @param _kartId KittyKartGoKart token id
+   * @param _assetIds The array of kittyKartAsset token ids
    */
   function applyAssets(uint256 _kartId, uint256[] calldata _assetIds) external nonContract nonReentrant {
-    require(kittyKart.ownerOf(_kartId) == msg.sender, "AutoBodyShop: not a kart owner");
+    require(kittyKartGoKart.ownerOf(_kartId) == msg.sender, "AutoBodyShop: not a kart owner");
 
     for (uint256 i = 0; i < _assetIds.length; i++) {
-      require(kittyAsset.ownerOf(_assetIds[i]) == msg.sender, "AutoBodyShop: not an asset owner");
-      kittyAsset.safeTransferFrom(msg.sender, address(this), _assetIds[i]);
-      kittyAsset.setKittyKart(_assetIds[i], _kartId);
+      require(kittyKartAsset.ownerOf(_assetIds[i]) == msg.sender, "AutoBodyShop: not an asset owner");
+      kittyKartAsset.safeTransferFrom(msg.sender, address(this), _assetIds[i]);
+      kittyKartAsset.setKittyKartGoKart(_assetIds[i], _kartId);
     }
 
     emit ApplyAssets(_kartId, _assetIds);
