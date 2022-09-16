@@ -57,13 +57,14 @@ contract KittyAsset is
   string public description;
   string public defaultImage;
   string public externalURL;
-  // market restriction
-  bool private _marketplaceProtection;
+  string public defaultAnimationURL;
 
   // Game server address
   address public gameServer;
   // AutoBodyShop address
   address public autoBodyShop;
+  // market restriction
+  bool private _marketplaceProtection;
   // assetId => trait_type array
   mapping(uint256 => bytes16[]) public traitTypes;
   // market restriction
@@ -82,6 +83,7 @@ contract KittyAsset is
   event SetExternalURL(string externalURL);
   event SetBaseURI(string baseURIString);
   event SetDefaultImage(string defaultImage);
+  event SetDefaultAnimationURL(string defaultAnimationURL);
   event SetDescription(string description);
   event SetImage(uint256 tokenId, string image);
   event SetGameServer(address gameServer);
@@ -102,14 +104,16 @@ contract KittyAsset is
    * @dev Initializer function
    * @param _baseURIString Base URI
    * @param _description Description
-   * @param _image Image
+   * @param _defaultImage default image url
+   * @param _defaultAnimation default animation url
    * @param _externalURL External URL
    * @param _royaltyReceiver Royalty receiver address
    */
   function initialize(
     string memory _baseURIString,
     string memory _description,
-    string memory _image,
+    string memory _defaultImage,
+    string memory _defaultAnimation,
     string memory _externalURL,
     address payable _royaltyReceiver
   ) external initializerERC721A initializer {
@@ -124,8 +128,9 @@ contract KittyAsset is
     baseURIString = _baseURIString;
     tablePrefix = "kitty_asset_test";
     description = _description;
-    defaultImage = _image;
+    defaultImage = _defaultImage;
     externalURL = _externalURL;
+    defaultAnimationURL = _defaultAnimation;
 
     // set restriction on marketplace
     _marketplaceProtection = true;
@@ -179,7 +184,7 @@ contract KittyAsset is
       string.concat(
         base,
         "SELECT%20json_object(%27id%27,id,%27name%27,name,%27description%27,description",
-        ",%27image%27,image,%27external_url%27,external_url",
+        ",%27image%27,image,%27external_url%27,external_url,%27animation_url%27,animation_url",
         ",%27attributes%27,json_group_array(json_object(%27display_type%27,display_type",
         ",%27trait_type%27,trait_type,%27value%27,value)))",
         "%20as%20meta%20FROM%20",
@@ -221,6 +226,7 @@ contract KittyAsset is
        *    string description,
        *    string image,
        *    string external_url,
+       *    string animation_url,
        *  );
        */
       string.concat(
@@ -228,7 +234,7 @@ contract KittyAsset is
         tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, name text, description text, image text, external_url text);"
+        " (id int, name text, description text, image text, external_url text, animation_url text);"
       )
     );
 
@@ -283,14 +289,7 @@ contract KittyAsset is
     tableland.runSQL(
       address(this),
       metadataTableId,
-      string.concat(
-        "UPDATE ",
-        metadataTable,
-        " SET external_url = ",
-        _externalURL,
-        "||'?id='||id", // Turns every row's URL into a URL including get param for tokenId
-        ";"
-      )
+      string.concat("UPDATE ", metadataTable, " SET external_url = ", "'", _externalURL, "'", ";")
     );
 
     emit SetExternalURL(_externalURL);
@@ -317,6 +316,16 @@ contract KittyAsset is
   }
 
   /**
+   * @dev Set default animation URL
+   * @param _animationURL Animation URL
+   */
+  function setDefaultAnimationURL(string memory _animationURL) external onlyOwner {
+    defaultAnimationURL = _animationURL;
+
+    emit SetDefaultAnimationURL(_animationURL);
+  }
+
+  /**
    * @dev Set Description
    * @param _description description
    */
@@ -325,27 +334,34 @@ contract KittyAsset is
     tableland.runSQL(
       address(this),
       metadataTableId,
-      string.concat("UPDATE ", metadataTable, " SET description = ", _description, "||'?id='||id", ";")
+      string.concat("UPDATE ", metadataTable, " SET description = ", "'", _description, "'", ";")
     );
 
     emit SetDescription(_description);
   }
 
   /**
-   * @dev Set image URL
-   * @param _tokenId token id
-   * @param _image image url
+   * @dev Update image url
+   * @param _tokenId TokenId
+   * @param _image Image URL
+   * @param _animationURL Animation URL
    */
-  function setImage(uint256 _tokenId, string memory _image) external onlyOwner {
+  function setImage(
+    uint256 _tokenId,
+    string memory _image,
+    string memory _animationURL
+  ) external onlyOwner {
     tableland.runSQL(
       address(this),
       metadataTableId,
       string.concat(
         "UPDATE ",
         metadataTable,
-        " SET image = ",
+        " SET image = '",
         _image,
-        "WHERE id = ",
+        "', animation_url = '",
+        _animationURL,
+        "' WHERE id = ",
         StringsUpgradeable.toString(_tokenId),
         ";"
       )
@@ -387,6 +403,7 @@ contract KittyAsset is
   // -----------------------------------------
   // KittyAsset Mutative Functions
   // -----------------------------------------
+
   /**
    * @dev game server mints assets to the user
    * @param _to receiver address
@@ -409,7 +426,7 @@ contract KittyAsset is
       string.concat(
         "INSERT INTO ",
         metadataTable,
-        " (id, name, description, image, external_url) VALUES (",
+        " (id, name, description, image, external_url, animation_url) VALUES (",
         StringsUpgradeable.toString(tokenId),
         ", '#",
         StringsUpgradeable.toString(tokenId),
@@ -419,6 +436,8 @@ contract KittyAsset is
         defaultImage,
         "', '",
         externalURL,
+        "', '",
+        defaultAnimationURL,
         "');"
       )
     );

@@ -17,6 +17,7 @@ task("deploy:KittyKart").setAction(async function (taskArguments: TaskArguments,
     cArguments.BASE_URI,
     cArguments.DESCRIPTION,
     cArguments.IMAGE,
+    cArguments.ANIMATION_URL,
     cArguments.EXTERNAL_URL,
     cArguments.ROYALTY_RECEIVER,
   ]);

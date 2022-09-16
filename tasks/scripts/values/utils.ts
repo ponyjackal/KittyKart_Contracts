@@ -16,9 +16,11 @@ type ValueKey =
   | "kartDescription"
   | "kartImage"
   | "kartExternalURL"
+  | "kartAnimationURL"
   | "assetDescription"
   | "assetImage"
-  | "assetExternalURL";
+  | "assetExternalURL"
+  | "assetAnimationURL";
 
 export const ZERO_ADDRESS = "0x" + "0".repeat(40);
 
