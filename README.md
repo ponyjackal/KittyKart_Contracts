@@ -1,4 +1,4 @@
-# Hardhat Template [![Github Actions][gha-badge]][gha] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
+# KittyKart Smart Contracts [![Github Actions][gha-badge]][gha] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
 
 [gha]: https://github.com/paulrberg/hardhat-template/actions
 [gha-badge]: https://github.com/paulrberg/hardhat-template/actions/workflows/ci.yml/badge.svg
@@ -7,7 +7,7 @@
 [license]: https://opensource.org/licenses/MIT
 [license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 
-A Hardhat-based template for developing Solidity smart contracts, with sensible defaults.
+A Hardhat-based project for KittyKart game, the first P2E game implemented tableland for metadata.
 
 - [Hardhat](https://github.com/nomiclabs/hardhat): compile, run and test smart contracts
 - [TypeChain](https://github.com/ethereum-ts/TypeChain): generate TypeScript bindings for smart contracts
@@ -15,18 +15,15 @@ A Hardhat-based template for developing Solidity smart contracts, with sensible 
 - [Solhint](https://github.com/protofire/solhint): code linter
 - [Solcover](https://github.com/sc-forks/solidity-coverage): code coverage
 - [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
-
-## Getting Started
-
-Click the [`Use this template`](https://github.com/paulrberg/hardhat-template/generate) button at the top of the page to
-create a new repository with this repo as the initial state.
+- [Tableland](https://docs.tableland.xyz/): A decentralized network for relational, composable data
 
 ## Features
 
-This template builds upon the frameworks and libraries mentioned above, so for details about their specific features, please consult their respective documentations.
+There are 3 upgradeable smart contracts
 
-For example, for Hardhat, you can refer to the [Hardhat Tutorial](https://hardhat.org/tutorial) and the [Hardhat
-Docs](https://hardhat.org/docs). You might be in particular interested in reading the [Testing Contracts](https://hardhat.org/tutorial/testing-contracts) section.
+- KittyKartGoKart (ERC721A contract relies on Tableland for metadata)
+- KittyKartAsset (ERC721A contract relies on Tableland for metadata)
+- AutoBodyShop (A smart contract where users can apply assets to the kart, will be deprecated once we build a backend service for shop)
 
 ### Sensible Defaults
 
@@ -145,10 +142,84 @@ $ yarn clean
 
 ### Deploy
 
-Deploy the contracts to Hardhat Network:
+There are deploy, upgrade and verify hardhat tasks you can use, before running below tasks, you might need to set `DEPLOY_NETWORK` and `TESTING="false"`
 
 ```sh
-$ yarn deploy --greeting "Bonjour, le monde!"
+// deploy KittyKartGoKart
+$ npx hardhat deploy:KittyKartGoKart
+
+// verify KittyKartGoKart
+$ npx hardhat verify:KittyKartGoKart
+
+// upgrade KittyKartGoKart
+$ npx hardhat upgrade:KittyKartGoKart
+
+// deploy KittyKartAsset
+$ npx hardhat deploy:KittyKartAsset
+
+// verify KittyKartAsset
+$ npx hardhat verify:KittyKartAsset
+
+// upgrade KittyKartAsset
+$ npx hardhat upgrade:KittyKartAsset
+
+// deploy AutoBodyShop
+$ npx hardhat deploy:AutoBodyShop
+
+// verify AutoBodyShop
+$ npx hardhat verify:AutoBodyShop
+
+// upgrade AutoBodyShop
+$ npx hardhat upgrade:AutoBodyShop
+
+```
+
+### Interactions to deployed smart contracts
+
+There are some hardhat tasks to interact with deployed contracts, before running below tasks, you might need to set `DEPLOY_NETWORK` and `TESTING="false"`
+
+You can find out deployed addresses on `./tasks/deploy/addresses`
+
+```sh
+// create tables
+$ npx hardhat main:createTables
+
+// intialize state variables
+$ npx hardhat main:initContracts
+
+// create metadata table for KittyKartGoKart
+$ npx hardhat KittyKartGoKart:createMetadataTable
+
+// get metadata table for KittyKartGoKart
+$ npx hardhat KittyKartGoKart:getMetadataTable
+
+// create metadata table for KittyKartAsset
+$ npx hardhat KittyKartAsset:createMetadataTable
+
+// get metadata table for KittyKartAsset
+$ npx hardhat KittyKartAsset:getMetadataTable
+
+// set game server on KittyKartAsset
+$ npx hardhat KittyKartAsset:setGameServer
+
+// set AutoBodyShop on KittyKartAsset
+$ npx hardhat KittyKartAsset:setAutoBodyShop
+
+// set asset attribute table for setAssetAttributeTable
+$ npx hardhat KittyKartGoKart:setAssetAttributeTable
+
+// set registry on AutoBodyShop
+$ npx hardhat AutoBodyShop:setRegistry
+
+// set KittyKartGoKart on AutoBodyShop
+$ npx hardhat AutoBodyShop:setKittyKartGoKart
+
+// set setKittyKartAsset on AutoBodyShop
+$ npx hardhat AutoBodyShop:setKittyKartAsset
+
+// set assets to the kart
+$ npx hardhat AutoBodyShop:applyAsset
+
 ```
 
 ## Tips
