@@ -10,6 +10,10 @@ import type { Signers } from "../types";
 import { shouldBehaveLikeAutoBodyShop } from "./AutoBodyShop.behavior";
 import { deployAutoBodyShopFixture } from "./AutoBodyShop.fixture";
 
+/**
+ * @note AutoBodyShop contract will be deprecated once we build out backend service for it
+ */
+
 describe("Unit tests", function () {
   before(async function () {
     this.signers = {} as Signers;
