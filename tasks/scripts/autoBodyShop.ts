@@ -7,6 +7,10 @@ import { AutoBodyShop__factory } from "../../src/types/factories/contracts/AutoB
 import { readContractAddress } from "../deploy/addresses/utils";
 import { readValue } from "../scripts/values/utils";
 
+/**
+ * @note AutoBodyShop contract will be deprecated once we build out backend service for it
+ */
+
 task("AutoBodyShop:setRegistry").setAction(async function (taskArguments: TaskArguments, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");

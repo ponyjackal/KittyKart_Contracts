@@ -34,6 +34,10 @@ import "@tableland/evm/contracts/ITablelandTables.sol";
 import "./interfaces/IKittyKartAsset.sol";
 import "./interfaces/IKittyKartGoKart.sol";
 
+/**
+ * note This is just for testing purpose, once we build out backend serivce for AutoBodyShop, this will be deprecated
+ */
+
 contract AutoBodyShop is
   Initializable,
   ReentrancyGuardUpgradeable,
