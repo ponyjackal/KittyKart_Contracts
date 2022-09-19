@@ -2,6 +2,10 @@ import { expect } from "chai";
 
 import { REGISTRY_ADDRESS } from "../constants";
 
+/**
+ * @note AutoBodyShop contract will be deprecated once we build out backend service for it
+ */
+
 export function shouldBehaveLikeAutoBodyShop(): void {
   describe("ApplyAssets", async function () {
     it("should apply asset to kart", async function () {

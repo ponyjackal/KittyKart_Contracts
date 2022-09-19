@@ -62,7 +62,6 @@ task("KittyKartGoKart:setAssetAttributeTable").setAction(async function (taskArg
 
   try {
     await kittyKartGoKart.setAssetAttributeTable(kittyKartAssetAttributeTable);
-
     console.log("KittyKartGoKart:setAssetAttributeTable success", kittyKartAssetAttributeTable);
   } catch (err) {
     console.log("KittyKartGoKart:setAssetAttributeTable error", err);

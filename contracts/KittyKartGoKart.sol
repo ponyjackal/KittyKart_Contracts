@@ -241,6 +241,7 @@ contract KittyKartGoKart is
   }
 
   /**
+   * note This is just for testing purpose, once we build out backend serivce for AutoBodyShop, this will be deprecated
    * @dev Set Description
    * @param _description description
    */
@@ -296,6 +297,7 @@ contract KittyKartGoKart is
   }
 
   /**
+   * note This is just for testing purpose, once we build out backend serivce for AutoBodyShop, this will be deprecated
    * @dev Update image url
    * @param _tokenId TokenId
    * @param _image Image URL
