@@ -341,6 +341,7 @@ contract KittyKartAsset is
   }
 
   /**
+   * note This is just for testing purpose, once we build out backend serivce for AutoBodyShop, this will be deprecated
    * @dev Update image url
    * @param _tokenId TokenId
    * @param _image Image URL
@@ -469,6 +470,7 @@ contract KittyKartAsset is
   }
 
   /**
+   * note This is just for testing purpose, once we build out backend serivce for AutoBodyShop, this will be deprecated
    * @dev Apply asset to kart (set kitty kart in asset attributes)
    * @param _assetId The asset id
    * @param _kartId The kitty kart id
