@@ -1,6 +1,6 @@
 {
   "registry": "0xDA8EA22d092307874f30A1F277D1388dca0BA97a",
-  "gameServer": "0xE078c3BDEe620829135e1ab526bE860498B06339",
+  "gameServer": "0x9a4C14d8d81d7dAB564E146c98c9EF9A140aE12f",
   "kittyKartTableId": 700,
   "kittyKartTable": "kitty_kart_test_5_700",
   "kittyAssetTableId": 701,
@@ -14,5 +14,10 @@
   "assetDescription": "Kitty Asset Test",
   "assetImage": "",
   "assetExternalURL": "",
-  "assetAnimationURL": ""
+  "assetAnimationURL": "",
+  "kittyKartGoKartTableId": 717,
+  "kittyKartGoKartTable": "kitty_kart_test_5_717",
+  "kittyKartAssetTableId": 0,
+  "kittyKartAssetTable": "",
+  "kittyKartAssetAttributeTable": ""
 }
