@@ -1,5 +1,4 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
-import { utils } from "ethers";
 import { ethers, network, upgrades } from "hardhat";
 
 import type { KittyKartAsset } from "../../src/types/contracts/KittyKartAsset";
@@ -42,13 +41,13 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
   await kittyKartAsset.connect(deployer).createMetadataTable(REGISTRY_ADDRESS);
   // set game server
   await kittyKartAsset.connect(deployer).setGameServer(admin.address);
-  // sign a message for KittyAssetVoucher
+  // sign a message for KittyKartAssetVoucher
   const data1 = {
     receiver: alice.address,
     displayTypes: [
-      ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
-      ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
-      ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+      ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
+      ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
+      ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
     ],
     traitTypes: [
       ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
@@ -76,10 +75,10 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
   };
   // mint a token to alice
   await kittyKartAsset.connect(alice).safeMint(voucher1);
-  // sign a message for KittyAssetVoucher
+  // sign a message for KittyKartAssetVoucher
   const data2 = {
     receiver: alice.address,
-    displayTypes: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
+    displayTypes: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16)],
     traitTypes: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
     values: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("pink"), 0, 16)],
     nonce: 1,
