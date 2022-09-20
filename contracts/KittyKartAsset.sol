@@ -122,7 +122,7 @@ contract KittyKartAsset is
     __Ownable_init();
     __ReentrancyGuard_init();
     __Pausable_init();
-    __ERC721A_init("Kitty Asset", "KAsset");
+    __ERC721A_init("KittyKart Asset", "KKAsset");
     __ERC721Holder_init();
     __ERC2981_init();
 
