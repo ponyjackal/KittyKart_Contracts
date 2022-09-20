@@ -54,7 +54,6 @@ contract KittyKartGoKart is
   string public tablePrefix;
   string public description;
   string public defaultImage;
-  string public backgroundColor;
   string public externalURL;
   string public defaultAnimationURL;
 
@@ -333,7 +332,8 @@ contract KittyKartGoKart is
    * @param _color Background Color
    */
   function setBackgroundColor(uint256 _tokenId, string memory _color) external onlyOwner {
-    backgroundColor = _color;
+    require(_exists(_tokenId), "Nonexistent token id");
+
     tableland.runSQL(
       address(this),
       metadataTableId,
