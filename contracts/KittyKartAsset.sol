@@ -49,7 +49,7 @@ contract KittyKartAsset is
   uint256 public constant MINT_FEE = 0;
   uint96 public constant ROYALTY_FEE = 1000;
   bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-  string private constant SIGNING_DOMAIN = "KittyAssetVoucher";
+  string private constant SIGNING_DOMAIN = "KittyKartAssetVoucher";
   string private constant SIGNATURE_VERSION = "1";
 
   ITablelandTables public tableland;
@@ -71,10 +71,10 @@ contract KittyKartAsset is
   bool private _marketplaceProtection;
   // market restriction
   mapping(address => bool) private _approvedMarketplaces;
-  // KittyAssetVoucher nonces
+  // KittyKartAssetVoucher nonces
   mapping(address => uint256) public nonces;
 
-  struct KittyAssetVoucher {
+  struct KittyKartAssetVoucher {
     address receiver;
     bytes16[] displayTypes;
     bytes16[] traitTypes;
@@ -505,15 +505,15 @@ contract KittyKartAsset is
 
   /**
    * @dev game server mints assets to the user
-   * @param _voucher The KittyAssetVoucher
+   * @param _voucher The KittyKartAssetVoucher
    */
-  function safeMint(KittyAssetVoucher calldata _voucher) external nonContract {
+  function safeMint(KittyKartAssetVoucher calldata _voucher) external nonContract {
     address signer = _verify(_voucher);
-    require(_voucher.traitTypes.length == _voucher.values.length, "KittyAsset: invalid arguments");
-    require(signer == gameServer, "KittyAsset: invalid signature");
-    require(msg.sender == _voucher.receiver, "KittyAsset: invalid receiver");
-    require(_voucher.nonce == nonces[_voucher.receiver], "KittyAsset: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyAsset: asset is expired");
+    require(_voucher.traitTypes.length == _voucher.values.length, "KittyKartAsset: invalid arguments");
+    require(signer == gameServer, "KittyKartAsset: invalid signature");
+    require(msg.sender == _voucher.receiver, "KittyKartAsset: invalid receiver");
+    require(_voucher.nonce == nonces[_voucher.receiver], "KittyKartAsset: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
 
     uint256 tokenId = _nextTokenId();
     nonces[_voucher.receiver]++;
@@ -602,15 +602,15 @@ contract KittyKartAsset is
   }
 
   /**
-   * @dev return a hash of the givne KittyAssetVoucher
+   * @dev return a hash of the givne KittyKartAssetVoucher
    */
-  function _hash(KittyAssetVoucher calldata _voucher) internal view returns (bytes32) {
+  function _hash(KittyKartAssetVoucher calldata _voucher) internal view returns (bytes32) {
     return
       _hashTypedDataV4(
         keccak256(
           abi.encode(
             keccak256(
-              "KittyAssetVoucher(address receiver,bytes16[] displayTypes,bytes16[] traitTypes,bytes16[] values,uint256 nonce,uint256 expiry)"
+              "KittyKartAssetVoucher(address receiver,bytes16[] displayTypes,bytes16[] traitTypes,bytes16[] values,uint256 nonce,uint256 expiry)"
             ),
             _voucher.receiver,
             keccak256(abi.encodePacked(_voucher.displayTypes)),
@@ -624,10 +624,10 @@ contract KittyKartAsset is
   }
 
   /**
-   * @dev verify the signature of a given KittyAssetVoucher
+   * @dev verify the signature of a given KittyKartAssetVoucher
    * @param _voucher KittyKartVoucher
    */
-  function _verify(KittyAssetVoucher calldata _voucher) internal view returns (address) {
+  function _verify(KittyKartAssetVoucher calldata _voucher) internal view returns (address) {
     bytes32 digest = _hash(_voucher);
     return ECDSAUpgradeable.recover(digest, _voucher.signature);
   }

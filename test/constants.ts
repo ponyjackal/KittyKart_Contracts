@@ -2,8 +2,12 @@ export const TABLELAND_NETWORK = "testnet";
 export const TABLELAND_CHAIN = "ethereum";
 
 export const DEPLOY_ADDRESS = "0x2DaA35962A6D43EB54C48367b33d0B379C930E5e";
+<<<<<<< HEAD
 export const GAME_SERVER_ADDRESS = "0x829BD824B016326A401d083B33D092293333A830";
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+=======
+export const GAME_SERVER_ADDRESS = "0xE078c3BDEe620829135e1ab526bE860498B06339";
+>>>>>>> caadfea (feat: update KittyKartAssetNFTVoucher)
 export const ALICE_ADDRESS = "0x7F101fE45e6649A6fB8F3F8B43ed03D353f2B90c";
 export const MARKET_PLACE_1 = "0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b";
 export const REGISTRY_ADDRESS = "0x012969f7e3439a9B04025b5a049EB9BAD82A8C12";
@@ -32,10 +36,10 @@ export const SIGNING_AUTOBODY_SHOP_TYPES = {
 };
 export const KITTY_KART_GO_KART_TABLE_ID = 1;
 export const KITTY_KART_ASSET_ATTRIBUTE_TABLE_ID = 2;
-export const SIGNING_ASSET_MINT_DOMAIN = "KittyAssetVoucher";
+export const SIGNING_ASSET_MINT_DOMAIN = "KittyKartAssetVoucher";
 export const SIGNATURE_ASSET_MINT_VERSION = "1";
 export const SIGNATURE_ASSET_MINT_TYPES = {
-  KittyAssetVoucher: [
+  KittyKartAssetVoucher: [
     { name: "receiver", type: "address" },
     { name: "displayTypes", type: "bytes16[]" },
     { name: "traitTypes", type: "bytes16[]" },
