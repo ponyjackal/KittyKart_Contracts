@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import { ethers } from "hardhat";
 
 import { GAME_SERVER_ADDRESS, MARKET_PLACE_1, REGISTRY_ADDRESS, ZERO_ADDRESS } from "../constants";
 
@@ -132,6 +133,59 @@ export function shouldBehaveLikekittyKartAsset(): void {
     it("should update gameServer and emit an event", async function () {
       const tx = this.kittyKartAsset.setGameServer(GAME_SERVER_ADDRESS);
       await expect(tx).to.be.emit(this.kittyKartAsset, "SetGameServer");
+    });
+  });
+
+  describe("safeMint", async function () {
+    it("should be reverted for Not-GameServer", async function () {
+      const tx = this.kittyKartAsset
+        .connect(this.signers.alice)
+        .safeMint(
+          this.signers.alice.getAddress(),
+          [
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+          ],
+          [
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+          ],
+          [
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("blue"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("Alloy"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("v8"), 0, 16),
+          ],
+        );
+      await expect(tx).to.be.revertedWith("KittyKartAsset: not a GameServer");
+    });
+
+    it("should update totalSupply on safeMint", async function () {
+      const balance = (await this.kittyKartAsset.balanceOf(this.signers.alice.getAddress())).toNumber();
+
+      await this.kittyKartAsset
+        .connect(this.signers.gameServer)
+        .safeMint(
+          this.signers.alice.getAddress(),
+          [
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+          ],
+          [
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+          ],
+          [
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("blue"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("Alloy"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("v8"), 0, 16),
+          ],
+        );
+      const newBalance = (await this.kittyKartAsset.balanceOf(this.signers.alice.getAddress())).toNumber();
+      expect(newBalance).to.equal(balance + 1);
     });
   });
 
