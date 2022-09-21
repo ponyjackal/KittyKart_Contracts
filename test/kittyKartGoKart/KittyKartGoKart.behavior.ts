@@ -97,6 +97,23 @@ export function shouldBehaveLikeKittyKartGoKart(): void {
     });
   });
 
+  describe("setImage", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartGoKart.connect(this.signers.alice).setImage(0, "test_image");
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should be reverted for nonexistent tokenId", async function () {
+      const tx = this.kittyKartGoKart.connect(this.signers.alice).setImage(1000, "test_image");
+      await expect(tx).to.be.revertedWith("Nonexistent token id");
+    });
+
+    it("should update emit an event", async function () {
+      const tx = this.kittyKartGoKart.setDefaultAnimationURL("test_image");
+      await expect(tx).to.be.emit(this.kittyKartGoKart, "SetImage");
+    });
+  });
+
   describe("MarketplaceRestriction", async function () {
     it("should not allow approve if marketplace is not set", async function () {
       // approve
