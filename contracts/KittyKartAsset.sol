@@ -96,6 +96,7 @@ contract KittyKartAsset is
     bytes16[] indexed traitTypes,
     bytes16[] values
   );
+  event AcessGranted(address indexed to, bool insert, bool update, bool remove);
 
   // -----------------------------------------
   // KittyKartAsset Initializer
@@ -453,6 +454,7 @@ contract KittyKartAsset is
       metadataTableId,
       string.concat("GRANT ", roles, "  ON", metadataTable, " TO ", StringsUpgradeable.toHexString(_to), ";")
     );
+    emit AcessGranted(_to, _insert, _update, _remove);
   }
 
   /**
