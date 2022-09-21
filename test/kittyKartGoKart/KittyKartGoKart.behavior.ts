@@ -99,18 +99,35 @@ export function shouldBehaveLikeKittyKartGoKart(): void {
 
   describe("setImage", async function () {
     it("should be reverted for not owner", async function () {
-      const tx = this.kittyKartGoKart.connect(this.signers.alice).setImage(0, "test_image");
+      const tx = this.kittyKartGoKart.connect(this.signers.alice).setImage(0, "test_image", "test_animation_url");
       await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
     });
 
     it("should be reverted for nonexistent tokenId", async function () {
-      const tx = this.kittyKartGoKart.connect(this.signers.alice).setImage(1000, "test_image");
+      const tx = this.kittyKartGoKart.setImage(1000, "test_image", "test_animation_url");
       await expect(tx).to.be.revertedWith("Nonexistent token id");
     });
 
-    it("should update emit an event", async function () {
-      const tx = this.kittyKartGoKart.setDefaultAnimationURL("test_image");
+    it("should update emit an event for setImage", async function () {
+      const tx = this.kittyKartGoKart.setImage(0, "test_image", "test_animation_url");
       await expect(tx).to.be.emit(this.kittyKartGoKart, "SetImage");
+    });
+  });
+
+  describe("setBackgroundColor", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartGoKart.connect(this.signers.alice).setBackgroundColor(0, "ff0000");
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should be reverted for nonexistent tokenId", async function () {
+      const tx = this.kittyKartGoKart.setBackgroundColor(1000, "ff0000");
+      await expect(tx).to.be.revertedWith("Nonexistent token id");
+    });
+
+    it("should emit an event for setBackgroundColor", async function () {
+      const tx = this.kittyKartGoKart.setBackgroundColor(0, "ff0000");
+      await expect(tx).to.be.emit(this.kittyKartGoKart, "SetBackgroundColor");
     });
   });
 
