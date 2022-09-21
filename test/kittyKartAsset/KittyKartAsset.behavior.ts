@@ -143,9 +143,9 @@ export function shouldBehaveLikekittyKartAsset(): void {
         .safeMint(
           this.signers.alice.getAddress(),
           [
-            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
-            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
-            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
           ],
           [
             ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
@@ -169,9 +169,9 @@ export function shouldBehaveLikekittyKartAsset(): void {
         .safeMint(
           this.signers.alice.getAddress(),
           [
-            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
-            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
-            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
+            ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
           ],
           [
             ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
