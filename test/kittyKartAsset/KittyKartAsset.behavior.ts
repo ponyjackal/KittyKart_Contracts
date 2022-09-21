@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { MARKET_PLACE_1, REGISTRY_ADDRESS } from "../constants";
+import { GAME_SERVER_ADDRESS, MARKET_PLACE_1, REGISTRY_ADDRESS, ZERO_ADDRESS } from "../constants";
 
 export function shouldBehaveLikekittyKartAsset(): void {
   describe("CreateMetadataTable", async function () {
@@ -95,7 +95,7 @@ export function shouldBehaveLikekittyKartAsset(): void {
       await expect(tx).to.be.revertedWith("Nonexistent token id");
     });
 
-    it("should update emit an event for setImage", async function () {
+    it("should emit an event for setImage", async function () {
       const tx = this.kittyKartAsset.setImage(0, "test_image", "test_animation_url");
       await expect(tx).to.be.emit(this.kittyKartAsset, "SetImage");
     });
@@ -115,6 +115,23 @@ export function shouldBehaveLikekittyKartAsset(): void {
     it("should emit an event for setBackgroundColor", async function () {
       const tx = this.kittyKartAsset.setBackgroundColor(0, "ff0000");
       await expect(tx).to.be.emit(this.kittyKartAsset, "SetBackgroundColor");
+    });
+  });
+
+  describe("setGameServer", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset.connect(this.signers.alice).setGameServer(GAME_SERVER_ADDRESS);
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should be reverted for zero address", async function () {
+      const tx = this.kittyKartAsset.setGameServer(ZERO_ADDRESS);
+      await expect(tx).to.be.revertedWith("KittyKartAsset: invalid game server address");
+    });
+
+    it("should update gameServer and emit an event", async function () {
+      const tx = this.kittyKartAsset.setGameServer(GAME_SERVER_ADDRESS);
+      await expect(tx).to.be.emit(this.kittyKartAsset, "SetGameServer");
     });
   });
 
