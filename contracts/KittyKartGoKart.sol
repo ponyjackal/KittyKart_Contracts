@@ -101,7 +101,7 @@ contract KittyKartGoKart is
     __Ownable_init();
     __ReentrancyGuard_init();
     __Pausable_init();
-    __ERC721A_init("Kitty Kart", "KKart");
+    __ERC721A_init("KittyKart GoKart", "KKGKart");
     __ERC721Holder_init();
     __ERC2981_init();
 
