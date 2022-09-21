@@ -58,6 +58,20 @@ export function shouldBehaveLikeKittyKartGoKart(): void {
     });
   });
 
+  describe("grantAccess", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartGoKart
+        .connect(this.signers.alice)
+        .grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8", true, true, true);
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should update externalUrl and emit an event on setExternalURL", async function () {
+      const tx = this.kittyKartGoKart.grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8", true, true, true);
+      await expect(tx).to.be.emit(this.kittyKartGoKart, "AcessGranted");
+    });
+  });
+
   describe("setBaseURI", async function () {
     it("should be reverted for not owner", async function () {
       const tx = this.kittyKartGoKart.connect(this.signers.alice).setBaseURI("test_base_uri");
