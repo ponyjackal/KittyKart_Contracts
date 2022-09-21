@@ -4,19 +4,117 @@ import { MARKET_PLACE_1, REGISTRY_ADDRESS } from "../constants";
 
 export function shouldBehaveLikekittyKartAsset(): void {
   describe("CreateMetadataTable", async function () {
-    it("should create metadata table", async function () {
-      // create table
-      await this.kittyKartAsset.createMetadataTable(REGISTRY_ADDRESS);
-      // check table name
-      const tableName = await this.kittyKartAsset.metadataTable();
-      expect(tableName).to.not.equal("");
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset.connect(this.signers.alice).createMetadataTable(REGISTRY_ADDRESS);
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
     });
 
-    it("should emit an event on metadata table creation", async function () {
+    it("should update metadataTable and emit an event on metadata table creation", async function () {
       // create table
       const tx = this.kittyKartAsset.createMetadataTable(REGISTRY_ADDRESS);
       // check events
       await expect(tx).to.be.emit(this.kittyKartAsset, "CreateMetadataTable");
+      const tableName = await this.kittyKartAsset.metadataTable();
+      expect(tableName).to.not.equal("");
+    });
+  });
+
+  describe("setExternalURL", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset.connect(this.signers.alice).setExternalURL("test_external_url");
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should update externalUrl and emit an event on setExternalURL", async function () {
+      const tx = this.kittyKartAsset.setExternalURL("test_external_url");
+      await expect(tx).to.be.emit(this.kittyKartAsset, "SetExternalURL");
+      expect(await this.kittyKartAsset.externalURL()).to.equal("test_external_url");
+    });
+  });
+
+  describe("setDescription", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset.connect(this.signers.alice).setDescription("test_description");
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should update externalUrl and emit an event", async function () {
+      const tx = this.kittyKartAsset.setDescription("test_description");
+      await expect(tx).to.be.emit(this.kittyKartAsset, "SetDescription");
+      expect(await this.kittyKartAsset.description()).to.equal("test_description");
+    });
+  });
+
+  describe("setBaseURI", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset.connect(this.signers.alice).setBaseURI("test_base_uri");
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should update baseURIString and emit an event", async function () {
+      const tx = this.kittyKartAsset.setBaseURI("test_base_uri");
+      await expect(tx).to.be.emit(this.kittyKartAsset, "SetBaseURI");
+      expect(await this.kittyKartAsset.baseURIString()).to.equal("test_base_uri");
+    });
+  });
+
+  describe("setDefaultImage", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset.connect(this.signers.alice).setDefaultImage("test_default_image");
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should update defaultImage and emit an event", async function () {
+      const tx = this.kittyKartAsset.setDefaultImage("test_default_image");
+      await expect(tx).to.be.emit(this.kittyKartAsset, "SetDefaultImage");
+      expect(await this.kittyKartAsset.defaultImage()).to.equal("test_default_image");
+    });
+  });
+
+  describe("setDefaultAnimationURL", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset.connect(this.signers.alice).setDefaultAnimationURL("test_default_animation_url");
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should update defaultAnimationURL and emit an event", async function () {
+      const tx = this.kittyKartAsset.setDefaultAnimationURL("test_default_animation_url");
+      await expect(tx).to.be.emit(this.kittyKartAsset, "SetDefaultAnimationURL");
+      expect(await this.kittyKartAsset.defaultAnimationURL()).to.equal("test_default_animation_url");
+    });
+  });
+
+  describe("setImage", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset.connect(this.signers.alice).setImage(0, "test_image", "test_animation_url");
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should be reverted for nonexistent tokenId", async function () {
+      const tx = this.kittyKartAsset.setImage(1000, "test_image", "test_animation_url");
+      await expect(tx).to.be.revertedWith("Nonexistent token id");
+    });
+
+    it("should update emit an event for setImage", async function () {
+      const tx = this.kittyKartAsset.setImage(0, "test_image", "test_animation_url");
+      await expect(tx).to.be.emit(this.kittyKartAsset, "SetImage");
+    });
+  });
+
+  describe("setBackgroundColor", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset.connect(this.signers.alice).setBackgroundColor(0, "ff0000");
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should be reverted for nonexistent tokenId", async function () {
+      const tx = this.kittyKartAsset.setBackgroundColor(1000, "ff0000");
+      await expect(tx).to.be.revertedWith("Nonexistent token id");
+    });
+
+    it("should emit an event for setBackgroundColor", async function () {
+      const tx = this.kittyKartAsset.setBackgroundColor(0, "ff0000");
+      await expect(tx).to.be.emit(this.kittyKartAsset, "SetBackgroundColor");
     });
   });
 
