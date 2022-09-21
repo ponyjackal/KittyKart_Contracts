@@ -75,6 +75,7 @@ contract KittyKartGoKart is
   event SetImage(uint256 tokenId, string image);
   event SetBackgroundColor(uint256 tokenId, string color);
   event Mint(address indexed to, uint256 quantity);
+  event AcessGranted(address indexed to, bool insert, bool update, bool remove);
 
   // -----------------------------------------
   // KittyKartGoKart Initializer
@@ -384,6 +385,7 @@ contract KittyKartGoKart is
       metadataTableId,
       string.concat("GRANT ", roles, "  ON", metadataTable, " TO ", StringsUpgradeable.toHexString(_to), ";")
     );
+    emit AcessGranted(_to, _insert, _update, _remove);
   }
 
   // TODO: need to update later
