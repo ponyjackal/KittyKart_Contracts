@@ -435,6 +435,27 @@ contract KittyKartAsset is
   // -----------------------------------------
 
   /**
+   * @dev Grant access of table to EOA
+   * @param _to The address to grant access
+   * @param _insert INSERT allowance
+   * @param _update UPDATE allowance
+   * @param _remove DELETE allowance
+   */
+  function grantAccess(
+    address _to,
+    bool _insert,
+    bool _update,
+    bool _remove
+  ) external onlyOwner {
+    string memory roles = string.concat(_insert ? "INSERT" : "", _update ? ", UPDATE" : "", _remove ? ", DELETE" : "");
+    tableland.runSQL(
+      address(this),
+      metadataTableId,
+      string.concat("GRANT ", roles, "  ON", metadataTable, " TO ", StringsUpgradeable.toHexString(_to), ";")
+    );
+  }
+
+  /**
    * @dev game server mints assets to the user
    * @param _to receiver address
    * @param _displayTypes display type of game asset
