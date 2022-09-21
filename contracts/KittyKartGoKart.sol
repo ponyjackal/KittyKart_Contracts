@@ -307,6 +307,8 @@ contract KittyKartGoKart is
     string memory _image,
     string memory _animationURL
   ) external onlyOwner {
+    require(_exists(_tokenId), "Nonexistent token id");
+
     tableland.runSQL(
       address(this),
       metadataTableId,
