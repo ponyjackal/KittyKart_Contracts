@@ -45,9 +45,9 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
     .safeMint(
       alice.address,
       [
-        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
-        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
-        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
       ],
       [
         ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16),
@@ -64,7 +64,7 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
     .connect(gameServer)
     .safeMint(
       alice.address,
-      [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
+      [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16)],
       [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
       [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("pink"), 0, 16)],
     );
@@ -73,8 +73,8 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
     .safeMint(
       alice.address,
       [
-        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
-        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("engine"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
+        ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16),
       ],
       [
         ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("wheel"), 0, 16),
