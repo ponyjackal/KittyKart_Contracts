@@ -93,7 +93,7 @@ export function shouldBehaveLikekittyKartAsset(): void {
 
     it("should be reverted for nonexistent tokenId", async function () {
       const tx = this.kittyKartAsset.setImage(1000, "test_image", "test_animation_url");
-      await expect(tx).to.be.revertedWith("Nonexistent token id");
+      await expect(tx).to.be.revertedWith("KittyKartAsset: nonexistent token id");
     });
 
     it("should emit an event for setImage", async function () {
@@ -110,7 +110,7 @@ export function shouldBehaveLikekittyKartAsset(): void {
 
     it("should be reverted for nonexistent tokenId", async function () {
       const tx = this.kittyKartAsset.setBackgroundColor(1000, "ff0000");
-      await expect(tx).to.be.revertedWith("Nonexistent token id");
+      await expect(tx).to.be.revertedWith("KittyKartAsset: nonexistent token id");
     });
 
     it("should emit an event for setBackgroundColor", async function () {
@@ -193,12 +193,12 @@ export function shouldBehaveLikekittyKartAsset(): void {
     it("should be reverted for not owner", async function () {
       const tx = this.kittyKartAsset
         .connect(this.signers.alice)
-        .grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8", true, true, true);
+        .grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8");
       await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
     });
 
     it("should update externalUrl and emit an event on setExternalURL", async function () {
-      const tx = this.kittyKartAsset.grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8", true, true, true);
+      const tx = this.kittyKartAsset.grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8");
       await expect(tx).to.be.emit(this.kittyKartAsset, "AccessGranted");
     });
   });
