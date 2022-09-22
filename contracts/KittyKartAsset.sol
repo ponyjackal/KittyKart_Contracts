@@ -96,7 +96,7 @@ contract KittyKartAsset is
     bytes16[] indexed traitTypes,
     bytes16[] values
   );
-  event AccessGranted(address indexed to, bool insert, bool update, bool remove);
+  event AccessGranted(address indexed to);
   event AccessRevoked(address indexed to);
 
   // -----------------------------------------
@@ -356,7 +356,7 @@ contract KittyKartAsset is
     string memory _image,
     string memory _animationURL
   ) external onlyOwner {
-    require(_exists(_tokenId), "Nonexistent token id");
+    require(_exists(_tokenId), "KittyKartAsset: nonexistent token id");
 
     tableland.runSQL(
       address(this),
@@ -383,7 +383,7 @@ contract KittyKartAsset is
    * @param _color Background Color
    */
   function setBackgroundColor(uint256 _tokenId, string memory _color) external onlyOwner {
-    require(_exists(_tokenId), "Nonexistent token id");
+    require(_exists(_tokenId), "KittyKartAsset: nonexistent token id");
 
     tableland.runSQL(
       address(this),
@@ -439,28 +439,36 @@ contract KittyKartAsset is
   /**
    * @dev Grant access of table to EOA
    * @param _to The address to grant access
-   * @param _insert INSERT allowance
-   * @param _update UPDATE allowance
-   * @param _remove DELETE allowance
    */
-  function grantAccess(
-    address _to,
-    bool _insert,
-    bool _update,
-    bool _remove
-  ) external onlyOwner {
-    string memory roles = string.concat(_insert ? "INSERT" : "", _update ? ", UPDATE" : "", _remove ? ", DELETE" : "");
+  function grantAccess(address _to) external onlyOwner {
+    require(metadataTableId != 0 && attributeTableId != 0, "KittyKartAsset: tables are not created yet");
     tableland.runSQL(
       address(this),
       metadataTableId,
-      string.concat("GRANT ", roles, " ON ", metadataTable, " TO ", "'", StringsUpgradeable.toHexString(_to), "'", ";")
+      string.concat(
+        "GRANT INSERT, UPDATE, DELETE ON ",
+        metadataTable,
+        " TO ",
+        "'",
+        StringsUpgradeable.toHexString(_to),
+        "'",
+        ";"
+      )
     );
     tableland.runSQL(
       address(this),
       attributeTableId,
-      string.concat("GRANT ", roles, " ON ", attributeTable, " TO ", "'", StringsUpgradeable.toHexString(_to), "'", ";")
+      string.concat(
+        "GRANT INSERT, UPDATE, DELETE ON ",
+        attributeTable,
+        " TO ",
+        "'",
+        StringsUpgradeable.toHexString(_to),
+        "'",
+        ";"
+      )
     );
-    emit AccessGranted(_to, _insert, _update, _remove);
+    emit AccessGranted(_to);
   }
 
   /**
@@ -468,6 +476,7 @@ contract KittyKartAsset is
    * @param _to The address to grant access
    */
   function revokeAccess(address _to) external onlyOwner {
+    require(metadataTableId != 0 && attributeTableId != 0, "KittyKartAsset: tables are not created yet");
     tableland.runSQL(
       address(this),
       metadataTableId,
