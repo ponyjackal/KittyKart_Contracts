@@ -2,7 +2,7 @@
   "manifestVersion": "3.2",
   "admin": {
     "address": "0x1E91c71c40F4664C1F2e7191D235dC1AA4F39aa3",
-    "txHash": "0xc26143a8dfdd863d33e3ebbbf7a7609de3449b9fd9c6d667bfd4f97413ff925f"
+    "txHash": "0x2c675efbe9631b3ab70ac091b92021a7b114bf07ce46b7c5c685b217500c7575"
   },
   "proxies": [
     {
@@ -37,17 +37,17 @@
     },
     {
       "address": "0x12Adb13Dc47f3DdC9fE0F7A7180312350477d909",
-      "txHash": "0xb0c51e68cdda983dc9e917a7c130ed50e7c773657d67e9908c3be92a81f27573",
+      "txHash": "0x9e90db555f1084c87b84526ea97c581770fe24e5ddbdfc866cdb7047d23a4a8c",
       "kind": "transparent"
     },
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
-      "txHash": "0xb8e6ae9b36e2304bb81a918b027f8cb71f0b03b6d456fe844150e07920f613a9",
+      "txHash": "0x95b98f3fa7bb292dc44fbd91e7a8a40d4f19aa3a59490e9687e7ba450dd08d05",
       "kind": "transparent"
     },
     {
       "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
-      "txHash": "0x05a991e87ed1f13b63eb07db0ca9c878b7f85c31b40d558659e3cd7907881ab2",
+      "txHash": "0x8218d6a6bff3da1a6798fb49004c462d830c05891294d7554344676929727d16",
       "kind": "transparent"
     }
   ],
@@ -287,7 +287,7 @@
     },
     "60e2d4ab8ec5bd50dd0226141bcaf0d4b028ca78fd7907b4f004f8f360ec2b76": {
       "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x2eb56e71a8e78ad6f8b8559af124d62990e759370fc7d993bf37b0a1a8e1a198",
+      "txHash": "0xbc313a09224dfa11d3efd2ef7b7393ca5dcd817c75a73acb3a9c1174d5b91218",
       "layout": {
         "storage": [
           {
@@ -383,7 +383,7 @@
             "label": "kittyKartGoKart",
             "offset": 0,
             "slot": "252",
-            "type": "t_contract(IKittyKartGoKart)3751",
+            "type": "t_contract(IKittyKartGoKart)3925",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:50"
           },
@@ -391,7 +391,7 @@
             "label": "kittyKartAsset",
             "offset": 0,
             "slot": "253",
-            "type": "t_contract(IKittyKartAsset)3721",
+            "type": "t_contract(IKittyKartAsset)3895",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:51"
           }
@@ -413,11 +413,11 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_contract(IKittyKartAsset)3721": {
+          "t_contract(IKittyKartAsset)3895": {
             "label": "contract IKittyKartAsset",
             "numberOfBytes": "20"
           },
-          "t_contract(IKittyKartGoKart)3751": {
+          "t_contract(IKittyKartGoKart)3925": {
             "label": "contract IKittyKartGoKart",
             "numberOfBytes": "20"
           },
@@ -436,9 +436,9 @@
         }
       }
     },
-    "38defabc2f84bed0f99c8625e32d31fe540967b9b5767914b27c24173d3817aa": {
+    "09357194cd811f7ee9cc2f893be0ce90fb9a63adf26b3ab4ecc04d811c999e64": {
       "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
-      "txHash": "0x35a4bd4127515d719bf6615be523e225230ef691275c2c08790d7780d016a284",
+      "txHash": "0x0dc33c5d7584fb7c4970245942d9fd696916f26474567f275c59c331496fc7ac",
       "layout": {
         "storage": [
           {
@@ -721,9 +721,9 @@
         }
       }
     },
-    "81ae0cb810b1443b38e07ba10a5667de93eafac0dc6ec2d86ec3c75847de5ab1": {
+    "762ddb32e59f2666bb3143492c1bfa2dff63216a5645941e75356b6cf73fd95c": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0x57ec0fceab8032163e7c8122c6d1dfe0287cb5217833f7c4bc5e5a20bf5dbe4a",
+      "txHash": "0x8a6e6b5575e89fb0b066a116c772ce692807bb784c88c8f22bdff1408a7d1b10",
       "layout": {
         "storage": [
           {
