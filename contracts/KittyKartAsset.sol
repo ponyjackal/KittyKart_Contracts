@@ -454,6 +454,11 @@ contract KittyKartAsset is
       metadataTableId,
       string.concat("GRANT ", roles, "  ON", metadataTable, " TO ", StringsUpgradeable.toHexString(_to), ";")
     );
+    tableland.runSQL(
+      address(this),
+      attributeTableId,
+      string.concat("GRANT ", roles, "  ON", attributeTable, " TO ", StringsUpgradeable.toHexString(_to), ";")
+    );
     emit AcessGranted(_to, _insert, _update, _remove);
   }
 
