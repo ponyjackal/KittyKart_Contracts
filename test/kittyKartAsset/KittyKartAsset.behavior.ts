@@ -189,6 +189,34 @@ export function shouldBehaveLikekittyKartAsset(): void {
     });
   });
 
+  describe("grantAccess", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset
+        .connect(this.signers.alice)
+        .grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8", true, true, true);
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should update externalUrl and emit an event on setExternalURL", async function () {
+      const tx = this.kittyKartAsset.grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8", true, true, true);
+      await expect(tx).to.be.emit(this.kittyKartAsset, "AccessGranted");
+    });
+  });
+
+  describe("revokeAccess", async function () {
+    it("should be reverted for not owner", async function () {
+      const tx = this.kittyKartAsset
+        .connect(this.signers.alice)
+        .revokeAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8");
+      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+
+    it("should update externalUrl and emit an event on setExternalURL", async function () {
+      const tx = this.kittyKartAsset.revokeAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8");
+      await expect(tx).to.be.emit(this.kittyKartAsset, "AccessRevoked");
+    });
+  });
+
   describe("MarketplaceRestriction", async function () {
     it("should not allow approve if marketplace is not set", async function () {
       // approve

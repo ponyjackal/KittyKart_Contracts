@@ -96,6 +96,8 @@ contract KittyKartAsset is
     bytes16[] indexed traitTypes,
     bytes16[] values
   );
+  event AccessGranted(address indexed to, bool insert, bool update, bool remove);
+  event AccessRevoked(address indexed to);
 
   // -----------------------------------------
   // KittyKartAsset Initializer
@@ -433,6 +435,67 @@ contract KittyKartAsset is
   // -----------------------------------------
   // KittyKartAsset Mutative Functions
   // -----------------------------------------
+
+  /**
+   * @dev Grant access of table to EOA
+   * @param _to The address to grant access
+   * @param _insert INSERT allowance
+   * @param _update UPDATE allowance
+   * @param _remove DELETE allowance
+   */
+  function grantAccess(
+    address _to,
+    bool _insert,
+    bool _update,
+    bool _remove
+  ) external onlyOwner {
+    string memory roles = string.concat(_insert ? "INSERT" : "", _update ? ", UPDATE" : "", _remove ? ", DELETE" : "");
+    tableland.runSQL(
+      address(this),
+      metadataTableId,
+      string.concat("GRANT ", roles, " ON ", metadataTable, " TO ", "'", StringsUpgradeable.toHexString(_to), "'", ";")
+    );
+    tableland.runSQL(
+      address(this),
+      attributeTableId,
+      string.concat("GRANT ", roles, " ON ", attributeTable, " TO ", "'", StringsUpgradeable.toHexString(_to), "'", ";")
+    );
+    emit AccessGranted(_to, _insert, _update, _remove);
+  }
+
+  /**
+   * @dev Revoke access of table to EOA
+   * @param _to The address to grant access
+   */
+  function revokeAccess(address _to) external onlyOwner {
+    tableland.runSQL(
+      address(this),
+      metadataTableId,
+      string.concat(
+        "REVOKE INSERT, UPDATE, DELETE ON ",
+        metadataTable,
+        " FROM ",
+        "'",
+        StringsUpgradeable.toHexString(_to),
+        "'",
+        ";"
+      )
+    );
+    tableland.runSQL(
+      address(this),
+      attributeTableId,
+      string.concat(
+        "REVOKE INSERT, UPDATE, DELETE ON ",
+        attributeTable,
+        " FROM ",
+        "'",
+        StringsUpgradeable.toHexString(_to),
+        "'",
+        ";"
+      )
+    );
+    emit AccessRevoked(_to);
+  }
 
   /**
    * @dev game server mints assets to the user
