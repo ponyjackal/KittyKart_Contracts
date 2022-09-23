@@ -85,10 +85,10 @@ contract KittyKartMarketplace is
     __Pausable_init();
     __ERC721Holder_init();
 
-    require(address(_kittyKartAsset) != address(0), "KittyKartMarketplace invalid KittyKartGoKart address.");
-    require(address(_kittyKartAsset) != address(0), "KittyKartMarketplace invalid KittyKartAsset address.");
-    require(address(_kittyInu) != address(0), "KittyKartMarketplace invalid KittyInu token address.");
-    require(_registry != address(0), "KittyKartMarketplace invalid registry address");
+    require(address(_kittyKartAsset) != address(0), "KittyKartMarketplace: invalid KittyKartGoKart address.");
+    require(address(_kittyKartAsset) != address(0), "KittyKartMarketplace: invalid KittyKartAsset address.");
+    require(address(_kittyInu) != address(0), "KittyKartMarketplace: invalid KittyInu token address.");
+    require(_registry != address(0), "KittyKartMarketplace: invalid registry address");
 
     kittyKartGoKart = _kittyKartGoKart;
     kittyKartAsset = _kittyKartAsset;
@@ -97,11 +97,19 @@ contract KittyKartMarketplace is
   }
 
   // -----------------------------------------
-  // KittyKartGoKart Modifiers
+  // KittyKartMarketplace Modifiers
   // -----------------------------------------
 
   modifier nonContract() {
-    require(msg.sender.code.length <= 0, "KittyKartGoKart: caller not a user");
+    require(msg.sender.code.length <= 0, "KittyKartMarketplace: caller not a user");
+    _;
+  }
+
+  modifier onlyKittyContract() {
+    require(
+      msg.sender == address(kittyKartGoKart) || msg.sender == address(kittyKartAsset),
+      "KittyKartMarketplace: caller not a user"
+    );
     _;
   }
 
@@ -109,7 +117,7 @@ contract KittyKartMarketplace is
   // KittyKartMarketplace Mutative Functions
   // -----------------------------------------
   /**
-   * @dev List NFT on sale
+   * @dev List NFT on sale by owner
    * @param _tokenContract The NFT token contract
    * @param _tokenId The NFT token id
    * @param _price The NFT token price
@@ -132,15 +140,39 @@ contract KittyKartMarketplace is
     _tokenContract.transferFrom(msg.sender, address(this), _tokenId);
     kittyInu.transferFrom(msg.sender, address(this), LISTING_FEE);
 
-    _idToNFT[address(_tokenContract)][_tokenId] = NFT({
-      nftContract: address(_tokenContract),
-      tokenId: _tokenId,
-      seller: payable(msg.sender),
-      owner: payable(msg.sender),
-      price: _price,
-      listed: true
-    });
+    /* in case we don't list NFTs on marketplace on mint */
+    // _idToNFT[address(_tokenContract)][_tokenId] = NFT({
+    //   nftContract: address(_tokenContract),
+    //   tokenId: _tokenId,
+    //   seller: payable(msg.sender),
+    //   owner: payable(msg.sender),
+    //   price: _price,
+    //   listed: true
+    // });
+
+    /* in case we list NFTs on marketplace on mint */
+    NFT storage nft = _idToNFT[address(_tokenContract)][_tokenId];
+    nft.owner = payable(msg.sender);
+    nft.seller = payable(msg.sender);
+    nft.price = _price;
+    nft.listed = true;
 
     emit NFTListed(address(_tokenContract), _tokenId, msg.sender, _price);
+  }
+
+  /**
+   * @dev List NFT on marketplace on NFT mint
+   * @param _tokenId The NFT token id
+   * @param _owner The NFT token owner
+   */
+  function listNFT(uint256 _tokenId, address _owner) external onlyKittyContract nonReentrant {
+    _idToNFT[msg.sender][_tokenId] = NFT({
+      nftContract: msg.sender,
+      tokenId: _tokenId,
+      seller: payable(_owner),
+      owner: payable(_owner),
+      price: 0,
+      listed: false
+    });
   }
 }
