@@ -62,6 +62,7 @@ contract KittyKartMarketplace is
   // KittyKartGoKart Events
   // -----------------------------------------
   event NFTListed(address indexed tokenContract, uint256 indexed tokenId, address indexed seller, uint256 price);
+  event NFTSold(address indexed tokenContract, uint256 indexed tokenId, address seller, address buyer, uint256 price);
 
   // -----------------------------------------
   // KittyKartMarketplace Initializer
@@ -120,29 +121,29 @@ contract KittyKartMarketplace is
    * @dev List NFT on sale by owner
    * @param _tokenContract The NFT token contract
    * @param _tokenId The NFT token id
-   * @param _price The NFT token price
+   * @param _price The KittyInu token price
    */
   function list(
-    IERC721AUpgradeable _tokenContract,
+    address _tokenContract,
     uint256 _tokenId,
     uint256 _price
   ) external nonContract nonReentrant {
     require(
-      _tokenContract == kittyKartGoKart || _tokenContract == kittyKartAsset,
+      _tokenContract == address(kittyKartGoKart) || _tokenContract == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
     );
-    require(_price > 0, "KittyKartMarketplace: invalid NFT token price");
+    require(_price > 0, "KittyKartMarketplace: invalid KittyInu token price");
     require(
-      _tokenContract.ownerOf(_tokenId) == msg.sender,
+      IERC721AUpgradeable(_tokenContract).ownerOf(_tokenId) == msg.sender,
       "KittyKartMarketplace: caller is not the owner of NFT token"
     );
 
-    _tokenContract.transferFrom(msg.sender, address(this), _tokenId);
+    IERC721AUpgradeable(_tokenContract).transferFrom(msg.sender, address(this), _tokenId);
     kittyInu.transferFrom(msg.sender, address(this), LISTING_FEE);
 
     /* in case we don't list NFTs on marketplace on mint */
-    // _idToNFT[address(_tokenContract)][_tokenId] = NFT({
-    //   nftContract: address(_tokenContract),
+    // _idToNFT[_tokenContract][_tokenId] = NFT({
+    //   nftContract: _tokenContract,
     //   tokenId: _tokenId,
     //   seller: payable(msg.sender),
     //   owner: payable(msg.sender),
@@ -151,13 +152,13 @@ contract KittyKartMarketplace is
     // });
 
     /* in case we list NFTs on marketplace on mint */
-    NFT storage nft = _idToNFT[address(_tokenContract)][_tokenId];
+    NFT storage nft = _idToNFT[_tokenContract][_tokenId];
     nft.owner = payable(msg.sender);
     nft.seller = payable(msg.sender);
     nft.price = _price;
     nft.listed = true;
 
-    emit NFTListed(address(_tokenContract), _tokenId, msg.sender, _price);
+    emit NFTListed(_tokenContract, _tokenId, msg.sender, _price);
   }
 
   /**
@@ -174,5 +175,35 @@ contract KittyKartMarketplace is
       price: 0,
       listed: false
     });
+  }
+
+  /**
+   * @dev Buy NFT on marketplace
+   * @param _tokenContract The NFT token contract
+   * @param _tokenId The NFT token id
+   * @param _amount The KittyInu token amount
+   */
+  function buyNFT(
+    address _tokenContract,
+    uint256 _tokenId,
+    uint256 _amount
+  ) external nonContract nonReentrant {
+    require(
+      _tokenContract == address(kittyKartGoKart) || _tokenContract == address(kittyKartAsset),
+      "KittyKartMarketplace: invalid NFT token contract"
+    );
+
+    NFT storage nft = _idToNFT[_tokenContract][_tokenId];
+    require(nft.listed, "KittyKartMarketplace: NFT not listed");
+    require(nft.price <= _amount, "KittyKartMarketplace: insufficient KittyInu token price");
+
+    kittyInu.transferFrom(msg.sender, nft.seller, nft.price);
+    IERC721AUpgradeable(_tokenContract).transferFrom(address(this), msg.sender, _tokenId);
+
+    nft.owner = payable(msg.sender);
+    nft.price = 0;
+    nft.listed = false;
+
+    emit NFTSold(_tokenContract, _tokenId, nft.seller, msg.sender, _amount);
   }
 }
