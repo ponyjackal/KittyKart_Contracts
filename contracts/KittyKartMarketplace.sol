@@ -39,7 +39,7 @@ contract KittyKartMarketplace is
   PausableUpgradeable,
   ERC721HolderUpgradeable
 {
-  uint256 public LISTING_FEE = 10**18; // 1 KittyInu token
+  uint256 public constant MARKET_FEE = 5; // 5 %
 
   ITablelandTables public tableland;
 
@@ -139,24 +139,23 @@ contract KittyKartMarketplace is
     );
 
     IERC721AUpgradeable(_tokenContract).transferFrom(msg.sender, address(this), _tokenId);
-    kittyInu.transferFrom(msg.sender, address(this), LISTING_FEE);
 
     /* in case we don't list NFTs on marketplace on mint */
-    // _idToNFT[_tokenContract][_tokenId] = NFT({
-    //   nftContract: _tokenContract,
-    //   tokenId: _tokenId,
-    //   seller: payable(msg.sender),
-    //   owner: payable(msg.sender),
-    //   price: _price,
-    //   listed: true
-    // });
+    _idToNFT[_tokenContract][_tokenId] = NFT({
+      nftContract: _tokenContract,
+      tokenId: _tokenId,
+      seller: payable(msg.sender),
+      owner: payable(msg.sender),
+      price: _price,
+      listed: true
+    });
 
     /* in case we list NFTs on marketplace on mint */
-    NFT storage nft = _idToNFT[_tokenContract][_tokenId];
-    nft.owner = payable(msg.sender);
-    nft.seller = payable(msg.sender);
-    nft.price = _price;
-    nft.listed = true;
+    // NFT storage nft = _idToNFT[_tokenContract][_tokenId];
+    // nft.owner = payable(msg.sender);
+    // nft.seller = payable(msg.sender);
+    // nft.price = _price;
+    // nft.listed = true;
 
     emit NFTListed(_tokenContract, _tokenId, msg.sender, _price);
   }
@@ -193,16 +192,18 @@ contract KittyKartMarketplace is
       "KittyKartMarketplace: invalid NFT token contract"
     );
 
-    NFT storage nft = _idToNFT[_tokenContract][_tokenId];
+    NFT memory nft = _idToNFT[_tokenContract][_tokenId];
     require(nft.listed, "KittyKartMarketplace: NFT not listed");
     require(nft.price <= _amount, "KittyKartMarketplace: insufficient KittyInu token price");
 
-    kittyInu.transferFrom(msg.sender, nft.seller, nft.price);
+    uint256 marketFee = (_amount * MARKET_FEE) / 100;
+    kittyInu.transferFrom(msg.sender, address(this), marketFee);
+    kittyInu.transferFrom(msg.sender, nft.seller, _amount - marketFee);
     IERC721AUpgradeable(_tokenContract).transferFrom(address(this), msg.sender, _tokenId);
 
-    nft.owner = payable(msg.sender);
-    nft.price = 0;
-    nft.listed = false;
+    _idToNFT[_tokenContract][_tokenId].owner = payable(msg.sender);
+    _idToNFT[_tokenContract][_tokenId].price = 0;
+    _idToNFT[_tokenContract][_tokenId].listed = false;
 
     emit NFTSold(_tokenContract, _tokenId, nft.seller, msg.sender, _amount);
   }
