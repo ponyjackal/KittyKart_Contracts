@@ -62,12 +62,12 @@ export function shouldBehaveLikeKittyKartGoKart(): void {
     it("should be reverted for not owner", async function () {
       const tx = this.kittyKartGoKart
         .connect(this.signers.alice)
-        .grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8", true, true, true);
+        .grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8");
       await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
     });
 
     it("should update externalUrl and emit an event on setExternalURL", async function () {
-      const tx = this.kittyKartGoKart.grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8", true, true, true);
+      const tx = this.kittyKartGoKart.grantAccess("0xFB6c5feE537344Db0f585d65C684fbc2A800d0a8");
       await expect(tx).to.be.emit(this.kittyKartGoKart, "AccessGranted");
     });
   });
@@ -133,7 +133,7 @@ export function shouldBehaveLikeKittyKartGoKart(): void {
 
     it("should be reverted for nonexistent tokenId", async function () {
       const tx = this.kittyKartGoKart.setImage(1000, "test_image", "test_animation_url");
-      await expect(tx).to.be.revertedWith("Nonexistent token id");
+      await expect(tx).to.be.revertedWith("KittyKartGoKart: nonexistent token id");
     });
 
     it("should update emit an event for setImage", async function () {
@@ -150,7 +150,7 @@ export function shouldBehaveLikeKittyKartGoKart(): void {
 
     it("should be reverted for nonexistent tokenId", async function () {
       const tx = this.kittyKartGoKart.setBackgroundColor(1000, "ff0000");
-      await expect(tx).to.be.revertedWith("Nonexistent token id");
+      await expect(tx).to.be.revertedWith("KittyKartGoKart: nonexistent token id");
     });
 
     it("should emit an event for setBackgroundColor", async function () {
