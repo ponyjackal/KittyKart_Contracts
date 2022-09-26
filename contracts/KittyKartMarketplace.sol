@@ -186,15 +186,14 @@ contract KittyKartMarketplace is
     NFT memory nft = _idToNFT[_tokenContract][_tokenId];
     require(nft.listed, "KittyKartMarketplace: NFT not listed");
     require(nft.price <= _amount, "KittyKartMarketplace: insufficient KittyInu token price");
-
-    uint256 marketFee = (_amount * MARKET_FEE) / 100;
+    // remove list info
+    delete _idToNFT[_tokenContract][_tokenId];
+    // transfer KittyInu token from buyer to seller after take market fees
+    uint256 marketFee = _calculateMarketFee(_amount);
     kittyInu.transferFrom(msg.sender, address(this), marketFee);
     kittyInu.transferFrom(msg.sender, nft.seller, _amount - marketFee);
+    // transfer NFT token to buyer
     IERC721AUpgradeable(_tokenContract).transferFrom(address(this), msg.sender, _tokenId);
-
-    _idToNFT[_tokenContract][_tokenId].owner = payable(msg.sender);
-    _idToNFT[_tokenContract][_tokenId].price = 0;
-    _idToNFT[_tokenContract][_tokenId].listed = false;
 
     emit NFTSold(_tokenContract, _tokenId, nft.seller, msg.sender, _amount);
   }
@@ -216,13 +215,54 @@ contract KittyKartMarketplace is
     );
 
     Offer memory offer = _idToOffer[_tokenContract][_tokenId];
-    require(offer.price < _amount, "KittyKartMarketplace: bid price is too low");
-
-    kittyInu.transferFrom(msg.sender, address(this), _amount);
-    kittyInu.transfer(offer.buyer, offer.price);
-
+    require(offer.price < _amount, "KittyKartMarketplace: offer price is too low");
+    if (offer.exists) {
+      // retrun KittyInu token to previous buyer
+      kittyInu.transfer(offer.buyer, offer.price);
+    }
+    // upate offer info
     _idToOffer[_tokenContract][_tokenId] = Offer({ exists: true, buyer: msg.sender, price: _amount });
+    // transfer KittyInu token from buyer to marketplace
+    kittyInu.transferFrom(msg.sender, address(this), _amount);
 
     emit OfferMade(_tokenContract, _tokenId, msg.sender, _amount);
+  }
+
+  /**
+   * @dev Accept an offer to a NFT on marketplace
+   * @param _tokenContract The NFT token contract
+   * @param _tokenId The NFT token id
+   */
+  function acceptOffer(address _tokenContract, uint256 _tokenId) external nonContract nonReentrant {
+    require(
+      _tokenContract == address(kittyKartGoKart) || _tokenContract == address(kittyKartAsset),
+      "KittyKartMarketplace: invalid NFT token contract"
+    );
+    require(
+      IERC721AUpgradeable(_tokenContract).ownerOf(_tokenId) == msg.sender,
+      "KittyKartMarketplace: caller is not the owner of NFT token"
+    );
+
+    Offer memory offer = _idToOffer[_tokenContract][_tokenId];
+    require(offer.exists, "KittyKartMarketplace: offer doesn't exist");
+    // remove offer info
+    delete _idToOffer[_tokenContract][_tokenId];
+    // take market fee and transfer tokens to seller
+    uint256 marketFee = _calculateMarketFee(offer.price);
+    kittyInu.transfer(msg.sender, offer.price - marketFee);
+    // transfer NFT from seller to buyer
+    IERC721AUpgradeable(_tokenContract).transferFrom(msg.sender, offer.buyer, _tokenId);
+
+    emit OfferAccepted(_tokenContract, _tokenId, msg.sender, offer.buyer, offer.price);
+  }
+
+  // -----------------------------------------
+  // KittyKartMarketplace Internal Functions
+  // -----------------------------------------
+  /**
+   * @dev Calculate market fee
+   */
+  function _calculateMarketFee(uint256 _amount) internal pure returns (uint256) {
+    return (_amount * MARKET_FEE) / 100;
   }
 }
