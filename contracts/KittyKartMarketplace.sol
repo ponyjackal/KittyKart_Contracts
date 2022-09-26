@@ -32,12 +32,15 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "erc721a-upgradeable/contracts/IERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
 
+import "./interfaces/IKittyKartMarketplace.sol";
+
 contract KittyKartMarketplace is
   Initializable,
   ReentrancyGuardUpgradeable,
   OwnableUpgradeable,
   PausableUpgradeable,
-  ERC721HolderUpgradeable
+  ERC721HolderUpgradeable,
+  IKittyKartMarketplace
 {
   uint256 public constant MARKET_FEE = 5; // 5 %
 
@@ -47,22 +50,10 @@ contract KittyKartMarketplace is
   IERC721AUpgradeable public kittyKartAsset; // KittyKartAsset NFT token
   IERC20Upgradeable public kittyInu; // Kitty Inu ERC20 token
 
-  struct NFT {
-    address nftContract;
-    uint256 tokenId;
-    address payable seller;
-    address payable owner;
-    uint256 price;
-    bool listed;
-  }
   // NFT token contract => token id => NFT
   mapping(address => mapping(uint256 => NFT)) private _idToNFT;
-
-  // -----------------------------------------
-  // KittyKartGoKart Events
-  // -----------------------------------------
-  event NFTListed(address indexed tokenContract, uint256 indexed tokenId, address indexed seller, uint256 price);
-  event NFTSold(address indexed tokenContract, uint256 indexed tokenId, address seller, address buyer, uint256 price);
+  // mapping for bids, NFT token contract => token id => Offer
+  mapping(address => mapping(uint256 => Offer)) private _idToOffer;
 
   // -----------------------------------------
   // KittyKartMarketplace Initializer
@@ -144,16 +135,16 @@ contract KittyKartMarketplace is
     _idToNFT[_tokenContract][_tokenId] = NFT({
       nftContract: _tokenContract,
       tokenId: _tokenId,
-      seller: payable(msg.sender),
-      owner: payable(msg.sender),
+      seller: msg.sender,
+      owner: msg.sender,
       price: _price,
       listed: true
     });
 
     /* in case we list NFTs on marketplace on mint */
     // NFT storage nft = _idToNFT[_tokenContract][_tokenId];
-    // nft.owner = payable(msg.sender);
-    // nft.seller = payable(msg.sender);
+    // nft.owner = msg.sender;
+    // nft.seller = msg.sender;
     // nft.price = _price;
     // nft.listed = true;
 
@@ -169,8 +160,8 @@ contract KittyKartMarketplace is
     _idToNFT[msg.sender][_tokenId] = NFT({
       nftContract: msg.sender,
       tokenId: _tokenId,
-      seller: payable(_owner),
-      owner: payable(_owner),
+      seller: _owner,
+      owner: _owner,
       price: 0,
       listed: false
     });
@@ -206,5 +197,32 @@ contract KittyKartMarketplace is
     _idToNFT[_tokenContract][_tokenId].listed = false;
 
     emit NFTSold(_tokenContract, _tokenId, nft.seller, msg.sender, _amount);
+  }
+
+  /**
+   * @dev Make an offer to a NFT on marketplace
+   * @param _tokenContract The NFT token contract
+   * @param _tokenId The NFT token id
+   * @param _amount The KittyInu token amount
+   */
+  function makeOffer(
+    address _tokenContract,
+    uint256 _tokenId,
+    uint256 _amount
+  ) external nonContract nonReentrant {
+    require(
+      _tokenContract == address(kittyKartGoKart) || _tokenContract == address(kittyKartAsset),
+      "KittyKartMarketplace: invalid NFT token contract"
+    );
+
+    Offer memory offer = _idToOffer[_tokenContract][_tokenId];
+    require(offer.price < _amount, "KittyKartMarketplace: bid price is too low");
+
+    kittyInu.transferFrom(msg.sender, address(this), _amount);
+    kittyInu.transfer(offer.buyer, offer.price);
+
+    _idToOffer[_tokenContract][_tokenId] = Offer({ exists: true, buyer: msg.sender, price: _amount });
+
+    emit OfferMade(_tokenContract, _tokenId, msg.sender, _amount);
   }
 }
