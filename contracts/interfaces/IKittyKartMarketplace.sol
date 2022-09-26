@@ -8,6 +8,13 @@ interface IKittyKartMarketplace {
   event NFTListed(address indexed tokenContract, uint256 indexed tokenId, address indexed seller, uint256 price);
   event NFTSold(address indexed tokenContract, uint256 indexed tokenId, address seller, address buyer, uint256 price);
   event OfferMade(address indexed tokenContract, uint256 indexed tokenId, address indexed buyer, uint256 price);
+  event OfferAccepted(
+    address indexed tokenContract,
+    uint256 indexed tokenId,
+    address seller,
+    address buyer,
+    uint256 price
+  );
 
   struct NFT {
     address nftContract;
@@ -44,9 +51,5 @@ interface IKittyKartMarketplace {
     uint256 _amount
   ) external;
 
-  // function sellNFT(
-  //   address _tokenContract,
-  //   uint256 _tokenId,
-  //   uint256 _amount
-  // ) external;
+  function acceptOffer(address _tokenContract, uint256 _tokenId) external;
 }
