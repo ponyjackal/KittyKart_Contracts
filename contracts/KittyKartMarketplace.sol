@@ -216,12 +216,12 @@ contract KittyKartMarketplace is
 
     Offer memory offer = _idToOffer[_tokenContract][_tokenId];
     require(offer.price < _amount, "KittyKartMarketplace: offer price is too low");
+    // upate offer info
+    _idToOffer[_tokenContract][_tokenId] = Offer({ exists: true, buyer: msg.sender, price: _amount });
     if (offer.exists) {
       // retrun KittyInu token to previous buyer
       kittyInu.transfer(offer.buyer, offer.price);
     }
-    // upate offer info
-    _idToOffer[_tokenContract][_tokenId] = Offer({ exists: true, buyer: msg.sender, price: _amount });
     // transfer KittyInu token from buyer to marketplace
     kittyInu.transferFrom(msg.sender, address(this), _amount);
 
