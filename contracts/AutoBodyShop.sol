@@ -29,6 +29,7 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
 
 import "./interfaces/IKittyKartAsset.sol";
@@ -43,12 +44,30 @@ contract AutoBodyShop is
   ReentrancyGuardUpgradeable,
   OwnableUpgradeable,
   PausableUpgradeable,
-  ERC721HolderUpgradeable
+  ERC721HolderUpgradeable,
+  EIP712Upgradeable
 {
+  string private constant SIGNING_DOMAIN = "AutoBodyShop";
+  string private constant SIGNATURE_VERSION = "1";
+
   ITablelandTables public tableland;
 
   IKittyKartGoKart public kittyKartGoKart;
   IKittyKartAsset public kittyKartAsset;
+
+  // gameserver address
+  address private gameServer;
+  // AutoBodyShopVoucher nonces
+  mapping(address => uint256) public nonces;
+
+  struct AutoBodyShopVoucher {
+    address owner;
+    uint256 kartId;
+    uint256[] assetIds;
+    uint256 nonce;
+    uint256 expiry;
+    bytes signature;
+  }
 
   // -----------------------------------------
   // AutoBodyShop Events
@@ -78,6 +97,7 @@ contract AutoBodyShop is
     __ReentrancyGuard_init();
     __Pausable_init();
     __ERC721Holder_init();
+    __EIP712_init(SIGNING_DOMAIN, SIGNATURE_VERSION);
 
     require(_kittyKartGoKart != address(0) && _kittyKartAsset != address(0), "AutoBodyShop: invalid token address.");
     require(_registry != address(0), "AutoBodyShop: invalid registry address");
@@ -139,18 +159,49 @@ contract AutoBodyShop is
 
   /**
    * @dev Apply assets attributes to a kart
-   * @param _kartId KittyKartGoKart token id
-   * @param _assetIds The array of kittyKartAsset token ids
+   * @param _voucher The AutoBodyShopVoucher
    */
-  function applyAssets(uint256 _kartId, uint256[] calldata _assetIds) external nonContract nonReentrant {
-    require(kittyKartGoKart.ownerOf(_kartId) == msg.sender, "AutoBodyShop: not a kart owner");
+  function applyAssets(AutoBodyShopVoucher calldata _voucher) external nonContract nonReentrant {
+    address signer = _verify(_voucher);
+    require(signer == gameServer && msg.sender == _voucher.owner, "AutoBodyShop: invalid call");
+    require(kittyKartGoKart.ownerOf(_voucher.kartId) == msg.sender, "AutoBodyShop: not a kart owner");
 
-    for (uint256 i = 0; i < _assetIds.length; i++) {
-      require(kittyKartAsset.ownerOf(_assetIds[i]) == msg.sender, "AutoBodyShop: not an asset owner");
-      kittyKartAsset.safeTransferFrom(msg.sender, address(this), _assetIds[i]);
-      kittyKartAsset.setKittyKartGoKart(_assetIds[i], _kartId);
+    for (uint256 i = 0; i < _voucher.assetIds.length; i++) {
+      require(kittyKartAsset.ownerOf(_voucher.assetIds[i]) == msg.sender, "AutoBodyShop: not an asset owner");
+      kittyKartAsset.safeTransferFrom(msg.sender, address(this), _voucher.assetIds[i]);
+      kittyKartAsset.setKittyKartGoKart(_voucher.assetIds[i], _voucher.kartId);
     }
 
-    emit ApplyAssets(_kartId, _assetIds);
+    emit ApplyAssets(_voucher.kartId, _voucher.assetIds);
+  }
+
+  /**
+   * @dev return a hash of the givne AutoBodyShopVoucher
+   */
+  function _hash(AutoBodyShopVoucher calldata _voucher) internal view returns (bytes32) {
+    return
+      _hashTypedDataV4(
+        keccak256(
+          abi.encode(
+            keccak256(
+              "AutoBodyShopVoucher(address owner,uint256 kartId,uint256[] assetIds,uint256 nonce,uint256 expiry)"
+            ),
+            _voucher.owner,
+            _voucher.kartId,
+            keccak256(abi.encodePacked(_voucher.assetIds)),
+            _voucher.nonce,
+            _voucher.expiry
+          )
+        )
+      );
+  }
+
+  /**
+   * @dev verify the signature of a given AutoBodyShopVoucher
+   * @param _voucher KittyKartVoucher
+   */
+  function _verify(AutoBodyShopVoucher calldata _voucher) internal view returns (address) {
+    bytes32 digest = _hash(_voucher);
+    return ECDSAUpgradeable.recover(digest, _voucher.signature);
   }
 }
