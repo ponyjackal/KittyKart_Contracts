@@ -23,6 +23,7 @@ describe("Unit tests", function () {
     this.signers.deployer = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
     this.signers.alice = await ethers.getImpersonatedSigner(ALICE_ADDRESS);
     this.signers.admin = signers[0];
+    this.signers.gameServer = signers[1];
 
     this.loadFixture = loadFixture;
   });

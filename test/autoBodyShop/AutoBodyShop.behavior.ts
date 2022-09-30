@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import { ethers, network } from "hardhat";
 
 import { REGISTRY_ADDRESS, SIGNATURE_TYPES, SIGNATURE_VERSION, SIGNING_DOMAIN } from "../constants";
 
@@ -9,20 +10,129 @@ import { REGISTRY_ADDRESS, SIGNATURE_TYPES, SIGNATURE_VERSION, SIGNING_DOMAIN } 
 export function shouldBehaveLikeAutoBodyShop(): void {
   describe("ApplyAssets", async function () {
     it("should apply asset to kart", async function () {
+      // sign a message for AutoBodyShopVoucher
+      const data = {
+        owner: this.signers.alice.address,
+        kartId: 0,
+        assetIds: [0],
+        nonce: 0,
+        expiry: 1663289367,
+      };
+      const typedDomain = {
+        name: SIGNING_DOMAIN,
+        version: SIGNATURE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.autoBodyShop.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
       // apply assets
-      await this.autoBodyShop.connect(this.signers.alice).applyAssets(0, [0]);
+      await this.autoBodyShop.connect(this.signers.alice).applyAssets(voucher);
     });
 
     it("should emit an event on applyAssets", async function () {
+      // sign a message for AutoBodyShopVoucher
+      const data = {
+        owner: this.signers.alice.address,
+        kartId: 0,
+        assetIds: [1],
+        nonce: 0,
+        expiry: 1663289367,
+      };
+      const typedDomain = {
+        name: SIGNING_DOMAIN,
+        version: SIGNATURE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.autoBodyShop.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
       // apply assets
-      const tx = this.autoBodyShop.connect(this.signers.alice).applyAssets(0, [1]);
+      const tx = this.autoBodyShop.connect(this.signers.alice).applyAssets(voucher);
       // check events
       await expect(tx).to.be.emit(this.autoBodyShop, "ApplyAssets");
     });
 
     it("should revert if trying to apply used assets", async function () {
+      // sign a message for AutoBodyShopVoucher
+      const data = {
+        owner: this.signers.alice.address,
+        kartId: 0,
+        assetIds: [0, 1],
+        nonce: 0,
+        expiry: 1663289367,
+      };
+      const typedDomain = {
+        name: SIGNING_DOMAIN,
+        version: SIGNATURE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.autoBodyShop.address,
+      };
+      const signature = await this.signers.admin._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
       // apply assets
-      const tx = this.autoBodyShop.connect(this.signers.alice).applyAssets(0, [0, 1]);
+      const tx = this.autoBodyShop.connect(this.signers.alice).applyAssets(voucher);
+      // check revert
+      await expect(tx).be.reverted;
+    });
+
+    it("should revert if signature is signed by non-gameServer", async function () {
+      // sign a message for AutoBodyShopVoucher
+      const data = {
+        owner: this.signers.alice.address,
+        kartId: 0,
+        assetIds: [0, 1],
+        nonce: 0,
+        expiry: 1663289367,
+      };
+      const typedDomain = {
+        name: SIGNING_DOMAIN,
+        version: SIGNATURE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.autoBodyShop.address,
+      };
+      const signature = await this.signers.admin._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // apply assets
+      const tx = this.autoBodyShop.connect(this.signers.alice).applyAssets(voucher);
+      // check revert
+      await expect(tx).be.reverted;
+    });
+
+    it("should revert if invalid data is signed", async function () {
+      // sign a message for AutoBodyShopVoucher
+      const data = {
+        owner: this.signers.admin.address,
+        kartId: 0,
+        assetIds: [0, 1],
+        nonce: 0,
+        expiry: 1663289367,
+      };
+      const typedDomain = {
+        name: SIGNING_DOMAIN,
+        version: SIGNATURE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.autoBodyShop.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // apply assets
+      const tx = this.autoBodyShop.connect(this.signers.alice).applyAssets(voucher);
       // check revert
       await expect(tx).be.reverted;
     });
