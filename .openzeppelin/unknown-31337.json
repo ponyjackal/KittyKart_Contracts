@@ -47,7 +47,7 @@
     },
     {
       "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
-      "txHash": "0x91ceea9f0525e970305a00629319817220db2d7989167ccdba1a7263df45f07b",
+      "txHash": "0xbfded975a6ce2f0d267f18d60950a84c4c39e440987a3bf496ef6f41bd539946",
       "kind": "transparent"
     }
   ],
@@ -899,9 +899,9 @@
         }
       }
     },
-    "3539812f2de252f53ea5fa20455b6b0577a994b5aaf8f20d55d1d257f00fa78c": {
+    "cbd4f86c8528c8fbab94a5b27bf6de13533d7d78b1be495aeefcc07fbd6a10ee": {
       "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x6081eec4bc619b6ed9188cebdc1d7e20037efe482a22cee8a7df288ea4a93138",
+      "txHash": "0x79b1aa7e35beec22abd03b02377683c46755e5e6df65f0139c414a253e588419",
       "layout": {
         "storage": [
           {
@@ -1021,7 +1021,7 @@
             "label": "kittyKartGoKart",
             "offset": 0,
             "slot": "304",
-            "type": "t_contract(IKittyKartGoKart)4686",
+            "type": "t_contract(IKittyKartGoKart)4717",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:55"
           },
@@ -1029,7 +1029,7 @@
             "label": "kittyKartAsset",
             "offset": 0,
             "slot": "305",
-            "type": "t_contract(IKittyKartAsset)4656",
+            "type": "t_contract(IKittyKartAsset)4687",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:56"
           },
@@ -1071,11 +1071,11 @@
             "label": "bytes32",
             "numberOfBytes": "32"
           },
-          "t_contract(IKittyKartAsset)4656": {
+          "t_contract(IKittyKartAsset)4687": {
             "label": "contract IKittyKartAsset",
             "numberOfBytes": "20"
           },
-          "t_contract(IKittyKartGoKart)4686": {
+          "t_contract(IKittyKartGoKart)4717": {
             "label": "contract IKittyKartGoKart",
             "numberOfBytes": "20"
           },

@@ -176,8 +176,11 @@ contract AutoBodyShop is
   function applyAssets(AutoBodyShopVoucher calldata _voucher) external nonContract nonReentrant {
     address signer = _verify(_voucher);
     require(signer == gameServer && msg.sender == _voucher.owner, "AutoBodyShop: invalid call");
+    require(_voucher.nonce == nonces[_voucher.owner], "AutoBodyShop: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "AutoBodyShop: signature is expired");
     require(kittyKartGoKart.ownerOf(_voucher.kartId) == msg.sender, "AutoBodyShop: not a kart owner");
 
+    nonces[_voucher.owner]++;
     for (uint256 i = 0; i < _voucher.assetIds.length; i++) {
       require(kittyKartAsset.ownerOf(_voucher.assetIds[i]) == msg.sender, "AutoBodyShop: not an asset owner");
       kittyKartAsset.safeTransferFrom(msg.sender, address(this), _voucher.assetIds[i]);
