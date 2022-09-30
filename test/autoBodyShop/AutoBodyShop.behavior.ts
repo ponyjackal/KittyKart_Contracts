@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { REGISTRY_ADDRESS } from "../constants";
+import { REGISTRY_ADDRESS, SIGNATURE_TYPES, SIGNATURE_VERSION, SIGNING_DOMAIN } from "../constants";
 
 /**
  * @note AutoBodyShop contract will be deprecated once we build out backend service for it
