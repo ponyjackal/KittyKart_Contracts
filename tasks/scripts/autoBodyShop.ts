@@ -68,20 +68,20 @@ task("AutoBodyShop:setKittyKartAsset").setAction(async function (taskArguments: 
   }
 });
 
-task("AutoBodyShop:applyAsset").setAction(async function (taskArguments: TaskArguments, { ethers }) {
-  const accounts: Signer[] = await ethers.getSigners();
-  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
+// task("AutoBodyShop:applyAsset").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+//   const accounts: Signer[] = await ethers.getSigners();
+//   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
 
-  // attatch AutoBodyShop
-  const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
-    await ethers.getContractFactory("AutoBodyShop", accounts[0])
-  );
-  const autoBodyShop: AutoBodyShop = await autoBodyShopFactory.attach(autoBodyShopProxyAddress);
+//   // attatch AutoBodyShop
+//   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
+//     await ethers.getContractFactory("AutoBodyShop", accounts[0])
+//   );
+//   const autoBodyShop: AutoBodyShop = await autoBodyShopFactory.attach(autoBodyShopProxyAddress);
 
-  try {
-    await autoBodyShop.applyAssets(0, [0]);
-    console.log("AutoBodyShop:applyAsset success");
-  } catch (err) {
-    console.log("AutoBodyShop:applyAsset error", err);
-  }
-});
+//   try {
+//     await autoBodyShop.applyAssets(0, [0]);
+//     console.log("AutoBodyShop:applyAsset success");
+//   } catch (err) {
+//     console.log("AutoBodyShop:applyAsset error", err);
+//   }
+// });

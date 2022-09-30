@@ -19,7 +19,7 @@ export const ASSET_EXTERNAL_URL = "https://testnet.tableland.network";
 export const SIGNING_DOMAIN = "AutoBodyShopVoucher";
 export const SIGNATURE_VERSION = "1";
 export const SIGNATURE_TYPES = {
-  KittyKartAssetVoucher: [
+  AutoBodyShopVoucher: [
     { name: "owner", type: "address" },
     { name: "kartId", type: "uint256" },
     { name: "assetIds", type: "uint256[]" },
