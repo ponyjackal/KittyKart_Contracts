@@ -47,7 +47,7 @@ contract AutoBodyShop is
   ERC721HolderUpgradeable,
   EIP712Upgradeable
 {
-  string private constant SIGNING_DOMAIN = "AutoBodyShop";
+  string private constant SIGNING_DOMAIN = "AutoBodyShopVoucher";
   string private constant SIGNATURE_VERSION = "1";
 
   ITablelandTables public tableland;
@@ -56,7 +56,7 @@ contract AutoBodyShop is
   IKittyKartAsset public kittyKartAsset;
 
   // gameserver address
-  address private gameServer;
+  address public gameServer;
   // AutoBodyShopVoucher nonces
   mapping(address => uint256) public nonces;
 
@@ -75,6 +75,7 @@ contract AutoBodyShop is
 
   event SetRegistry(address registry);
   event SetKittyKartGoKart(address kittyKartGoKart);
+  event SetGameServer(address gameServer);
   event SetKittyAsseet(address kittyKartAsset);
   event ApplyAssets(uint256 indexed tokenId, uint256[] indexed assetId);
 
@@ -140,6 +141,17 @@ contract AutoBodyShop is
     kittyKartGoKart = IKittyKartGoKart(_kittyKartGoKart);
 
     emit SetKittyKartGoKart(_kittyKartGoKart);
+  }
+
+  /**
+   * @dev set the game server address
+   * @param _gameServer The game server address
+   */
+  function setGameServer(address _gameServer) external onlyOwner {
+    require(_gameServer != address(0), "AutoBodyShop: invalid game server address");
+    gameServer = _gameServer;
+
+    emit SetGameServer(_gameServer);
   }
 
   /**
