@@ -16,8 +16,10 @@ import "./tasks/scripts";
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
 // Ensure that we have all the environment variables we need.
-const privateKey = process.env.PRIVATE_KEY;
-if (!privateKey) {
+const privateKey1 = process.env.PRIVATE_KEY_1;
+const privateKey2 = process.env.PRIVATE_KEY_2;
+const privateKey3 = process.env.PRIVATE_KEY_3;
+if (!privateKey1) {
   throw new Error("Please set your PRIVATE_KEY in a .env file");
 }
 
@@ -40,7 +42,7 @@ const chainIds = {
 };
 
 function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
-  if (!privateKey) {
+  if (!privateKey1) {
     throw new Error("Please set your PRIVATE_KEY in a .env file");
   }
 
@@ -56,7 +58,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
       jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + infuraApiKey;
   }
   return {
-    accounts: [privateKey],
+    accounts: [privateKey1],
     chainId: chainIds[chain],
     url: jsonRpcUrl,
   };
@@ -89,7 +91,15 @@ const config: HardhatUserConfig = {
     hardhat: {
       accounts: [
         {
-          privateKey,
+          privateKey: privateKey1,
+          balance: "100",
+        },
+        {
+          privateKey: privateKey2 ?? "",
+          balance: "100",
+        },
+        {
+          privateKey: privateKey3 ?? "",
           balance: "100",
         },
       ],

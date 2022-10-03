@@ -12,11 +12,15 @@ import { DEPLOY_ADDRESS, REGISTRY_ADDRESS } from "../constants";
 export async function deployAutoBodyShopFixture(): Promise<{ autoBodyShop: AutoBodyShop }> {
   const signers: SignerWithAddress[] = await ethers.getSigners();
   const deployer: SignerWithAddress = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
+  const gameSever: SignerWithAddress = signers[1];
 
   const autoBodbyShopFactory: AutoBodyShop__factory = await ethers.getContractFactory("AutoBodyShop", deployer);
   const autoBodyShop: AutoBodyShop = <AutoBodyShop>(
     await upgrades.deployProxy(autoBodbyShopFactory, [REGISTRY_ADDRESS, REGISTRY_ADDRESS, REGISTRY_ADDRESS])
   );
   await autoBodyShop.deployed();
+  // set game server
+  await autoBodyShop.connect(deployer).setGameServer(gameSever.address);
+
   return { autoBodyShop };
 }
