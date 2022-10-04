@@ -120,7 +120,7 @@ contract AutoBodyShop is
   // -----------------------------------------
 
   modifier nonContract() {
-    require(tx.origin == msg.sender, "AutoBodyShop: caller not a user");
+    require(msg.sender.code.length <= 0, "AutoBodyShop: caller not a user");
     _;
   }
 
