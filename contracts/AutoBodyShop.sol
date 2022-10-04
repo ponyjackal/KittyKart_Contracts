@@ -31,6 +31,7 @@ import "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeab
 import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
+import "hardhat/console.sol";
 
 import "./interfaces/IKittyKartAsset.sol";
 import "./interfaces/IKittyKartGoKart.sol";
@@ -51,6 +52,8 @@ contract AutoBodyShop is
   string private constant SIGNATURE_VERSION = "1";
 
   ITablelandTables public tableland;
+  uint256 public kittyKartGoKartTableId;
+  uint256 public kittyKartAssetAttributeTableId;
 
   IKittyKartGoKart public kittyKartGoKart;
   IKittyKartAsset public kittyKartAsset;
@@ -64,6 +67,9 @@ contract AutoBodyShop is
     address owner;
     uint256 kartId;
     uint256[] assetIds;
+    string resetQuery;
+    string applyQuery;
+    string updateImageQuery;
     uint256 nonce;
     uint256 expiry;
     bytes signature;
@@ -75,6 +81,8 @@ contract AutoBodyShop is
 
   event SetRegistry(address registry);
   event SetKittyKartGoKart(address kittyKartGoKart);
+  event SetKittyKartGoKartTableId(uint256 kittyKartGoKartTableId);
+  event SetKittyKartAssetAttributeTableId(uint256 kittyKartAssetAttributeTableId);
   event SetGameServer(address gameServer);
   event SetKittyAsseet(address kittyKartAsset);
   event ApplyAssets(uint256 indexed tokenId, uint256[] indexed assetId);
@@ -113,7 +121,7 @@ contract AutoBodyShop is
   // -----------------------------------------
 
   modifier nonContract() {
-    require(tx.origin == msg.sender, "AutoBodyShop: caller not a user");
+    require(msg.sender.code.length <= 0, "AutoBodyShop: caller not a user");
     _;
   }
 
@@ -141,6 +149,26 @@ contract AutoBodyShop is
     kittyKartGoKart = IKittyKartGoKart(_kittyKartGoKart);
 
     emit SetKittyKartGoKart(_kittyKartGoKart);
+  }
+
+  /**
+   * @dev set tableland kart table Id
+   * @param _kittyKartGoKartTableId The registry address
+   */
+  function setKittyKartGoKartTableId(uint256 _kittyKartGoKartTableId) external onlyOwner {
+    kittyKartGoKartTableId = _kittyKartGoKartTableId;
+
+    emit SetKittyKartGoKartTableId(_kittyKartGoKartTableId);
+  }
+
+  /**
+   * @dev set attribute table Id
+   * @param _kittyKartAssetAttributeTableId The registry address
+   */
+  function setKittyKartAssetAttributeTableId(uint256 _kittyKartAssetAttributeTableId) external onlyOwner {
+    kittyKartAssetAttributeTableId = _kittyKartAssetAttributeTableId;
+
+    emit SetKittyKartAssetAttributeTableId(_kittyKartAssetAttributeTableId);
   }
 
   /**
@@ -184,8 +212,14 @@ contract AutoBodyShop is
     for (uint256 i = 0; i < _voucher.assetIds.length; i++) {
       require(kittyKartAsset.ownerOf(_voucher.assetIds[i]) == msg.sender, "AutoBodyShop: not an asset owner");
       kittyKartAsset.safeTransferFrom(msg.sender, address(this), _voucher.assetIds[i]);
-      kittyKartAsset.setKittyKartGoKart(_voucher.assetIds[i], _voucher.kartId);
     }
+
+    // update in_use for previously applied asset
+    tableland.runSQL(address(this), kittyKartAssetAttributeTableId, _voucher.resetQuery);
+    // set kart_id in asset attribute table
+    tableland.runSQL(address(this), kittyKartAssetAttributeTableId, _voucher.applyQuery);
+    // update image url for kart
+    tableland.runSQL(address(this), kittyKartGoKartTableId, _voucher.updateImageQuery);
 
     emit ApplyAssets(_voucher.kartId, _voucher.assetIds);
   }
@@ -199,11 +233,14 @@ contract AutoBodyShop is
         keccak256(
           abi.encode(
             keccak256(
-              "AutoBodyShopVoucher(address owner,uint256 kartId,uint256[] assetIds,uint256 nonce,uint256 expiry)"
+              "AutoBodyShopVoucher(address owner,uint256 kartId,uint256[] assetIds,string resetQuery,string applyQuery,string updateImageQuery,uint256 nonce,uint256 expiry)"
             ),
             _voucher.owner,
             _voucher.kartId,
             keccak256(abi.encodePacked(_voucher.assetIds)),
+            keccak256(bytes(_voucher.resetQuery)),
+            keccak256(bytes(_voucher.applyQuery)),
+            keccak256(bytes(_voucher.updateImageQuery)),
             _voucher.nonce,
             _voucher.expiry
           )

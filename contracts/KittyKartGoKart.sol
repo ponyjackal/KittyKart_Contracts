@@ -126,7 +126,7 @@ contract KittyKartGoKart is
   // -----------------------------------------
 
   modifier nonContract() {
-    require(tx.origin == msg.sender, "KittyKartGoKart: caller not a user");
+    require(msg.sender.code.length <= 0, "KittyKartGoKart: caller not a user");
     _;
   }
 

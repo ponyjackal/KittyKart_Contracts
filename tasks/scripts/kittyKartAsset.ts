@@ -71,6 +71,9 @@ task("KittyKartAsset:getMetadataTable").setAction(async function (taskArguments:
     const kittyKartAssetAttributeTable = await kittyKartAsset.attributeTable();
     writeValue("kittyKartAssetAttributeTable", kittyKartAssetAttributeTable);
 
+    const kittyKartAssetAttributeTableId = await kittyKartAsset.attributeTableId();
+    writeValue("kittyKartAssetAttributeTableId", kittyKartAssetAttributeTableId);
+
     console.log(
       "KittyKartAsset:getMetadataTable success",
       kittyKartAssetTableId,
