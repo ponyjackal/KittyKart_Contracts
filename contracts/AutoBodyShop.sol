@@ -51,6 +51,8 @@ contract AutoBodyShop is
   string private constant SIGNATURE_VERSION = "1";
 
   ITablelandTables public tableland;
+  uint256 public kartTableId;
+  uint256 public attributeTableId;
 
   IKittyKartGoKart public kittyKartGoKart;
   IKittyKartAsset public kittyKartAsset;
@@ -77,6 +79,8 @@ contract AutoBodyShop is
 
   event SetRegistry(address registry);
   event SetKittyKartGoKart(address kittyKartGoKart);
+  event SetKittyKartTableId(uint256 kartTableId);
+  event SetAttributeTableId(uint256 attributeTableId);
   event SetGameServer(address gameServer);
   event SetKittyAsseet(address kittyKartAsset);
   event ApplyAssets(uint256 indexed tokenId, uint256[] indexed assetId);
@@ -146,6 +150,26 @@ contract AutoBodyShop is
   }
 
   /**
+   * @dev set tableland kart table Id
+   * @param _kartTableId The registry address
+   */
+  function setKittyKartTableId(uint256 _kartTableId) external onlyOwner {
+    kartTableId = _kartTableId;
+
+    emit SetKittyKartTableId(_kartTableId);
+  }
+
+  /**
+   * @dev set attribute table Id
+   * @param _attributeTableId The registry address
+   */
+  function setAttributeTableId(uint256 _attributeTableId) external onlyOwner {
+    attributeTableId = _attributeTableId;
+
+    emit SetAttributeTableId(_attributeTableId);
+  }
+
+  /**
    * @dev set the game server address
    * @param _gameServer The game server address
    */
@@ -186,8 +210,12 @@ contract AutoBodyShop is
     for (uint256 i = 0; i < _voucher.assetIds.length; i++) {
       require(kittyKartAsset.ownerOf(_voucher.assetIds[i]) == msg.sender, "AutoBodyShop: not an asset owner");
       kittyKartAsset.safeTransferFrom(msg.sender, address(this), _voucher.assetIds[i]);
-      kittyKartAsset.setKittyKartGoKart(_voucher.assetIds[i], _voucher.kartId);
     }
+
+    // update in_use for previously applied asset
+    tableland.runSQL(address(this), attributeTableId, _voucher.resetQuery);
+    // set kart_id in asset attribute table
+    tableland.runSQL(address(this), attributeTableId, _voucher.applyQuery);
 
     emit ApplyAssets(_voucher.kartId, _voucher.assetIds);
   }
