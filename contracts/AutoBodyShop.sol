@@ -64,6 +64,8 @@ contract AutoBodyShop is
     address owner;
     uint256 kartId;
     uint256[] assetIds;
+    string resetQuery;
+    string applyQuery;
     uint256 nonce;
     uint256 expiry;
     bytes signature;
@@ -199,11 +201,13 @@ contract AutoBodyShop is
         keccak256(
           abi.encode(
             keccak256(
-              "AutoBodyShopVoucher(address owner,uint256 kartId,uint256[] assetIds,uint256 nonce,uint256 expiry)"
+              "AutoBodyShopVoucher(address owner,uint256 kartId,uint256[] assetIds,string resetQuery,string applyQuery,uint256 nonce,uint256 expiry)"
             ),
             _voucher.owner,
             _voucher.kartId,
             keccak256(abi.encodePacked(_voucher.assetIds)),
+            keccak256(bytes(_voucher.resetQuery)),
+            keccak256(bytes(_voucher.applyQuery)),
             _voucher.nonce,
             _voucher.expiry
           )
