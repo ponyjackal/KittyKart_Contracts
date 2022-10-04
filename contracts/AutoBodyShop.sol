@@ -68,6 +68,7 @@ contract AutoBodyShop is
     uint256[] assetIds;
     string resetQuery;
     string applyQuery;
+    string updateImageQuery;
     uint256 nonce;
     uint256 expiry;
     bytes signature;
@@ -216,6 +217,8 @@ contract AutoBodyShop is
     tableland.runSQL(address(this), attributeTableId, _voucher.resetQuery);
     // set kart_id in asset attribute table
     tableland.runSQL(address(this), attributeTableId, _voucher.applyQuery);
+    // update image url for kart
+    tableland.runSQL(address(this), kartTableId, _voucher.updateImageQuery);
 
     emit ApplyAssets(_voucher.kartId, _voucher.assetIds);
   }
@@ -229,13 +232,14 @@ contract AutoBodyShop is
         keccak256(
           abi.encode(
             keccak256(
-              "AutoBodyShopVoucher(address owner,uint256 kartId,uint256[] assetIds,string resetQuery,string applyQuery,uint256 nonce,uint256 expiry)"
+              "AutoBodyShopVoucher(address owner,uint256 kartId,uint256[] assetIds,string resetQuery,string applyQuery,string updateImageQuery,uint256 nonce,uint256 expiry)"
             ),
             _voucher.owner,
             _voucher.kartId,
             keccak256(abi.encodePacked(_voucher.assetIds)),
             keccak256(bytes(_voucher.resetQuery)),
             keccak256(bytes(_voucher.applyQuery)),
+            keccak256(bytes(_voucher.updateImageQuery)),
             _voucher.nonce,
             _voucher.expiry
           )
