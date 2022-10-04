@@ -31,6 +31,7 @@ import "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeab
 import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
+import "hardhat/console.sol";
 
 import "./interfaces/IKittyKartAsset.sol";
 import "./interfaces/IKittyKartGoKart.sol";
