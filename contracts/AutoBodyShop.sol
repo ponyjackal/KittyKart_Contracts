@@ -51,8 +51,8 @@ contract AutoBodyShop is
   string private constant SIGNATURE_VERSION = "1";
 
   ITablelandTables public tableland;
-  uint256 public kartTableId;
-  uint256 public attributeTableId;
+  uint256 public kittyKartGoKartTableId;
+  uint256 public kittyKartAssetAttributeTableId;
 
   IKittyKartGoKart public kittyKartGoKart;
   IKittyKartAsset public kittyKartAsset;
@@ -80,8 +80,8 @@ contract AutoBodyShop is
 
   event SetRegistry(address registry);
   event SetKittyKartGoKart(address kittyKartGoKart);
-  event SetKittyKartTableId(uint256 kartTableId);
-  event SetAttributeTableId(uint256 attributeTableId);
+  event SetKittyKartGoKartTableId(uint256 kittyKartGoKartTableId);
+  event SetKittyKartAssetAttributeTableId(uint256 kittyKartAssetAttributeTableId);
   event SetGameServer(address gameServer);
   event SetKittyAsseet(address kittyKartAsset);
   event ApplyAssets(uint256 indexed tokenId, uint256[] indexed assetId);
@@ -152,22 +152,22 @@ contract AutoBodyShop is
 
   /**
    * @dev set tableland kart table Id
-   * @param _kartTableId The registry address
+   * @param _kittyKartGoKartTableId The registry address
    */
-  function setKittyKartTableId(uint256 _kartTableId) external onlyOwner {
-    kartTableId = _kartTableId;
+  function setKittyKartGoKartTableId(uint256 _kittyKartGoKartTableId) external onlyOwner {
+    kittyKartGoKartTableId = _kittyKartGoKartTableId;
 
-    emit SetKittyKartTableId(_kartTableId);
+    emit SetKittyKartGoKartTableId(_kittyKartGoKartTableId);
   }
 
   /**
    * @dev set attribute table Id
-   * @param _attributeTableId The registry address
+   * @param _kittyKartAssetAttributeTableId The registry address
    */
-  function setAttributeTableId(uint256 _attributeTableId) external onlyOwner {
-    attributeTableId = _attributeTableId;
+  function setKittyKartAssetAttributeTableId(uint256 _kittyKartAssetAttributeTableId) external onlyOwner {
+    kittyKartAssetAttributeTableId = _kittyKartAssetAttributeTableId;
 
-    emit SetAttributeTableId(_attributeTableId);
+    emit SetKittyKartAssetAttributeTableId(_kittyKartAssetAttributeTableId);
   }
 
   /**
@@ -214,11 +214,11 @@ contract AutoBodyShop is
     }
 
     // update in_use for previously applied asset
-    tableland.runSQL(address(this), attributeTableId, _voucher.resetQuery);
+    tableland.runSQL(address(this), kittyKartAssetAttributeTableId, _voucher.resetQuery);
     // set kart_id in asset attribute table
-    tableland.runSQL(address(this), attributeTableId, _voucher.applyQuery);
+    tableland.runSQL(address(this), kittyKartAssetAttributeTableId, _voucher.applyQuery);
     // update image url for kart
-    tableland.runSQL(address(this), kartTableId, _voucher.updateImageQuery);
+    tableland.runSQL(address(this), kittyKartGoKartTableId, _voucher.updateImageQuery);
 
     emit ApplyAssets(_voucher.kartId, _voucher.assetIds);
   }

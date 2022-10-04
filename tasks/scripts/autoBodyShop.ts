@@ -68,6 +68,47 @@ task("AutoBodyShop:setKittyKartAsset").setAction(async function (taskArguments: 
   }
 });
 
+task("AutoBodyShop:setKittyKartGoKartTableId").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
+  const kittyKartGoKartTableId = readValue("kittyKartGoKartTableId");
+
+  // attatch AutoBodyShop
+  const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
+    await ethers.getContractFactory("AutoBodyShop", accounts[0])
+  );
+  const autoBodyShop: AutoBodyShop = await autoBodyShopFactory.attach(autoBodyShopProxyAddress);
+
+  try {
+    await autoBodyShop.setKittyKartGoKartTableId(kittyKartGoKartTableId);
+    console.log("AutoBodyShop:setKittyKartGoKartTableId success", kittyKartGoKartTableId);
+  } catch (err) {
+    console.log("AutoBodyShop:setKittyKartGoKartTableId error", err);
+  }
+});
+
+task("AutoBodyShop:setKittyKartAssetAttributeTableId").setAction(async function (
+  taskArguments: TaskArguments,
+  { ethers },
+) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
+  const kittyKartAssetAttributeTableId = readValue("kittyKartAssetAttributeTableId");
+
+  // attatch AutoBodyShop
+  const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
+    await ethers.getContractFactory("AutoBodyShop", accounts[0])
+  );
+  const autoBodyShop: AutoBodyShop = await autoBodyShopFactory.attach(autoBodyShopProxyAddress);
+
+  try {
+    await autoBodyShop.setKittyKartAssetAttributeTableId(kittyKartAssetAttributeTableId);
+    console.log("AutoBodyShop:setKittyKartAssetAttributeTableId success", kittyKartAssetAttributeTableId);
+  } catch (err) {
+    console.log("AutoBodyShop:setKittyKartAssetAttributeTableId error", err);
+  }
+});
+
 // task("AutoBodyShop:applyAsset").setAction(async function (taskArguments: TaskArguments, { ethers }) {
 //   const accounts: Signer[] = await ethers.getSigners();
 //   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
