@@ -54,6 +54,8 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const gameServerAddress = readValue("gameServer");
+  const kittyKartGoKartTableId = readValue("kittyKartGoKartTableId");
+  const kittyKartAssetAttributeTableId = readValue("kittyKartAssetAttributeTableId");
 
   // attatch KittyKartGoKart
   const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
@@ -120,6 +122,14 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
     // set KittyKartAsset in AutoBodyShop
     await autoBodyShop.setKittyKartAsset(kittyKartAssetProxyAddress);
     console.log("AutoBodyShop:setKittyKartAsset success", kittyKartAssetProxyAddress);
+
+    // set kittyKartGoKartTableId in AutoBodyShop
+    await autoBodyShop.setKittyKartGoKartTableId(kittyKartGoKartTableId);
+    console.log("AutoBodyShop:kittyKartGoKartTableId success", kittyKartGoKartTableId);
+
+    // set kittyKartAssetAttributeTableId in AutoBodyShop
+    await autoBodyShop.setKittyKartAssetAttributeTableId(kittyKartAssetAttributeTableId);
+    console.log("AutoBodyShop:setKittyKartAssetAttributeTableId success", kittyKartAssetAttributeTableId);
 
     console.log("main:initContracts success");
   } catch (err) {
