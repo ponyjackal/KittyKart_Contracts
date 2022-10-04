@@ -11,6 +11,7 @@ type ValueKey =
   | "kittyKartGoKartTable"
   | "kittyKartAssetTableId"
   | "kittyKartAssetAttributeTable"
+  | "kittyKartAssetAttributeTableId"
   | "kittyKartAssetTable"
   | "baseURI"
   | "kartDescription"
