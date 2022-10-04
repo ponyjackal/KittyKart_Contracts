@@ -147,7 +147,7 @@ contract KittyKartAsset is
   // -----------------------------------------
 
   modifier nonContract() {
-    require(tx.origin == msg.sender, "KittyKartAsset: caller not a user");
+    require(msg.sender.code.length <= 0, "KittyKartAsset: caller not a user");
     _;
   }
 
