@@ -42,12 +42,12 @@
     },
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
-      "txHash": "0xee26de1f3e12c25a0695f9e1fef058d165d1527bb07b444d487d2025a1f10a8b",
+      "txHash": "0xabef00d873ff128c5e45615935fa6d0c3fa83adeea01b74ce255232a3fa8cff7",
       "kind": "transparent"
     },
     {
       "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
-      "txHash": "0xbfded975a6ce2f0d267f18d60950a84c4c39e440987a3bf496ef6f41bd539946",
+      "txHash": "0x9f8b78b0e6a92c3a868d235588e5650a6745b53e1d3a991373929b8a2ae4bee1",
       "kind": "transparent"
     }
   ],
@@ -285,9 +285,9 @@
         }
       }
     },
-    "f1f1857701ddf4f1f4979f1597a79d6e24a8bb124396e8226997913d22b0f603": {
+    "e8eec58ff577e78b70500a05ecc6980223e7d6ed7fbb34fc1bf8e61ddfdd3819": {
       "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
-      "txHash": "0x1af03ae6954bdb5c438f6a6fdf281745e822b2eb200a163471465fd2e7555b69",
+      "txHash": "0x51b1042d521b3fe80d1053e08c9d2f90a5dd046e19988e7ae6829711e5314677",
       "layout": {
         "storage": [
           {
@@ -570,9 +570,9 @@
         }
       }
     },
-    "9cc1eb602fbd46f6440ec6a7ba0c790d488e9259c8cbb3690fc8cae358ef1dc8": {
+    "30cd3e7f62ed5932a4eb860c689442d8b9a5ca9a437c954bf59eca3034d9d8a1": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0x61f42aa6748fb94f94d881f2b80cb77f862c391f4246b18cb8c462730f551efb",
+      "txHash": "0xf4e415f743cf9091b9d629f473bbc0599fbbc5e1060e7a2d4104603acc5efc5e",
       "layout": {
         "storage": [
           {
@@ -801,30 +801,18 @@
             "src": "contracts\\KittyKartAsset.sol:67"
           },
           {
-            "label": "traitTypes",
-            "offset": 0,
-            "slot": "364",
-            "type": "t_mapping(t_uint256,t_array(t_bytes16)dyn_storage)",
-            "contract": "KittyKartAsset",
-            "src": "contracts\\KittyKartAsset.sol:69"
-          },
-          {
             "label": "_approvedMarketplaces",
             "offset": 0,
-            "slot": "365",
+            "slot": "364",
             "type": "t_mapping(t_address,t_bool)",
             "contract": "KittyKartAsset",
-            "src": "contracts\\KittyKartAsset.sol:71"
+            "src": "contracts\\KittyKartAsset.sol:69"
           }
         ],
         "types": {
           "t_address": {
             "label": "address",
             "numberOfBytes": "20"
-          },
-          "t_array(t_bytes16)dyn_storage": {
-            "label": "bytes16[]",
-            "numberOfBytes": "32"
           },
           "t_array(t_uint256)48_storage": {
             "label": "uint256[48]",
@@ -842,20 +830,12 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_bytes16": {
-            "label": "bytes16",
-            "numberOfBytes": "16"
-          },
           "t_contract(ITablelandTables)2016": {
             "label": "contract ITablelandTables",
             "numberOfBytes": "20"
           },
           "t_mapping(t_address,t_bool)": {
             "label": "mapping(address => bool)",
-            "numberOfBytes": "32"
-          },
-          "t_mapping(t_uint256,t_array(t_bytes16)dyn_storage)": {
-            "label": "mapping(uint256 => bytes16[])",
             "numberOfBytes": "32"
           },
           "t_mapping(t_uint256,t_struct(RoyaltyInfo)581_storage)": {
@@ -899,9 +879,9 @@
         }
       }
     },
-    "cbd4f86c8528c8fbab94a5b27bf6de13533d7d78b1be495aeefcc07fbd6a10ee": {
+    "ab6e96a5eaade20d3d62ef36a7de73b5248320042a08dc37392ed5d2cbbac473": {
       "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x79b1aa7e35beec22abd03b02377683c46755e5e6df65f0139c414a253e588419",
+      "txHash": "0x8d560e100fc24891217e8f2bb3c8ebb751dd8cc0d52d21605de12368a62d8dd0",
       "layout": {
         "storage": [
           {
@@ -1015,39 +995,55 @@
             "slot": "303",
             "type": "t_contract(ITablelandTables)2016",
             "contract": "AutoBodyShop",
-            "src": "contracts\\AutoBodyShop.sol:53"
+            "src": "contracts\\AutoBodyShop.sol:54"
           },
           {
-            "label": "kittyKartGoKart",
+            "label": "kittyKartGoKartTableId",
             "offset": 0,
             "slot": "304",
-            "type": "t_contract(IKittyKartGoKart)4717",
+            "type": "t_uint256",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:55"
           },
           {
-            "label": "kittyKartAsset",
+            "label": "kittyKartAssetAttributeTableId",
             "offset": 0,
             "slot": "305",
-            "type": "t_contract(IKittyKartAsset)4687",
+            "type": "t_uint256",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:56"
           },
           {
-            "label": "gameServer",
+            "label": "kittyKartGoKart",
             "offset": 0,
             "slot": "306",
-            "type": "t_address",
+            "type": "t_contract(IKittyKartGoKart)4695",
+            "contract": "AutoBodyShop",
+            "src": "contracts\\AutoBodyShop.sol:58"
+          },
+          {
+            "label": "kittyKartAsset",
+            "offset": 0,
+            "slot": "307",
+            "type": "t_contract(IKittyKartAsset)4665",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:59"
           },
           {
+            "label": "gameServer",
+            "offset": 0,
+            "slot": "308",
+            "type": "t_address",
+            "contract": "AutoBodyShop",
+            "src": "contracts\\AutoBodyShop.sol:62"
+          },
+          {
             "label": "nonces",
             "offset": 0,
-            "slot": "307",
+            "slot": "309",
             "type": "t_mapping(t_address,t_uint256)",
             "contract": "AutoBodyShop",
-            "src": "contracts\\AutoBodyShop.sol:61"
+            "src": "contracts\\AutoBodyShop.sol:64"
           }
         ],
         "types": {
@@ -1071,11 +1067,11 @@
             "label": "bytes32",
             "numberOfBytes": "32"
           },
-          "t_contract(IKittyKartAsset)4687": {
+          "t_contract(IKittyKartAsset)4665": {
             "label": "contract IKittyKartAsset",
             "numberOfBytes": "20"
           },
-          "t_contract(IKittyKartGoKart)4717": {
+          "t_contract(IKittyKartGoKart)4695": {
             "label": "contract IKittyKartGoKart",
             "numberOfBytes": "20"
           },

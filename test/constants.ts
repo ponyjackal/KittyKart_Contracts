@@ -23,7 +23,12 @@ export const SIGNATURE_TYPES = {
     { name: "owner", type: "address" },
     { name: "kartId", type: "uint256" },
     { name: "assetIds", type: "uint256[]" },
+    { name: "resetQuery", type: "string" },
+    { name: "applyQuery", type: "string" },
+    { name: "updateImageQuery", type: "string" },
     { name: "nonce", type: "uint256" },
     { name: "expiry", type: "uint256" },
   ],
 };
+export const KITTY_KART_GO_KART_TABLE_ID = 1;
+export const KITTY_KART_ASSET_ATTRIBUTE_TABLE_ID = 2;

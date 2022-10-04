@@ -15,6 +15,9 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         owner: this.signers.alice.address,
         kartId: 0,
         assetIds: [0],
+        resetQuery: "UPDATE Attribute SET in_use = 2 WHERE id = 0",
+        applyQuery: "UPDATE Attribute SET kart_id = 2 WHERE id = 0",
+        updateImageQuery: "UPDATE Kart SET image = 'https://example.com/1.png' WHERE id = 0",
         nonce: 0,
         expiry: 1663289367,
       };
@@ -39,6 +42,9 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         owner: this.signers.alice.address,
         kartId: 0,
         assetIds: [1],
+        resetQuery: "UPDATE Attribute SET in_use = 2 WHERE id = 0",
+        applyQuery: "UPDATE Attribute SET kart_id = 2 WHERE id = 0",
+        updateImageQuery: "UPDATE Kart SET image = 'https://example.com/1.png' WHERE id = 0",
         nonce: 1,
         expiry: 1663289367,
       };
@@ -65,6 +71,9 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         owner: this.signers.alice.address,
         kartId: 0,
         assetIds: [0, 1],
+        resetQuery: "UPDATE Attribute SET in_use = 2 WHERE id = 0",
+        applyQuery: "UPDATE Attribute SET kart_id = 2 WHERE id = 0",
+        updateImageQuery: "UPDATE Kart SET image = 'https://example.com/1.png' WHERE id = 0",
         nonce: 2,
         expiry: 1663289367,
       };
@@ -91,6 +100,9 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         owner: this.signers.alice.address,
         kartId: 0,
         assetIds: [0, 1],
+        resetQuery: "UPDATE Attribute SET in_use = 2 WHERE id = 0",
+        applyQuery: "UPDATE Attribute SET kart_id = 2 WHERE id = 0",
+        updateImageQuery: "UPDATE Kart SET image = 'https://example.com/1.png' WHERE id = 0",
         nonce: 3,
         expiry: 1663289367,
       };
@@ -117,6 +129,9 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         owner: this.signers.admin.address,
         kartId: 0,
         assetIds: [0, 1],
+        resetQuery: "UPDATE Attribute SET in_use = 2 WHERE id = 0",
+        applyQuery: "UPDATE Attribute SET kart_id = 2 WHERE id = 0",
+        updateImageQuery: "UPDATE Kart SET image = 'https://example.com/1.png' WHERE id = 0",
         nonce: 4,
         expiry: 1663289367,
       };
@@ -143,6 +158,9 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         owner: this.signers.alice.address,
         kartId: 0,
         assetIds: [0, 1],
+        resetQuery: "UPDATE Attribute SET in_use = 2 WHERE id = 0",
+        applyQuery: "UPDATE Attribute SET kart_id = 2 WHERE id = 0",
+        updateImageQuery: "UPDATE Kart SET image = 'https://example.com/1.png' WHERE id = 0",
         nonce: 0,
         expiry: 1663289367,
       };
@@ -169,6 +187,9 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         owner: this.signers.alice.address,
         kartId: 0,
         assetIds: [0, 1],
+        resetQuery: "UPDATE Attribute SET in_use = 2 WHERE id = 0",
+        applyQuery: "UPDATE Attribute SET kart_id = 2 WHERE id = 0",
+        updateImageQuery: "UPDATE Kart SET image = 'https://example.com/1.png' WHERE id = 0",
         nonce: 2,
         expiry: 1662032272,
       };

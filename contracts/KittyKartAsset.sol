@@ -65,8 +65,6 @@ contract KittyKartAsset is
   address public autoBodyShop;
   // market restriction
   bool private _marketplaceProtection;
-  // assetId => trait_type array
-  mapping(uint256 => bytes16[]) public traitTypes;
   // market restriction
   mapping(address => bool) private _approvedMarketplaces;
 
@@ -147,7 +145,7 @@ contract KittyKartAsset is
   // -----------------------------------------
 
   modifier nonContract() {
-    require(tx.origin == msg.sender, "KittyKartAsset: caller not a user");
+    require(msg.sender.code.length <= 0, "KittyKartAsset: caller not a user");
     _;
   }
 
@@ -562,63 +560,10 @@ contract KittyKartAsset is
           ");"
         )
       );
-
-      traitTypes[tokenId].push(_traitTypes[i]);
     }
     _mint(_to, 1);
 
     emit SafeMint(_to, tokenId, _displayTypes, _traitTypes, _values);
-  }
-
-  /**
-   * note This is just for testing purpose, once we build out backend serivce for AutoBodyShop, this will be deprecated
-   * @dev Apply asset to kart (set kitty kart in asset attributes)
-   * @param _assetId The asset id
-   * @param _kartId The kitty kart id
-   */
-  function setKittyKartGoKart(uint256 _assetId, uint256 _kartId) external onlyAutoBodyShop nonReentrant {
-    bytes16[] memory assetTraitTypes = traitTypes[_assetId];
-    string memory traitTypesString = "(";
-    for (uint256 i = 0; i < assetTraitTypes.length - 1; i++) {
-      traitTypesString = string.concat(traitTypesString, "'", _bytes16ToString(assetTraitTypes[i]), "',");
-    }
-    traitTypesString = string.concat(
-      traitTypesString,
-      "'",
-      _bytes16ToString(assetTraitTypes[assetTraitTypes.length - 1]),
-      "')"
-    );
-    // update in_use for previously applied asset
-    tableland.runSQL(
-      address(this),
-      attributeTableId,
-      string.concat(
-        "UPDATE ",
-        attributeTable,
-        " SET in_use = 2",
-        " WHERE kart_id = ",
-        StringsUpgradeable.toString(_kartId),
-        " AND in_use = 1",
-        " AND trait_type IN ",
-        traitTypesString,
-        ";"
-      )
-    );
-    // set kart_id in asset attribute table
-    tableland.runSQL(
-      address(this),
-      attributeTableId,
-      string.concat(
-        "UPDATE ",
-        attributeTable,
-        " SET in_use = 1",
-        ", kart_id = ",
-        StringsUpgradeable.toString(_kartId),
-        " WHERE asset_id = ",
-        StringsUpgradeable.toString(_assetId),
-        ";"
-      )
-    );
   }
 
   function approve(address to, uint256 tokenId) public virtual override {
