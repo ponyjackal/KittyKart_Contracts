@@ -55,7 +55,6 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const gameServerAddress = readValue("gameServer");
   const kittyKartGoKartTableId = readValue("kittyKartGoKartTableId");
-  const kittyKartAssetAttributeTableId = readValue("kittyKartAssetAttributeTableId");
 
   // attach KittyKartGoKart
   const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
@@ -126,6 +125,11 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
     // set kittyKartGoKartTableId in AutoBodyShop
     await autoBodyShop.setKittyKartGoKartTableId(kittyKartGoKartTableId);
     console.log("AutoBodyShop:kittyKartGoKartTableId success", kittyKartGoKartTableId);
+
+    // get metadata table id for KittyKartAsset
+    const kittyKartAssetAttributeTableIdBN = await kittyKartAsset.attributeTableId();
+    const kittyKartAssetAttributeTableId = +kittyKartAssetAttributeTableIdBN.toString();
+    writeValue("kittyKartAssetAttributeTableId", kittyKartAssetAttributeTableId);
 
     // set kittyKartAssetAttributeTableId in AutoBodyShop
     await autoBodyShop.setKittyKartAssetAttributeTableId(kittyKartAssetAttributeTableId);
