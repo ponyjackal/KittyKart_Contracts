@@ -12,7 +12,7 @@ task("KittyKartGoKart:createMetadataTable").setAction(async function (taskArgume
   const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
   const registryAddress = readValue("registry");
 
-  // attatch KittyKartGoKart
+  // attach KittyKartGoKart
   const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
     await ethers.getContractFactory("KittyKartGoKart", accounts[0])
   );
@@ -30,7 +30,7 @@ task("KittyKartGoKart:getMetadataTable").setAction(async function (taskArguments
   const accounts: Signer[] = await ethers.getSigners();
   const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
 
-  // attatch KittyKartGoKart
+  // attach KittyKartGoKart
   const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
     await ethers.getContractFactory("KittyKartGoKart", accounts[0])
   );
@@ -54,7 +54,7 @@ task("KittyKartGoKart:setAssetAttributeTable").setAction(async function (taskArg
   const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
   const kittyKartAssetAttributeTable = readValue("kittyKartAssetAttributeTable");
 
-  // attatch KittyKartGoKart
+  // attach KittyKartGoKart
   const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
     await ethers.getContractFactory("KittyKartGoKart", accounts[0])
   );

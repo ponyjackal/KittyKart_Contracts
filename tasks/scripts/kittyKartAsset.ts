@@ -15,7 +15,7 @@ task("KittyKartAsset:initialize").setAction(async function (taskArguments: TaskA
   const gameServerAddress = readValue("gameServer");
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
 
-  // attatch kittyKartAsset
+  // attach kittyKartAsset
   const kittyKartAssetFactory: KittyKartAsset__factory = <KittyKartAsset__factory>(
     await ethers.getContractFactory("KittyKartAsset", accounts[0])
   );
@@ -36,7 +36,7 @@ task("KittyKartAsset:createMetadataTable").setAction(async function (taskArgumen
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
   const registryAddress = readValue("registry");
 
-  // attatch kittyKartAsset
+  // attach kittyKartAsset
   const kittyKartAssetFactory: KittyKartAsset__factory = <KittyKartAsset__factory>(
     await ethers.getContractFactory("KittyKartAsset", accounts[0])
   );
@@ -54,7 +54,7 @@ task("KittyKartAsset:getMetadataTable").setAction(async function (taskArguments:
   const accounts: Signer[] = await ethers.getSigners();
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
 
-  // attatch kittyKartAsset
+  // attach kittyKartAsset
   const kittyKartAssetFactory: KittyKartAsset__factory = <KittyKartAsset__factory>(
     await ethers.getContractFactory("KittyKartAsset", accounts[0])
   );
@@ -90,7 +90,7 @@ task("KittyKartAsset:setGameServer").setAction(async function (taskArguments: Ta
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
   const gameServerAddress = readValue("gameServer");
 
-  // attatch kittyKartAsset
+  // attach kittyKartAsset
   const kittyKartAssetFactory: KittyKartAsset__factory = <KittyKartAsset__factory>(
     await ethers.getContractFactory("KittyKartAsset", accounts[0])
   );
@@ -109,7 +109,7 @@ task("KittyKartAsset:setAutoBodyShop").setAction(async function (taskArguments: 
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
 
-  // attatch kittyKartAsset
+  // attach kittyKartAsset
   const kittyKartAssetFactory: KittyKartAsset__factory = <KittyKartAsset__factory>(
     await ethers.getContractFactory("KittyKartAsset", accounts[0])
   );
