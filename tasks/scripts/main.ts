@@ -22,12 +22,12 @@ task("main:createTables").setAction(async function (taskArguments: TaskArguments
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const registryAddress = readValue("registry");
 
-  // attatch KittyKartGoKart
+  // attach KittyKartGoKart
   const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
     await ethers.getContractFactory("KittyKartGoKart", accounts[0])
   );
   const kittyKartGoKart: KittyKartGoKart = await kittyKartGoKartFactory.attach(kittyKartGoKartProxyAddress);
-  // attatch kittyKartAsset
+  // attach kittyKartAsset
   const kittyKartAssetFactory: KittyKartAsset__factory = <KittyKartAsset__factory>(
     await ethers.getContractFactory("KittyKartAsset", accounts[0])
   );
@@ -57,17 +57,17 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
   const kittyKartGoKartTableId = readValue("kittyKartGoKartTableId");
   const kittyKartAssetAttributeTableId = readValue("kittyKartAssetAttributeTableId");
 
-  // attatch KittyKartGoKart
+  // attach KittyKartGoKart
   const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
     await ethers.getContractFactory("KittyKartGoKart", accounts[0])
   );
   const kittyKartGoKart: KittyKartGoKart = await kittyKartGoKartFactory.attach(kittyKartGoKartProxyAddress);
-  // attatch kittyKartAsset
+  // attach kittyKartAsset
   const kittyKartAssetFactory: KittyKartAsset__factory = <KittyKartAsset__factory>(
     await ethers.getContractFactory("KittyKartAsset", accounts[0])
   );
   const kittyKartAsset: KittyKartAsset = await kittyKartAssetFactory.attach(kittyKartAssetProxyAddress);
-  // attatch AutoBodyShop
+  // attach AutoBodyShop
   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
     await ethers.getContractFactory("AutoBodyShop", accounts[0])
   );
@@ -107,7 +107,7 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
     await kittyKartAsset.setGameServer(gameServerAddress);
     console.log("KittyKartAsset:setGameServer success", gameServerAddress);
 
-    // set autobody shop in KittyKartAsset
+    // set autobodyshop in KittyKartAsset
     await kittyKartAsset.setAutoBodyShop(autoBodyShopProxyAddress);
     console.log("KittyKartAsset:setAutoBodyShop success", autoBodyShopProxyAddress);
 

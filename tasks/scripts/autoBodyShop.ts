@@ -16,7 +16,7 @@ task("AutoBodyShop:setRegistry").setAction(async function (taskArguments: TaskAr
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const registryAddress = readValue("registry");
 
-  // attatch AutoBodyShop
+  // attach AutoBodyShop
   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
     await ethers.getContractFactory("AutoBodyShop", accounts[0])
   );
@@ -35,7 +35,7 @@ task("AutoBodyShop:setKittyKartGoKart").setAction(async function (taskArguments:
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
 
-  // attatch AutoBodyShop
+  // attach AutoBodyShop
   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
     await ethers.getContractFactory("AutoBodyShop", accounts[0])
   );
@@ -54,7 +54,7 @@ task("AutoBodyShop:setKittyKartAsset").setAction(async function (taskArguments: 
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
 
-  // attatch AutoBodyShop
+  // attach AutoBodyShop
   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
     await ethers.getContractFactory("AutoBodyShop", accounts[0])
   );
@@ -73,7 +73,7 @@ task("AutoBodyShop:setKittyKartGoKartTableId").setAction(async function (taskArg
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const kittyKartGoKartTableId = readValue("kittyKartGoKartTableId");
 
-  // attatch AutoBodyShop
+  // attach AutoBodyShop
   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
     await ethers.getContractFactory("AutoBodyShop", accounts[0])
   );
@@ -95,7 +95,7 @@ task("AutoBodyShop:setKittyKartAssetAttributeTableId").setAction(async function 
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const kittyKartAssetAttributeTableId = readValue("kittyKartAssetAttributeTableId");
 
-  // attatch AutoBodyShop
+  // attach AutoBodyShop
   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
     await ethers.getContractFactory("AutoBodyShop", accounts[0])
   );
@@ -113,7 +113,7 @@ task("AutoBodyShop:setKittyKartAssetAttributeTableId").setAction(async function 
 //   const accounts: Signer[] = await ethers.getSigners();
 //   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
 
-//   // attatch AutoBodyShop
+//   // attach AutoBodyShop
 //   const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
 //     await ethers.getContractFactory("AutoBodyShop", accounts[0])
 //   );
