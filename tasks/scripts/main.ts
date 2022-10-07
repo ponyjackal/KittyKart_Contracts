@@ -19,7 +19,6 @@ task("main:createTables").setAction(async function (taskArguments: TaskArguments
   const accounts: Signer[] = await ethers.getSigners();
   const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
-  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const registryAddress = readValue("registry");
 
   // attach KittyKartGoKart
@@ -54,7 +53,6 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
   const gameServerAddress = readValue("gameServer");
-  const kittyKartGoKartTableId = readValue("kittyKartGoKartTableId");
 
   // attach KittyKartGoKart
   const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
@@ -134,6 +132,10 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
     // set kittyKartAssetAttributeTableId in AutoBodyShop
     await autoBodyShop.setKittyKartAssetAttributeTableId(kittyKartAssetAttributeTableId);
     console.log("AutoBodyShop:setKittyKartAssetAttributeTableId success", kittyKartAssetAttributeTableId);
+
+    // set gameServer in AutoBodyShop
+    await autoBodyShop.setGameServer(gameServerAddress);
+    console.log("AutoBodyShop:setGameServer success", gameServerAddress);
 
     console.log("main:initContracts success");
   } catch (err) {
