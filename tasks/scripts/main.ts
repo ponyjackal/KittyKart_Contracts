@@ -135,6 +135,12 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
     await kittyKartAsset.grantAccess(autoBodyShopProxyAddress);
     console.log("KittyKartAsset:grantTableAccessToAutoBodyShop success", kittyKartAssetAttributeTableId);
 
+    // set AutoBodyShop to approvedMarketplace
+    await kittyKartGoKart.setApprovedMarketplace(autoBodyShopProxyAddress, true);
+    console.log("KittyKartGoKart:setAutoBodyShopToApprovedMarketplace success", autoBodyShopProxyAddress);
+    await kittyKartAsset.setApprovedMarketplace(autoBodyShopProxyAddress, true);
+    console.log("KittyKartAsset:setAutoBodyShopToApprovedMarketplace success", autoBodyShopProxyAddress);
+
     // set gameServer in AutoBodyShop
     await autoBodyShop.setGameServer(gameServerAddress);
     console.log("AutoBodyShop:setGameServer success", gameServerAddress);
