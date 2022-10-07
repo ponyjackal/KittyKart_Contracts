@@ -180,13 +180,13 @@ There are some hardhat tasks to interact with deployed contracts, before running
 
 You can find out deployed addresses on `./tasks/deploy/addresses`
 
-You can simply run these 2 tasks for create Tableland tables and initialize contracts.
+You can simply run these 2 tasks to create Tableland tables and initialize contracts.
 
 ```sh
 // create tables
 $ npx hardhat main:createTables
 
-// intialize state variables
+// initialize state variables
 $ npx hardhat main:initContracts
 
 ```
