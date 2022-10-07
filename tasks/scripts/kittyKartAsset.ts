@@ -13,7 +13,6 @@ task("KittyKartAsset:initialize").setAction(async function (taskArguments: TaskA
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
   const registryAddress = readValue("registry");
   const gameServerAddress = readValue("gameServer");
-  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
 
   // attach kittyKartAsset
   const kittyKartAssetFactory: KittyKartAsset__factory = <KittyKartAsset__factory>(
@@ -24,7 +23,6 @@ task("KittyKartAsset:initialize").setAction(async function (taskArguments: TaskA
   try {
     await kittyKartAsset.createMetadataTable(registryAddress);
     await kittyKartAsset.setGameServer(gameServerAddress);
-    await kittyKartAsset.setAutoBodyShop(autoBodyShopProxyAddress);
     console.log("KittyKartAsset:initialize success");
   } catch (err) {
     console.log("KittyKartAsset:initialize error", err);
@@ -104,7 +102,10 @@ task("KittyKartAsset:setGameServer").setAction(async function (taskArguments: Ta
   }
 });
 
-task("KittyKartAsset:setAutoBodyShop").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+task("KittyKartAsset:grantTableAccessToAutoBodyShop").setAction(async function (
+  taskArguments: TaskArguments,
+  { ethers },
+) {
   const accounts: Signer[] = await ethers.getSigners();
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
@@ -116,9 +117,9 @@ task("KittyKartAsset:setAutoBodyShop").setAction(async function (taskArguments: 
   const kittyKartAsset: KittyKartAsset = await kittyKartAssetFactory.attach(kittyKartAssetProxyAddress);
 
   try {
-    await kittyKartAsset.setAutoBodyShop(autoBodyShopProxyAddress);
-    console.log("KittyKartAsset:setAutoBodyShop success", autoBodyShopProxyAddress);
+    await kittyKartAsset.grantAccess(autoBodyShopProxyAddress);
+    console.log("KittyKartAsset:grantTableAccessToAutoBodyShop success", autoBodyShopProxyAddress);
   } catch (err) {
-    console.log("KittyKartAsset:setAutoBodyShop error", err);
+    console.log("KittyKartAsset:grantTableAccessToAutoBodyShop error", err);
   }
 });

@@ -104,10 +104,6 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
     await kittyKartAsset.setGameServer(gameServerAddress);
     console.log("KittyKartAsset:setGameServer success", gameServerAddress);
 
-    // set autobodyshop in KittyKartAsset
-    await kittyKartAsset.setAutoBodyShop(autoBodyShopProxyAddress);
-    console.log("KittyKartAsset:setAutoBodyShop success", autoBodyShopProxyAddress);
-
     // set asset attribute table in KittyKartGoKart
     await kittyKartGoKart.setAssetAttributeTable(kittyKartAssetAttributeTable);
     console.log("KittyKartGoKart:setAssetAttributeTable success", kittyKartAssetAttributeTable);
@@ -132,6 +128,12 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
     // set kittyKartAssetAttributeTableId in AutoBodyShop
     await autoBodyShop.setKittyKartAssetAttributeTableId(kittyKartAssetAttributeTableId);
     console.log("AutoBodyShop:setKittyKartAssetAttributeTableId success", kittyKartAssetAttributeTableId);
+
+    // grant table access to AutoBodyShop
+    await kittyKartGoKart.grantAccess(autoBodyShopProxyAddress);
+    console.log("KittyKartGoKart:grantTableAccessToAutoBodyShop success", kittyKartAssetAttributeTableId);
+    await kittyKartAsset.grantAccess(autoBodyShopProxyAddress);
+    console.log("KittyKartAsset:grantTableAccessToAutoBodyShop success", kittyKartAssetAttributeTableId);
 
     // set gameServer in AutoBodyShop
     await autoBodyShop.setGameServer(gameServerAddress);

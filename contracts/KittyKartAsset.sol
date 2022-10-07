@@ -61,8 +61,6 @@ contract KittyKartAsset is
 
   // Game server address
   address public gameServer;
-  // AutoBodyShop address
-  address public autoBodyShop;
   // market restriction
   bool private _marketplaceProtection;
   // market restriction
@@ -86,7 +84,6 @@ contract KittyKartAsset is
   event SetImage(uint256 tokenId, string image);
   event SetBackgroundColor(uint256 tokenId, string color);
   event SetGameServer(address gameServer);
-  event SetAutoBodyShop(address autoBodyShop);
   event SafeMint(
     address indexed to,
     uint256 tokenId,
@@ -151,11 +148,6 @@ contract KittyKartAsset is
 
   modifier onlyGameServer() {
     require(msg.sender == gameServer, "KittyKartAsset: not a GameServer");
-    _;
-  }
-
-  modifier onlyAutoBodyShop() {
-    require(msg.sender == autoBodyShop, "KittyKartAsset: not an AutoBodyShp");
     _;
   }
 
@@ -343,7 +335,6 @@ contract KittyKartAsset is
   }
 
   /**
-   * note This is just for testing purpose, once we build out backend serivce for AutoBodyShop, this will be deprecated
    * @dev Update image url
    * @param _tokenId TokenId
    * @param _image Image URL
@@ -409,17 +400,6 @@ contract KittyKartAsset is
     gameServer = _gameServer;
 
     emit SetGameServer(_gameServer);
-  }
-
-  /**
-   * @dev Set auto body shop
-   * @param _autoBodyShop AutoBodyShop address
-   */
-  function setAutoBodyShop(address _autoBodyShop) external onlyOwner {
-    require(_autoBodyShop != address(0), "KittyKartAsset: invalid address");
-    autoBodyShop = _autoBodyShop;
-
-    emit SetAutoBodyShop(_autoBodyShop);
   }
 
   function setApprovedMarketplace(address market, bool approved) public onlyOwner {

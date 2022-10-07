@@ -242,7 +242,6 @@ contract KittyKartGoKart is
   }
 
   /**
-   * note This is just for testing purpose, once we build out backend serivce for AutoBodyShop, this will be deprecated
    * @dev Set Description
    * @param _description description
    */

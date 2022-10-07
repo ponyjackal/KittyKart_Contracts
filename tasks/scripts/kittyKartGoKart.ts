@@ -67,3 +67,25 @@ task("KittyKartGoKart:setAssetAttributeTable").setAction(async function (taskArg
     console.log("KittyKartGoKart:setAssetAttributeTable error", err);
   }
 });
+
+task("KittyKartGoKart:grantTableAccessToAutoBodyShop").setAction(async function (
+  taskArguments: TaskArguments,
+  { ethers },
+) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
+  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
+
+  // attach KittyKartGoKart
+  const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
+    await ethers.getContractFactory("KittyKartGoKart", accounts[0])
+  );
+  const kittyKartGoKart: KittyKartGoKart = await kittyKartGoKartFactory.attach(kittyKartGoKartProxyAddress);
+
+  try {
+    await kittyKartGoKart.grantAccess(autoBodyShopProxyAddress);
+    console.log("KittyKartGoKart:grantTableAccessToAutoBodyShop success", autoBodyShopProxyAddress);
+  } catch (err) {
+    console.log("KittyKartGoKart:grantTableAccessToAutoBodyShop error", err);
+  }
+});
