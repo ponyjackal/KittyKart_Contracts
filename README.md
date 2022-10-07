@@ -180,6 +180,8 @@ There are some hardhat tasks to interact with deployed contracts, before running
 
 You can find out deployed addresses on `./tasks/deploy/addresses`
 
+You can simply run these 2 tasks for create Tableland tables and initialize contracts.
+
 ```sh
 // create tables
 $ npx hardhat main:createTables
@@ -187,6 +189,11 @@ $ npx hardhat main:createTables
 // intialize state variables
 $ npx hardhat main:initContracts
 
+```
+
+Here are some specific tasks you can use in your special needs.
+
+```sh
 // create metadata table for KittyKartGoKart
 $ npx hardhat KittyKartGoKart:createMetadataTable
 
@@ -219,6 +226,18 @@ $ npx hardhat AutoBodyShop:setKittyKartAsset
 
 // set assets to the kart
 $ npx hardhat AutoBodyShop:applyAsset
+
+// grant KittyKartGoKart table access to AutoBodyShop
+$ npx hardhat KittyKartGoKart:grantTableAccessToAutoBodyShop
+
+// grant KittyKartAsset table access to AutoBodyShop
+$ npx hardhat KittyKartAsset:grantTableAccessToAutoBodyShop
+
+// set AutoBodyShop to approved marketplace in KittyKartGoKart
+$ npx hardhat KittyKartGoKart:setAutoBodyShopToApprovedMarketplace
+
+// set AutoBodyShop to approved marketplace in KittyKartAsset
+$ npx hardhat KittyKartAsset:setAutoBodyShopToApprovedMarketplace
 
 ```
 
