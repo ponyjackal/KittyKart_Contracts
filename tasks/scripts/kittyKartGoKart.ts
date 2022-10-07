@@ -89,3 +89,25 @@ task("KittyKartGoKart:grantTableAccessToAutoBodyShop").setAction(async function 
     console.log("KittyKartGoKart:grantTableAccessToAutoBodyShop error", err);
   }
 });
+
+task("KittyKartGoKart:setAutoBodyShopToApprovedMarketplace").setAction(async function (
+  taskArguments: TaskArguments,
+  { ethers },
+) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
+  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
+
+  // attach KittyKartGoKart
+  const kittyKartGoKartFactory: KittyKartGoKart__factory = <KittyKartGoKart__factory>(
+    await ethers.getContractFactory("KittyKartGoKart", accounts[0])
+  );
+  const kittyKartGoKart: KittyKartGoKart = await kittyKartGoKartFactory.attach(kittyKartGoKartProxyAddress);
+
+  try {
+    await kittyKartGoKart.setApprovedMarketplace(autoBodyShopProxyAddress, true);
+    console.log("KittyKartGoKart:setAutoBodyShopToApprovedMarketplace success", autoBodyShopProxyAddress);
+  } catch (err) {
+    console.log("KittyKartGoKart:setAutoBodyShopToApprovedMarketplace error", err);
+  }
+});
