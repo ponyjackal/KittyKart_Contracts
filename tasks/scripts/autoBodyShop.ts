@@ -30,6 +30,25 @@ task("AutoBodyShop:setRegistry").setAction(async function (taskArguments: TaskAr
   }
 });
 
+task("AutoBodyShop:setGameServer").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
+  const gameServerAddress = readValue("gameServer");
+
+  // attach AutoBodyShop
+  const autoBodyShopFactory: AutoBodyShop__factory = <AutoBodyShop__factory>(
+    await ethers.getContractFactory("AutoBodyShop", accounts[0])
+  );
+  const autoBodyShop: AutoBodyShop = await autoBodyShopFactory.attach(autoBodyShopProxyAddress);
+
+  try {
+    await autoBodyShop.setGameServer(gameServerAddress);
+    console.log("AutoBodyShop:setGameServer success", gameServerAddress);
+  } catch (err) {
+    console.log("AutoBodyShop:setGameServer error", err);
+  }
+});
+
 task("AutoBodyShop:setKittyKartGoKart").setAction(async function (taskArguments: TaskArguments, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");

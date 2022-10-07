@@ -1,5 +1,4 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
-import { utils } from "ethers";
 import { ethers, upgrades } from "hardhat";
 
 import type { KittyKartAsset } from "../../src/types/contracts/KittyKartAsset";
