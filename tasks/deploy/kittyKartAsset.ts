@@ -16,8 +16,6 @@ task("deploy:KittyKartAsset").setAction(async function (taskArguments: TaskArgum
   const kittyKartAssetProxy = await upgrades.deployProxy(kittyKartAssetFactory, [
     cArguments.BASE_URI,
     cArguments.DESCRIPTION,
-    cArguments.IMAGE,
-    cArguments.ANIMATION_URL,
     cArguments.EXTERNAL_URL,
     cArguments.ROYALTY_RECEIVER,
   ]);

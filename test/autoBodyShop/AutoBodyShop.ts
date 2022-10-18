@@ -4,7 +4,7 @@ import { createFixtureLoader } from "ethereum-waffle";
 import { ethers } from "hardhat";
 
 import { ALICE_ADDRESS, DEPLOY_ADDRESS, REGISTRY_ADDRESS } from "../constants";
-import { deploykittyKartAssetFixture } from "../kittyKartAsset/KittyKartAsset.fixture";
+import { deployKittyKartAssetFixture } from "../kittyKartAsset/KittyKartAsset.fixture";
 import { deployKittyKartGoKartFixture } from "../kittyKartGoKart/KittyKartGoKart.fixture";
 import type { Signers } from "../types";
 import { shouldBehaveLikeAutoBodyShop } from "./AutoBodyShop.behavior";
@@ -33,7 +33,7 @@ describe("Unit tests", function () {
       const { kittyKartGoKart } = await this.loadFixture(deployKittyKartGoKartFixture);
       this.kittyKartGoKart = kittyKartGoKart;
 
-      const { kittyKartAsset } = await this.loadFixture(deploykittyKartAssetFixture);
+      const { kittyKartAsset } = await this.loadFixture(deployKittyKartAssetFixture);
       this.kittyKartAsset = kittyKartAsset;
 
       const { autoBodyShop } = await this.loadFixture(deployAutoBodyShopFixture);
