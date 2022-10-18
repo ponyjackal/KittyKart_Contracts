@@ -40,6 +40,8 @@ export const SIGNATURE_ASSET_MINT_TYPES = {
     { name: "displayTypes", type: "bytes16[]" },
     { name: "traitTypes", type: "bytes16[]" },
     { name: "values", type: "bytes16[]" },
+    { name: "image", type: "string" },
+    { name: "animationUrl", type: "string" },
     { name: "nonce", type: "uint256" },
     { name: "expiry", type: "uint256" },
   ],
