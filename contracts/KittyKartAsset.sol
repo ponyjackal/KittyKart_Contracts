@@ -61,9 +61,7 @@ contract KittyKartAsset is
   string public baseURIString;
   string public tablePrefix;
   string public description;
-  string public defaultImage;
   string public externalURL;
-  string public defaultAnimationURL;
 
   // Game server address
   address public gameServer;
@@ -79,6 +77,8 @@ contract KittyKartAsset is
     bytes16[] displayTypes;
     bytes16[] traitTypes;
     bytes16[] values;
+    string image;
+    string animationUrl;
     uint256 nonce;
     uint256 expiry;
     bytes signature;
@@ -96,8 +96,6 @@ contract KittyKartAsset is
   );
   event SetExternalURL(string externalURL);
   event SetBaseURI(string baseURIString);
-  event SetDefaultImage(string defaultImage);
-  event SetDefaultAnimationURL(string defaultAnimationURL);
   event SetDescription(string description);
   event SetImage(uint256 tokenId, string image);
   event SetBackgroundColor(uint256 tokenId, string color);
@@ -120,16 +118,12 @@ contract KittyKartAsset is
    * @dev Initializer function
    * @param _baseURIString Base URI
    * @param _description Description
-   * @param _defaultImage default image url
-   * @param _defaultAnimation default animation url
    * @param _externalURL External URL
    * @param _royaltyReceiver Royalty receiver address
    */
   function initialize(
     string memory _baseURIString,
     string memory _description,
-    string memory _defaultImage,
-    string memory _defaultAnimation,
     string memory _externalURL,
     address payable _royaltyReceiver
   ) external initializerERC721A initializer {
@@ -145,9 +139,7 @@ contract KittyKartAsset is
     baseURIString = _baseURIString;
     tablePrefix = "kitty_asset_test";
     description = _description;
-    defaultImage = _defaultImage;
     externalURL = _externalURL;
-    defaultAnimationURL = _defaultAnimation;
 
     // set restriction on marketplace
     _marketplaceProtection = true;
@@ -316,26 +308,6 @@ contract KittyKartAsset is
     baseURIString = _baseURIString;
 
     emit SetBaseURI(_baseURIString);
-  }
-
-  /**
-   * @dev Set default image
-   * @param _defaultImage defaultImage
-   */
-  function setDefaultImage(string memory _defaultImage) external onlyOwner {
-    defaultImage = _defaultImage;
-
-    emit SetDefaultImage(_defaultImage);
-  }
-
-  /**
-   * @dev Set default animation URL
-   * @param _animationURL Animation URL
-   */
-  function setDefaultAnimationURL(string memory _animationURL) external onlyOwner {
-    defaultAnimationURL = _animationURL;
-
-    emit SetDefaultAnimationURL(_animationURL);
   }
 
   /**
@@ -531,11 +503,11 @@ contract KittyKartAsset is
         "', '",
         description,
         "', '",
-        defaultImage,
+        _voucher.image,
         "', '",
         externalURL,
         "', '",
-        defaultAnimationURL,
+        _voucher.animationUrl,
         "');"
       )
     );
@@ -610,12 +582,14 @@ contract KittyKartAsset is
         keccak256(
           abi.encode(
             keccak256(
-              "KittyKartAssetVoucher(address receiver,bytes16[] displayTypes,bytes16[] traitTypes,bytes16[] values,uint256 nonce,uint256 expiry)"
+              "KittyKartAssetVoucher(address receiver,bytes16[] displayTypes,bytes16[] traitTypes,bytes16[] values,string image,string animationUrl,uint256 nonce,uint256 expiry)"
             ),
             _voucher.receiver,
             keccak256(abi.encodePacked(_voucher.displayTypes)),
             keccak256(abi.encodePacked(_voucher.traitTypes)),
             keccak256(abi.encodePacked(_voucher.values)),
+            keccak256(bytes(_voucher.image)),
+            keccak256(bytes(_voucher.animationUrl)),
             _voucher.nonce,
             _voucher.expiry
           )

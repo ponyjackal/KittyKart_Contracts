@@ -4,8 +4,8 @@ import { ethers } from "hardhat";
 
 import { ALICE_ADDRESS, DEPLOY_ADDRESS, GAME_SERVER_ADDRESS } from "../constants";
 import type { Signers } from "../types";
-import { shouldBehaveLikekittyKartAsset } from "./KittyKartAsset.behavior";
-import { deploykittyKartAssetFixture } from "./KittyKartAsset.fixture";
+import { shouldBehaveLikeKittyKartAsset } from "./KittyKartAsset.behavior";
+import { deployKittyKartAssetFixture } from "./KittyKartAsset.fixture";
 
 describe("Unit tests", function () {
   before(async function () {
@@ -23,10 +23,10 @@ describe("Unit tests", function () {
 
   describe("kittyKartAsset", function () {
     beforeEach(async function () {
-      const { kittyKartAsset } = await this.loadFixture(deploykittyKartAssetFixture);
+      const { kittyKartAsset } = await this.loadFixture(deployKittyKartAssetFixture);
       this.kittyKartAsset = kittyKartAsset;
     });
 
-    shouldBehaveLikekittyKartAsset();
+    shouldBehaveLikeKittyKartAsset();
   });
 });

@@ -18,7 +18,7 @@ import {
   SIGNING_ASSET_MINT_DOMAIN,
 } from "../constants";
 
-export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: KittyKartAsset }> {
+export async function deployKittyKartAssetFixture(): Promise<{ kittyKartAsset: KittyKartAsset }> {
   const signers: SignerWithAddress[] = await ethers.getSigners();
   const admin: SignerWithAddress = signers[0];
   const deployer: SignerWithAddress = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
@@ -59,6 +59,8 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
       ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("Alloy"), 0, 16),
       ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("v8"), 0, 16),
     ],
+    image: "",
+    animationUrl: "",
     nonce: 0,
     expiry: 1663289367,
   };
@@ -81,6 +83,8 @@ export async function deploykittyKartAssetFixture(): Promise<{ kittyKartAsset: K
     displayTypes: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("string"), 0, 16)],
     traitTypes: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("paint"), 0, 16)],
     values: [ethers.utils.hexDataSlice(ethers.utils.formatBytes32String("pink"), 0, 16)],
+    image: "",
+    animationUrl: "",
     nonce: 1,
     expiry: 0,
   };

@@ -3,7 +3,7 @@ import { ethers } from "hardhat";
 
 import { GAME_SERVER_ADDRESS, MARKET_PLACE_1, REGISTRY_ADDRESS, ZERO_ADDRESS } from "../constants";
 
-export function shouldBehaveLikekittyKartAsset(): void {
+export function shouldBehaveLikeKittyKartAsset(): void {
   describe("CreateMetadataTable", async function () {
     it("should be reverted for not owner", async function () {
       const tx = this.kittyKartAsset.connect(this.signers.alice).createMetadataTable(REGISTRY_ADDRESS);
@@ -56,32 +56,6 @@ export function shouldBehaveLikekittyKartAsset(): void {
       const tx = this.kittyKartAsset.setBaseURI("test_base_uri");
       await expect(tx).to.be.emit(this.kittyKartAsset, "SetBaseURI");
       expect(await this.kittyKartAsset.baseURIString()).to.equal("test_base_uri");
-    });
-  });
-
-  describe("setDefaultImage", async function () {
-    it("should be reverted for not owner", async function () {
-      const tx = this.kittyKartAsset.connect(this.signers.alice).setDefaultImage("test_default_image");
-      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
-    });
-
-    it("should update defaultImage and emit an event", async function () {
-      const tx = this.kittyKartAsset.setDefaultImage("test_default_image");
-      await expect(tx).to.be.emit(this.kittyKartAsset, "SetDefaultImage");
-      expect(await this.kittyKartAsset.defaultImage()).to.equal("test_default_image");
-    });
-  });
-
-  describe("setDefaultAnimationURL", async function () {
-    it("should be reverted for not owner", async function () {
-      const tx = this.kittyKartAsset.connect(this.signers.alice).setDefaultAnimationURL("test_default_animation_url");
-      await expect(tx).to.be.revertedWith("Ownable: caller is not the owner");
-    });
-
-    it("should update defaultAnimationURL and emit an event", async function () {
-      const tx = this.kittyKartAsset.setDefaultAnimationURL("test_default_animation_url");
-      await expect(tx).to.be.emit(this.kittyKartAsset, "SetDefaultAnimationURL");
-      expect(await this.kittyKartAsset.defaultAnimationURL()).to.equal("test_default_animation_url");
     });
   });
 
