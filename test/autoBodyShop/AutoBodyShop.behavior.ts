@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { network } from "hardhat";
 
-import { SIGNATURE_TYPES, SIGNATURE_VERSION, SIGNING_DOMAIN } from "../constants";
+import { SIGNING_AUTOBODY_SHOP_DOMAIN, SIGNING_AUTOBODY_SHOP_TYPES, SIGNING_AUTOBODY_SHOP_VERSION } from "../constants";
 
 /**
  * @note AutoBodyShop contract will be deprecated once we build out backend service for it
@@ -22,12 +22,12 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         expiry: 1663289367,
       };
       const typedDomain = {
-        name: SIGNING_DOMAIN,
-        version: SIGNATURE_VERSION,
+        name: SIGNING_AUTOBODY_SHOP_DOMAIN,
+        version: SIGNING_AUTOBODY_SHOP_VERSION,
         chainId: network.config.chainId,
         verifyingContract: this.autoBodyShop.address,
       };
-      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_AUTOBODY_SHOP_TYPES, data);
       const voucher = {
         ...data,
         signature: signature,
@@ -49,12 +49,12 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         expiry: 1663289367,
       };
       const typedDomain = {
-        name: SIGNING_DOMAIN,
-        version: SIGNATURE_VERSION,
+        name: SIGNING_AUTOBODY_SHOP_DOMAIN,
+        version: SIGNING_AUTOBODY_SHOP_VERSION,
         chainId: network.config.chainId,
         verifyingContract: this.autoBodyShop.address,
       };
-      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_AUTOBODY_SHOP_TYPES, data);
       const voucher = {
         ...data,
         signature: signature,
@@ -78,12 +78,12 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         expiry: 1663289367,
       };
       const typedDomain = {
-        name: SIGNING_DOMAIN,
-        version: SIGNATURE_VERSION,
+        name: SIGNING_AUTOBODY_SHOP_DOMAIN,
+        version: SIGNING_AUTOBODY_SHOP_VERSION,
         chainId: network.config.chainId,
         verifyingContract: this.autoBodyShop.address,
       };
-      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_AUTOBODY_SHOP_TYPES, data);
       const voucher = {
         ...data,
         signature: signature,
@@ -107,12 +107,12 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         expiry: 1663289367,
       };
       const typedDomain = {
-        name: SIGNING_DOMAIN,
-        version: SIGNATURE_VERSION,
+        name: SIGNING_AUTOBODY_SHOP_DOMAIN,
+        version: SIGNING_AUTOBODY_SHOP_VERSION,
         chainId: network.config.chainId,
         verifyingContract: this.autoBodyShop.address,
       };
-      const signature = await this.signers.admin._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const signature = await this.signers.admin._signTypedData(typedDomain, SIGNING_AUTOBODY_SHOP_TYPES, data);
       const voucher = {
         ...data,
         signature: signature,
@@ -136,12 +136,12 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         expiry: 1663289367,
       };
       const typedDomain = {
-        name: SIGNING_DOMAIN,
-        version: SIGNATURE_VERSION,
+        name: SIGNING_AUTOBODY_SHOP_DOMAIN,
+        version: SIGNING_AUTOBODY_SHOP_VERSION,
         chainId: network.config.chainId,
         verifyingContract: this.autoBodyShop.address,
       };
-      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_AUTOBODY_SHOP_TYPES, data);
       const voucher = {
         ...data,
         signature: signature,
@@ -165,12 +165,12 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         expiry: 1663289367,
       };
       const typedDomain = {
-        name: SIGNING_DOMAIN,
-        version: SIGNATURE_VERSION,
+        name: SIGNING_AUTOBODY_SHOP_DOMAIN,
+        version: SIGNING_AUTOBODY_SHOP_VERSION,
         chainId: network.config.chainId,
         verifyingContract: this.autoBodyShop.address,
       };
-      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_AUTOBODY_SHOP_TYPES, data);
       const voucher = {
         ...data,
         signature: signature,
@@ -194,12 +194,12 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         expiry: 1662032272,
       };
       const typedDomain = {
-        name: SIGNING_DOMAIN,
-        version: SIGNATURE_VERSION,
+        name: SIGNING_AUTOBODY_SHOP_DOMAIN,
+        version: SIGNING_AUTOBODY_SHOP_VERSION,
         chainId: network.config.chainId,
         verifyingContract: this.autoBodyShop.address,
       };
-      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNATURE_TYPES, data);
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_AUTOBODY_SHOP_TYPES, data);
       const voucher = {
         ...data,
         signature: signature,
