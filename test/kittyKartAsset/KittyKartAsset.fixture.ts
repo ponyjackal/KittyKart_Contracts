@@ -27,14 +27,7 @@ export async function deployKittyKartAssetFixture(): Promise<{ kittyKartAsset: K
   // deploy kittyKartAsset
   const kittyKartAssetFactory: KittyKartAsset__factory = await ethers.getContractFactory("KittyKartAsset", deployer);
   const kittyKartAsset: KittyKartAsset = <KittyKartAsset>(
-    await upgrades.deployProxy(kittyKartAssetFactory, [
-      BASE_URI,
-      ASSET_DESCRIPTION,
-      ASSET_IMAGE,
-      ASSET_ANIMATION_URL,
-      ASSET_EXTERNAL_URL,
-      admin.address,
-    ])
+    await upgrades.deployProxy(kittyKartAssetFactory, [BASE_URI, ASSET_DESCRIPTION, ASSET_EXTERNAL_URL, admin.address])
   );
   await kittyKartAsset.deployed();
   // create table
