@@ -42,8 +42,6 @@ describe("Unit tests", function () {
       await this.autoBodyShop.connect(this.signers.deployer).setKittyKartGoKart(this.kittyKartGoKart.address);
       // set KittyKartAsset address
       await this.autoBodyShop.connect(this.signers.deployer).setKittyKartAsset(this.kittyKartAsset.address);
-      // set AutoBodyShop address on kittyKartAsset
-      await this.kittyKartAsset.connect(this.signers.deployer).setAutoBodyShop(this.autoBodyShop.address);
       // set assetAttribute table in KittyKartGoKart
       const assetAttributeTable = await this.kittyKartAsset.attributeTable();
       await this.kittyKartGoKart.connect(this.signers.deployer).setAssetAttributeTable(assetAttributeTable);

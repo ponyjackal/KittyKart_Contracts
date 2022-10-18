@@ -16,9 +16,9 @@ export const ASSET_DESCRIPTION = "Kitty Asset";
 export const ASSET_IMAGE = "https://testnet.tableland.network/asset.png";
 export const ASSET_ANIMATION_URL = "https://testnet.tableland.network";
 export const ASSET_EXTERNAL_URL = "https://testnet.tableland.network";
-export const SIGNING_DOMAIN = "AutoBodyShopVoucher";
-export const SIGNATURE_VERSION = "1";
-export const SIGNATURE_TYPES = {
+export const SIGNING_AUTOBODY_SHOP_DOMAIN = "AutoBodyShopVoucher";
+export const SIGNING_AUTOBODY_SHOP_VERSION = "1";
+export const SIGNING_AUTOBODY_SHOP_TYPES = {
   AutoBodyShopVoucher: [
     { name: "owner", type: "address" },
     { name: "kartId", type: "uint256" },
@@ -32,3 +32,15 @@ export const SIGNATURE_TYPES = {
 };
 export const KITTY_KART_GO_KART_TABLE_ID = 1;
 export const KITTY_KART_ASSET_ATTRIBUTE_TABLE_ID = 2;
+export const SIGNING_ASSET_MINT_DOMAIN = "KittyKartAssetVoucher";
+export const SIGNATURE_ASSET_MINT_VERSION = "1";
+export const SIGNATURE_ASSET_MINT_TYPES = {
+  KittyKartAssetVoucher: [
+    { name: "receiver", type: "address" },
+    { name: "displayTypes", type: "bytes16[]" },
+    { name: "traitTypes", type: "bytes16[]" },
+    { name: "values", type: "bytes16[]" },
+    { name: "nonce", type: "uint256" },
+    { name: "expiry", type: "uint256" },
+  ],
+};
