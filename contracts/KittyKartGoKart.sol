@@ -61,6 +61,9 @@ contract KittyKartGoKart is
   bool private _marketplaceProtection;
   mapping(address => bool) private _approvedMarketplaces;
 
+  // autoBodyShop address
+  address public autoBodyShop;
+
   // -----------------------------------------
   // KittyKartGoKart Events
   // -----------------------------------------
@@ -77,6 +80,7 @@ contract KittyKartGoKart is
   event Mint(address indexed to, uint256 quantity);
   event AccessGranted(address indexed to);
   event AccessRevoked(address indexed to);
+  event SetAutoBodyShop(address autoBodyShop);
 
   // -----------------------------------------
   // KittyKartGoKart Initializer
@@ -454,6 +458,29 @@ contract KittyKartGoKart is
   function setApprovalForAll(address operator, bool approved) public virtual override {
     require(_approvedMarketplaces[operator], "KittyKartGoKart: invalid Marketplace");
     super.setApprovalForAll(operator, approved);
+  }
+
+  /**
+   * @dev set the autobodyShop address
+   * @param _autoBodyShop The address of the autobodyShop
+   */
+  function setAutoBodyShop(address _autoBodyShop) external onlyOwner {
+    require(_autoBodyShop != address(0), "KittyKartAsset: invalid autobodyShop address");
+    autoBodyShop = _autoBodyShop;
+
+    emit SetAutoBodyShop(_autoBodyShop);
+  }
+
+  /**
+   * Override isApprovedForAll to allow for autoBodyShop operator status.
+   */
+  function isApprovedForAll(address owner, address operator) public view override returns (bool) {
+    // Whitelist OpenSea proxy contract for easy trading.
+    if (operator == autoBodyShop && autoBodyShop != address(0)) {
+      return true;
+    }
+
+    return super.isApprovedForAll(owner, operator);
   }
 
   function supportsInterface(bytes4 interfaceId)
