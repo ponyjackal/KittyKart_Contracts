@@ -72,6 +72,9 @@ contract KittyKartAsset is
   // KittyKartAssetVoucher nonces
   mapping(address => uint256) public nonces;
 
+  // autoBodyShop address
+  address public autoBodyShop;
+
   struct KittyKartAssetVoucher {
     address receiver;
     bytes16[] displayTypes;
@@ -100,6 +103,7 @@ contract KittyKartAsset is
   event SetImage(uint256 tokenId, string image);
   event SetBackgroundColor(uint256 tokenId, string color);
   event SetGameServer(address gameServer);
+  event SetAutoBodyShop(address autoBodyShop);
   event SafeMint(
     address indexed to,
     uint256 tokenId,
@@ -546,6 +550,29 @@ contract KittyKartAsset is
   function setApprovalForAll(address operator, bool approved) public virtual override {
     require(_approvedMarketplaces[operator], "KittyKartAsset: invalid Marketplace");
     super.setApprovalForAll(operator, approved);
+  }
+
+  /**
+   * @dev set the autobodyShop address
+   * @param _autoBodyShop The address of the autobodyShop
+   */
+  function setAutoBodyShop(address _autoBodyShop) external onlyOwner {
+    require(_autoBodyShop != address(0), "KittyKartAsset: invalid autobodyShop address");
+    autoBodyShop = _autoBodyShop;
+
+    emit SetAutoBodyShop(_autoBodyShop);
+  }
+
+  /**
+   * Override isApprovedForAll to allow for autoBodyShop operator status.
+   */
+  function isApprovedForAll(address owner, address operator) public view override returns (bool) {
+    // Whitelist OpenSea proxy contract for easy trading.
+    if (operator == autoBodyShop && autoBodyShop != address(0)) {
+      return true;
+    }
+
+    return super.isApprovedForAll(owner, operator);
   }
 
   function supportsInterface(bytes4 interfaceId)
