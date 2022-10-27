@@ -428,7 +428,7 @@ contract KittyKartGoKart is
         string.concat(
           "INSERT INTO ",
           metadataTable,
-          " (id, name, description, image, external_url, animation_url) VALUES (",
+          " (id, name, description, image, external_url, animation_url, owner) VALUES (",
           StringsUpgradeable.toString(tokenId + i),
           ", '#",
           StringsUpgradeable.toString(tokenId + i),
