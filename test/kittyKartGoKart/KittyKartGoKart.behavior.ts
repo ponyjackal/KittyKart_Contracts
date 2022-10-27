@@ -159,6 +159,22 @@ export function shouldBehaveLikeKittyKartGoKart(): void {
     });
   });
 
+  describe("isApprovedAll", async function () {
+    it("should return true for autoBodyShopAddress operator", async function () {
+      await this.kittyKartGoKart.setAutoBodyShop(this.signers.andy.address);
+      expect(
+        await this.kittyKartGoKart.isApprovedForAll(this.signers.alice.address, this.signers.andy.address),
+      ).to.be.equal(true);
+    });
+
+    it("should return false for other operator addresses", async function () {
+      await this.kittyKartGoKart.setAutoBodyShop(this.signers.andy.address);
+      expect(
+        await this.kittyKartGoKart.isApprovedForAll(this.signers.alice.address, this.signers.admin.address),
+      ).to.be.equal(false);
+    });
+  });
+
   describe("MarketplaceRestriction", async function () {
     it("should not allow approve if marketplace is not set", async function () {
       // approve
