@@ -236,6 +236,7 @@ contract KittyKartAsset is
        *    string background_color,
        *    string external_url,
        *    string animation_url,
+       *    string owner,
        *  );
        */
       string.concat(
@@ -243,7 +244,7 @@ contract KittyKartAsset is
         tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, name text, description text, image text, background_color text, external_url text, animation_url text);"
+        " (id int, name text, description text, image text, background_color text, external_url text, animation_url text, owner text);"
       )
     );
 
@@ -500,7 +501,7 @@ contract KittyKartAsset is
       string.concat(
         "INSERT INTO ",
         metadataTable,
-        " (id, name, description, image, external_url, animation_url) VALUES (",
+        " (id, name, description, image, external_url, animation_url, owner) VALUES (",
         StringsUpgradeable.toString(tokenId),
         ", '#",
         StringsUpgradeable.toString(tokenId),
@@ -512,6 +513,8 @@ contract KittyKartAsset is
         externalURL,
         "', '",
         _voucher.animationUrl,
+        "', '",
+        StringsUpgradeable.toHexString(uint160(msg.sender), 20),
         "');"
       )
     );
