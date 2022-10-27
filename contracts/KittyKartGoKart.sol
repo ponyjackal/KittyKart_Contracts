@@ -486,6 +486,34 @@ contract KittyKartGoKart is
     return super.isApprovedForAll(owner, operator);
   }
 
+  /**
+   * @dev We override this function to update owner on tableland table
+   */
+  function _beforeTokenTransfers(
+    address from,
+    address to,
+    uint256 startTokenId,
+    uint256 quantity
+  ) internal override {
+    for (uint256 i = startTokenId; i < quantity; i++) {
+      tableland.runSQL(
+        address(this),
+        metadataTableId,
+        string.concat(
+          "UPDATE ",
+          metadataTable,
+          " SET owner = '",
+          StringsUpgradeable.toHexString(uint160(to), 20),
+          "' WHERE id = ",
+          StringsUpgradeable.toString(startTokenId + i),
+          ";"
+        )
+      );
+    }
+
+    super._beforeTokenTransfers(from, to, startTokenId, quantity);
+  }
+
   function supportsInterface(bytes4 interfaceId)
     public
     view
