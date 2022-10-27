@@ -206,6 +206,7 @@ contract KittyKartGoKart is
        *    string background_color,
        *    string external_url,
        *    string animation_url,
+       *    string owner,
        *  );
        */
       string.concat(
@@ -213,7 +214,7 @@ contract KittyKartGoKart is
         tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, name text, description text, image text, background_color text, external_url text, animation_url text);"
+        " (id int, name text, description text, image text, background_color text, external_url text, animation_url text, owner text);"
       )
     );
 
@@ -439,6 +440,8 @@ contract KittyKartGoKart is
           externalURL,
           "', '",
           defaultAnimationURL,
+          "', '",
+          StringsUpgradeable.toHexString(uint160(msg.sender), 20),
           "');"
         )
       );
