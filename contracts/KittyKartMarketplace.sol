@@ -66,22 +66,6 @@ contract KittyKartMarketplace is
   // KittyKartMarketplace nonces
   mapping(address => uint256) public nonces;
 
-  struct KittyKartMarketplaceVoucher {
-    address user;
-    address collection;
-    uint256 tokenId;
-    uint256 price;
-    uint256 actionType; // 0: list, 1: buy 2: make  offer 3: accept offer
-    uint256 nonce;
-    uint256 expiry;
-    bytes signature;
-  }
-
-  // -----------------------------------------
-  // KittyKartMarketplace Events
-  // -----------------------------------------
-  event SetGameServer(address gameServer);
-
   // -----------------------------------------
   // KittyKartMarketplace Initializer
   // -----------------------------------------
@@ -214,33 +198,35 @@ contract KittyKartMarketplace is
 
   /**
    * @dev Buy NFT on marketplace
-   * @param _tokenContract The NFT token contract
-   * @param _tokenId The NFT token id
-   * @param _amount The KittyInu token amount
+   * @param _voucher The KittyKartMarketplaceVoucher
+   * @param _amount KittyInu token amount
    */
-  function buyNFT(
-    address _tokenContract,
-    uint256 _tokenId,
-    uint256 _amount
-  ) external nonContract nonReentrant {
+  function buyNFT(KittyKartMarketplaceVoucher calldata _voucher, uint256 _amount) external nonContract nonReentrant {
+    address signer = _verify(_voucher);
+    require(signer == gameServer, "KittyKartAsset: invalid signature");
+    require(msg.sender == _voucher.user, "KittyKartAsset: invalid user");
+    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
+
     require(
-      _tokenContract == address(kittyKartGoKart) || _tokenContract == address(kittyKartAsset),
+      _voucher.collection == address(kittyKartGoKart) || _voucher.collection == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
     );
+    require(_voucher.actionType < 4, "KittyKartMarketplace: invalid action");
 
-    NFT memory nft = _idToNFT[_tokenContract][_tokenId];
+    NFT memory nft = _idToNFT[_voucher.collection][_voucher.tokenId];
     require(nft.listed, "KittyKartMarketplace: NFT not listed");
     require(nft.price <= _amount, "KittyKartMarketplace: insufficient KittyInu token price");
     // remove list info
-    delete _idToNFT[_tokenContract][_tokenId];
+    delete _idToNFT[_voucher.collection][_voucher.tokenId];
     // transfer KittyInu token from buyer to seller after take market fees
     uint256 marketFee = _calculateMarketFee(_amount);
     kittyInu.transferFrom(msg.sender, address(this), marketFee);
     kittyInu.transferFrom(msg.sender, nft.seller, _amount - marketFee);
     // transfer NFT token to buyer
-    IERC721AUpgradeable(_tokenContract).transferFrom(address(this), msg.sender, _tokenId);
+    IERC721AUpgradeable(_voucher.collection).transferFrom(address(this), msg.sender, _voucher.tokenId);
 
-    emit NFTSold(_tokenContract, _tokenId, nft.seller, msg.sender, _amount);
+    emit NFTSold(_voucher.collection, _voucher.tokenId, nft.seller, msg.sender, _amount);
   }
 
   /**

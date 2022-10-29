@@ -15,6 +15,18 @@ interface IKittyKartMarketplace {
     address buyer,
     uint256 price
   );
+  event SetGameServer(address gameServer);
+
+  struct KittyKartMarketplaceVoucher {
+    address user;
+    address collection;
+    uint256 tokenId;
+    uint256 price;
+    uint256 actionType; // 0: list, 1: buy 2: make  offer 3: accept offer
+    uint256 nonce;
+    uint256 expiry;
+    bytes signature;
+  }
 
   struct NFT {
     address nftContract;
@@ -31,19 +43,13 @@ interface IKittyKartMarketplace {
     uint256 price;
   }
 
-  function list(
-    address _tokenContract,
-    uint256 _tokenId,
-    uint256 _price
-  ) external;
+  function setGameServer(address _gameServer) external;
+
+  function list(KittyKartMarketplaceVoucher calldata _voucher) external;
 
   function listNFT(uint256 _tokenId, address _owner) external;
 
-  function buyNFT(
-    address _tokenContract,
-    uint256 _tokenId,
-    uint256 _amount
-  ) external;
+  function buyNFT(KittyKartMarketplaceVoucher calldata _voucher, uint256 _amount) external;
 
   function makeOffer(
     address _tokenContract,
