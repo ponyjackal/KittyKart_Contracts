@@ -142,9 +142,6 @@ contract KittyKartMarketplace is
     address signer = _verify(_voucher);
     require(signer == gameServer, "KittyKartAsset: invalid signature");
     require(msg.sender == _voucher.user, "KittyKartAsset: invalid user");
-    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
-
     require(
       _voucher.collection == address(kittyKartGoKart) || _voucher.collection == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
@@ -154,7 +151,9 @@ contract KittyKartMarketplace is
       "KittyKartMarketplace: caller is not the owner of NFT token"
     );
     require(_voucher.price > 0, "KittyKartMarketplace: invalid KittyInu token price");
-    require(_voucher.actionType < 4, "KittyKartMarketplace: invalid action");
+    require(_voucher.actionType == 0, "KittyKartMarketplace: invalid action");
+    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
 
     nonces[_voucher.user]++;
 
@@ -205,14 +204,15 @@ contract KittyKartMarketplace is
     address signer = _verify(_voucher);
     require(signer == gameServer, "KittyKartAsset: invalid signature");
     require(msg.sender == _voucher.user, "KittyKartAsset: invalid user");
-    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
-
     require(
       _voucher.collection == address(kittyKartGoKart) || _voucher.collection == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
     );
-    require(_voucher.actionType < 4, "KittyKartMarketplace: invalid action");
+    require(_voucher.actionType == 1, "KittyKartMarketplace: invalid action");
+    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
+
+    nonces[_voucher.user]++;
 
     NFT memory nft = _idToNFT[_voucher.collection][_voucher.tokenId];
     require(nft.listed, "KittyKartMarketplace: NFT not listed");
@@ -231,24 +231,27 @@ contract KittyKartMarketplace is
 
   /**
    * @dev Make an offer to a NFT on marketplace
-   * @param _tokenContract The NFT token contract
-   * @param _tokenId The NFT token id
+   * @param _voucher The KittyKartMarketplaceVoucher
    * @param _amount The KittyInu token amount
    */
-  function makeOffer(
-    address _tokenContract,
-    uint256 _tokenId,
-    uint256 _amount
-  ) external nonContract nonReentrant {
+  function makeOffer(KittyKartMarketplaceVoucher calldata _voucher, uint256 _amount) external nonContract nonReentrant {
+    address signer = _verify(_voucher);
+    require(signer == gameServer, "KittyKartAsset: invalid signature");
+    require(msg.sender == _voucher.user, "KittyKartAsset: invalid user");
     require(
-      _tokenContract == address(kittyKartGoKart) || _tokenContract == address(kittyKartAsset),
+      _voucher.collection == address(kittyKartGoKart) || _voucher.collection == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
     );
+    require(_voucher.actionType == 2, "KittyKartMarketplace: invalid action");
+    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
 
-    Offer memory offer = _idToOffer[_tokenContract][_tokenId];
+    nonces[_voucher.user]++;
+
+    Offer memory offer = _idToOffer[_voucher.collection][_voucher.tokenId];
     require(offer.price < _amount, "KittyKartMarketplace: offer price is too low");
     // upate offer info
-    _idToOffer[_tokenContract][_tokenId] = Offer({ exists: true, buyer: msg.sender, price: _amount });
+    _idToOffer[_voucher.collection][_voucher.tokenId] = Offer({ exists: true, buyer: msg.sender, price: _amount });
     if (offer.exists) {
       // retrun KittyInu token to previous buyer
       kittyInu.transfer(offer.buyer, offer.price);
@@ -256,7 +259,7 @@ contract KittyKartMarketplace is
     // transfer KittyInu token from buyer to marketplace
     kittyInu.transferFrom(msg.sender, address(this), _amount);
 
-    emit OfferMade(_tokenContract, _tokenId, msg.sender, _amount);
+    emit OfferMade(_voucher.collection, _voucher.tokenId, msg.sender, _amount);
   }
 
   /**
