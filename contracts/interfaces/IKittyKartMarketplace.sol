@@ -51,11 +51,7 @@ interface IKittyKartMarketplace {
 
   function buyNFT(KittyKartMarketplaceVoucher calldata _voucher, uint256 _amount) external;
 
-  function makeOffer(
-    address _tokenContract,
-    uint256 _tokenId,
-    uint256 _amount
-  ) external;
+  function makeOffer(KittyKartMarketplaceVoucher calldata _voucher, uint256 _amount) external;
 
   function acceptOffer(address _tokenContract, uint256 _tokenId) external;
 }
