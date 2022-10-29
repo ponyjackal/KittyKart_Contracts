@@ -153,7 +153,7 @@ contract KittyKartAsset is
   }
 
   // -----------------------------------------
-  // kittyKartAsset Modifiers
+  // KittyKartAsset Modifiers
   // -----------------------------------------
 
   modifier nonContract() {
@@ -628,6 +628,15 @@ contract KittyKartAsset is
   }
 
   /**
+   * @dev verify the signature of a given KittyKartAssetVoucher
+   * @param _voucher KittyKartVoucher
+   */
+  function _verify(KittyKartAssetVoucher calldata _voucher) internal view returns (address) {
+    bytes32 digest = _hash(_voucher);
+    return ECDSAUpgradeable.recover(digest, _voucher.signature);
+  }
+
+  /**
    * @dev We override this function to update owner on tableland table
    */
   function _beforeTokenTransfers(
@@ -653,14 +662,5 @@ contract KittyKartAsset is
     }
 
     super._beforeTokenTransfers(from, to, startTokenId, quantity);
-  }
-
-  /**
-   * @dev verify the signature of a given KittyKartAssetVoucher
-   * @param _voucher KittyKartVoucher
-   */
-  function _verify(KittyKartAssetVoucher calldata _voucher) internal view returns (address) {
-    bytes32 digest = _hash(_voucher);
-    return ECDSAUpgradeable.recover(digest, _voucher.signature);
   }
 }
