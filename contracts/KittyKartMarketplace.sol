@@ -282,7 +282,7 @@ contract KittyKartMarketplace is
       _voucher.collection == address(kittyKartGoKart) || _voucher.collection == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
     );
-    require(_voucher.actionType == 2, "KittyKartMarketplace: invalid action");
+    require(_voucher.actionType == 3, "KittyKartMarketplace: invalid action");
     require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
     require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: asset is expired");
     require(
