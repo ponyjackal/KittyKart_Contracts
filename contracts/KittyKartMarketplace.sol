@@ -65,6 +65,8 @@ contract KittyKartMarketplace is
   mapping(address => mapping(uint256 => Offer)) private _idToOffer;
   // KittyKartMarketplace nonces
   mapping(address => uint256) public nonces;
+  // KittyKartMarketplace signatures
+  mapping(bytes => bool) public signatures;
 
   // -----------------------------------------
   // KittyKartMarketplace Initializer
@@ -140,8 +142,8 @@ contract KittyKartMarketplace is
    */
   function list(KittyKartMarketplaceVoucher calldata _voucher) external nonContract nonReentrant {
     address signer = _verify(_voucher);
-    require(signer == gameServer, "KittyKartAsset: invalid signature");
-    require(msg.sender == _voucher.user, "KittyKartAsset: invalid user");
+    require(signer == gameServer, "KittyKartMarketplace: invalid signature");
+    require(msg.sender == _voucher.user, "KittyKartMarketplace: invalid user");
     require(
       _voucher.collection == address(kittyKartGoKart) || _voucher.collection == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
@@ -152,10 +154,12 @@ contract KittyKartMarketplace is
     );
     require(_voucher.price > 0, "KittyKartMarketplace: invalid KittyInu token price");
     require(_voucher.actionType == 0, "KittyKartMarketplace: invalid action");
-    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
+    require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: asset is expired");
+    require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
 
     nonces[_voucher.user]++;
+    signatures[_voucher.signature] = true;
 
     IERC721AUpgradeable(_voucher.collection).transferFrom(msg.sender, address(this), _voucher.tokenId);
 
@@ -202,17 +206,19 @@ contract KittyKartMarketplace is
    */
   function buyNFT(KittyKartMarketplaceVoucher calldata _voucher, uint256 _amount) external nonContract nonReentrant {
     address signer = _verify(_voucher);
-    require(signer == gameServer, "KittyKartAsset: invalid signature");
-    require(msg.sender == _voucher.user, "KittyKartAsset: invalid user");
+    require(signer == gameServer, "KittyKartMarketplace: invalid signature");
+    require(msg.sender == _voucher.user, "KittyKartMarketplace: invalid user");
     require(
       _voucher.collection == address(kittyKartGoKart) || _voucher.collection == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
     );
     require(_voucher.actionType == 1, "KittyKartMarketplace: invalid action");
-    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
+    require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: asset is expired");
+    require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
 
     nonces[_voucher.user]++;
+    signatures[_voucher.signature] = true;
 
     NFT memory nft = _idToNFT[_voucher.collection][_voucher.tokenId];
     require(nft.listed, "KittyKartMarketplace: NFT not listed");
@@ -236,17 +242,19 @@ contract KittyKartMarketplace is
    */
   function makeOffer(KittyKartMarketplaceVoucher calldata _voucher, uint256 _amount) external nonContract nonReentrant {
     address signer = _verify(_voucher);
-    require(signer == gameServer, "KittyKartAsset: invalid signature");
-    require(msg.sender == _voucher.user, "KittyKartAsset: invalid user");
+    require(signer == gameServer, "KittyKartMarketplace: invalid signature");
+    require(msg.sender == _voucher.user, "KittyKartMarketplace: invalid user");
     require(
       _voucher.collection == address(kittyKartGoKart) || _voucher.collection == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
     );
     require(_voucher.actionType == 2, "KittyKartMarketplace: invalid action");
-    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
+    require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: asset is expired");
+    require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
 
     nonces[_voucher.user]++;
+    signatures[_voucher.signature] = true;
 
     Offer memory offer = _idToOffer[_voucher.collection][_voucher.tokenId];
     require(offer.price < _amount, "KittyKartMarketplace: offer price is too low");
@@ -268,21 +276,23 @@ contract KittyKartMarketplace is
    */
   function acceptOffer(KittyKartMarketplaceVoucher calldata _voucher) external nonContract nonReentrant {
     address signer = _verify(_voucher);
-    require(signer == gameServer, "KittyKartAsset: invalid signature");
-    require(msg.sender == _voucher.user, "KittyKartAsset: invalid user");
+    require(signer == gameServer, "KittyKartMarketplace: invalid signature");
+    require(msg.sender == _voucher.user, "KittyKartMarketplace: invalid user");
     require(
       _voucher.collection == address(kittyKartGoKart) || _voucher.collection == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
     );
     require(_voucher.actionType == 2, "KittyKartMarketplace: invalid action");
-    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
+    require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: asset is expired");
     require(
       IERC721AUpgradeable(_voucher.collection).ownerOf(_voucher.tokenId) == msg.sender,
       "KittyKartMarketplace: caller is not the owner of NFT token"
     );
+    require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
 
     nonces[_voucher.user]++;
+    signatures[_voucher.signature] = true;
 
     Offer memory offer = _idToOffer[_voucher.collection][_voucher.tokenId];
     require(offer.exists, "KittyKartMarketplace: offer doesn't exist");
@@ -308,7 +318,7 @@ contract KittyKartMarketplace is
   }
 
   /**
-   * @dev return a hash of the givne KittyKartAssetVoucher
+   * @dev return a hash of the givne KittyKartMarketplaceVoucher
    */
   function _hash(KittyKartMarketplaceVoucher calldata _voucher) internal view returns (bytes32) {
     return
@@ -316,7 +326,7 @@ contract KittyKartMarketplace is
         keccak256(
           abi.encode(
             keccak256(
-              "KittyKartAssetVoucher(address user,address collection,uint256 tokenId,uint256 price,uint256 actionType,uint256 nonce,uint256 expiry)"
+              "KittyKartMarketplaceVoucher(address user,address collection,uint256 tokenId,uint256 price,uint256 actionType,uint256 nonce,uint256 expiry)"
             ),
             _voucher.user,
             _voucher.collection,
