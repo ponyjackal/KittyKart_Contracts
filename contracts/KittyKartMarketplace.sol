@@ -264,30 +264,37 @@ contract KittyKartMarketplace is
 
   /**
    * @dev Accept an offer to a NFT on marketplace
-   * @param _tokenContract The NFT token contract
-   * @param _tokenId The NFT token id
+   * @param _voucher The KittyKartMarketplaceVoucher
    */
-  function acceptOffer(address _tokenContract, uint256 _tokenId) external nonContract nonReentrant {
+  function acceptOffer(KittyKartMarketplaceVoucher calldata _voucher) external nonContract nonReentrant {
+    address signer = _verify(_voucher);
+    require(signer == gameServer, "KittyKartAsset: invalid signature");
+    require(msg.sender == _voucher.user, "KittyKartAsset: invalid user");
     require(
-      _tokenContract == address(kittyKartGoKart) || _tokenContract == address(kittyKartAsset),
+      _voucher.collection == address(kittyKartGoKart) || _voucher.collection == address(kittyKartAsset),
       "KittyKartMarketplace: invalid NFT token contract"
     );
+    require(_voucher.actionType == 2, "KittyKartMarketplace: invalid action");
+    require(_voucher.nonce == nonces[_voucher.user], "KittyKartAsset: invalid nonce");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartAsset: asset is expired");
     require(
-      IERC721AUpgradeable(_tokenContract).ownerOf(_tokenId) == msg.sender,
+      IERC721AUpgradeable(_voucher.collection).ownerOf(_voucher.tokenId) == msg.sender,
       "KittyKartMarketplace: caller is not the owner of NFT token"
     );
 
-    Offer memory offer = _idToOffer[_tokenContract][_tokenId];
+    nonces[_voucher.user]++;
+
+    Offer memory offer = _idToOffer[_voucher.collection][_voucher.tokenId];
     require(offer.exists, "KittyKartMarketplace: offer doesn't exist");
     // remove offer info
-    delete _idToOffer[_tokenContract][_tokenId];
+    delete _idToOffer[_voucher.collection][_voucher.tokenId];
     // take market fee and transfer tokens to seller
     uint256 marketFee = _calculateMarketFee(offer.price);
     kittyInu.transfer(msg.sender, offer.price - marketFee);
     // transfer NFT from seller to buyer
-    IERC721AUpgradeable(_tokenContract).transferFrom(msg.sender, offer.buyer, _tokenId);
+    IERC721AUpgradeable(_voucher.collection).transferFrom(msg.sender, offer.buyer, _voucher.tokenId);
 
-    emit OfferAccepted(_tokenContract, _tokenId, msg.sender, offer.buyer, offer.price);
+    emit OfferAccepted(_voucher.collection, _voucher.tokenId, msg.sender, offer.buyer, offer.price);
   }
 
   // -----------------------------------------
