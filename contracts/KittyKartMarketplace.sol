@@ -31,6 +31,8 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgra
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "erc721a-upgradeable/contracts/IERC721AUpgradeable.sol";
 import "@tableland/evm/contracts/ITablelandTables.sol";
+import "@openzeppelin/contracts-upgradeable/utils/cryptography/ECDSAUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 
 import "./interfaces/IKittyKartMarketplace.sol";
 
@@ -40,9 +42,14 @@ contract KittyKartMarketplace is
   OwnableUpgradeable,
   PausableUpgradeable,
   ERC721HolderUpgradeable,
-  IKittyKartMarketplace
+  IKittyKartMarketplace,
+  EIP712Upgradeable
 {
   uint256 public constant MARKET_FEE = 5; // 5 %
+  // signature
+  bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+  string private constant SIGNING_DOMAIN = "KittyKartMarketplaceVoucher";
+  string private constant SIGNATURE_VERSION = "1";
 
   ITablelandTables public tableland;
 
@@ -54,6 +61,19 @@ contract KittyKartMarketplace is
   mapping(address => mapping(uint256 => NFT)) private _idToNFT;
   // mapping for bids, NFT token contract => token id => Offer
   mapping(address => mapping(uint256 => Offer)) private _idToOffer;
+  // KittyKartMarketplace nonces
+  mapping(address => uint256) public nonces;
+
+  struct KittyKartMarketplaceVoucher {
+    address user;
+    address collection;
+    uint256 tokenId;
+    uint256 price;
+    uint256 actionType; // 0: list, 1: buy 2: make  offer 3: accept offer
+    uint256 nonce;
+    uint256 expiry;
+    bytes signature;
+  }
 
   // -----------------------------------------
   // KittyKartMarketplace Initializer
@@ -76,6 +96,7 @@ contract KittyKartMarketplace is
     __ReentrancyGuard_init();
     __Pausable_init();
     __ERC721Holder_init();
+    __EIP712_init(SIGNING_DOMAIN, SIGNATURE_VERSION);
 
     require(address(_kittyKartAsset) != address(0), "KittyKartMarketplace: invalid KittyKartGoKart address.");
     require(address(_kittyKartAsset) != address(0), "KittyKartMarketplace: invalid KittyKartAsset address.");
@@ -264,5 +285,37 @@ contract KittyKartMarketplace is
    */
   function _calculateMarketFee(uint256 _amount) internal pure returns (uint256) {
     return (_amount * MARKET_FEE) / 100;
+  }
+
+  /**
+   * @dev return a hash of the givne KittyKartAssetVoucher
+   */
+  function _hash(KittyKartMarketplaceVoucher calldata _voucher) internal view returns (bytes32) {
+    return
+      _hashTypedDataV4(
+        keccak256(
+          abi.encode(
+            keccak256(
+              "KittyKartAssetVoucher(address user,address collection,uint256 tokenId,uint256 price,uint256 actionType,uint256 nonce,uint256 expiry)"
+            ),
+            _voucher.user,
+            _voucher.collection,
+            _voucher.tokenId,
+            _voucher.price,
+            _voucher.actionType,
+            _voucher.nonce,
+            _voucher.expiry
+          )
+        )
+      );
+  }
+
+  /**
+   * @dev verify the signature of a given KittyKartMarketplaceVoucher
+   * @param _voucher KittyKartMarketplaceVoucher
+   */
+  function _verify(KittyKartMarketplaceVoucher calldata _voucher) internal view returns (address) {
+    bytes32 digest = _hash(_voucher);
+    return ECDSAUpgradeable.recover(digest, _voucher.signature);
   }
 }
