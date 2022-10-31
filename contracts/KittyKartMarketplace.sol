@@ -133,6 +133,28 @@ contract KittyKartMarketplace is
     emit SetGameServer(_gameServer);
   }
 
+  /**
+   * @dev set the KittyKartGoKart address
+   * @param _kittyKartGoKart The KittyKartGoKart address
+   */
+  function setKittyKartGoKart(address _kittyKartGoKart) external onlyOwner {
+    require(_kittyKartGoKart != address(0), "KittyKartMarketplace: invalid kart token address");
+    kittyKartGoKart = IERC721AUpgradeable(_kittyKartGoKart);
+
+    emit SetKittyKartGoKart(_kittyKartGoKart);
+  }
+
+  /**
+   * @dev set the KittyKartAsset address
+   * @param _kittyKartAsset The KittyKartAsset address
+   */
+  function setKittyKartAsset(address _kittyKartAsset) external onlyOwner {
+    require(_kittyKartAsset != address(0), "KittyKartMarketplace: invalid asset token address");
+    kittyKartAsset = IERC721AUpgradeable(_kittyKartAsset);
+
+    emit SetKittyAsseet(_kittyKartAsset);
+  }
+
   // -----------------------------------------
   // KittyKartMarketplace Mutative Functions
   // -----------------------------------------

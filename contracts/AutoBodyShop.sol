@@ -142,7 +142,7 @@ contract AutoBodyShop is
 
   /**
    * @dev set the KittyKartGoKart address
-   * @param _kittyKartGoKart The registry address
+   * @param _kittyKartGoKart The KittyKartGoKart address
    */
   function setKittyKartGoKart(address _kittyKartGoKart) external onlyOwner {
     require(_kittyKartGoKart != address(0), "AutoBodyShop: invalid kart token address");
@@ -153,7 +153,7 @@ contract AutoBodyShop is
 
   /**
    * @dev set tableland kart table Id
-   * @param _kittyKartGoKartTableId The registry address
+   * @param _kittyKartGoKartTableId The tableland kart table Id
    */
   function setKittyKartGoKartTableId(uint256 _kittyKartGoKartTableId) external onlyOwner {
     kittyKartGoKartTableId = _kittyKartGoKartTableId;
@@ -184,7 +184,7 @@ contract AutoBodyShop is
 
   /**
    * @dev set the KittyKartAsset address
-   * @param _kittyKartAsset The registry address
+   * @param _kittyKartAsset The KittyKartAsset address
    */
   function setKittyKartAsset(address _kittyKartAsset) external onlyOwner {
     require(_kittyKartAsset != address(0), "AutoBodyShop: invalid asset token address");
