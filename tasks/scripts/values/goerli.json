@@ -1,10 +1,6 @@
 {
   "registry": "0xDA8EA22d092307874f30A1F277D1388dca0BA97a",
   "gameServer": "0x9a4C14d8d81d7dAB564E146c98c9EF9A140aE12f",
-  "kittyKartTableId": 700,
-  "kittyKartTable": "kitty_kart_test_5_700",
-  "kittyAssetTableId": 701,
-  "kittyAssetTable": "kitty_asset_test_5_701",
   "kittyAssetAttributeTable": "kitty_asset_test_attribute_5_702",
   "baseURI": "https://testnet.tableland.network/query?s=",
   "kartDescription": "Kitty Kart Test",
