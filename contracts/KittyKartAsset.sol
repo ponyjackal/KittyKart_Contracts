@@ -650,9 +650,9 @@ contract KittyKartAsset is
           "UPDATE ",
           metadataTable,
           " SET owner = '",
-          StringsUpgradeable.toHexString(uint160(to), 20),
+          StringsUpgradeable.toHexString(to),
           "' WHERE id = ",
-          StringsUpgradeable.toString(startTokenId + i),
+          StringsUpgradeable.toString(i),
           ";"
         )
       );
