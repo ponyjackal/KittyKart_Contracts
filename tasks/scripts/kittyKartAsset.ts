@@ -145,3 +145,22 @@ task("KittyKartAsset:setAutoBodyShopToApprovedMarketplace").setAction(async func
     console.log("KittyKartAsset:setAutoBodyShopToApprovedMarketplace error", err);
   }
 });
+
+task("KittyKartAsset:setAutoBodyShop").setAction(async function (taskArguments: TaskArguments, { ethers }) {
+  const accounts: Signer[] = await ethers.getSigners();
+  const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
+  const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
+
+  // attach kittyKartAsset
+  const kittyKartAssetFactory: KittyKartAsset__factory = <KittyKartAsset__factory>(
+    await ethers.getContractFactory("KittyKartAsset", accounts[0])
+  );
+  const kittyKartAsset: KittyKartAsset = await kittyKartAssetFactory.attach(kittyKartAssetProxyAddress);
+
+  try {
+    await kittyKartAsset.setAutoBodyShop(autoBodyShopProxyAddress);
+    console.log("KittyKartAsset:setAutoBodyShop success", autoBodyShopProxyAddress);
+  } catch (err) {
+    console.log("KittyKartAsset:setAutoBodyShop error", err);
+  }
+});
