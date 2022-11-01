@@ -153,7 +153,7 @@ contract KittyKartAsset is
   }
 
   // -----------------------------------------
-  // kittyKartAsset Modifiers
+  // KittyKartAsset Modifiers
   // -----------------------------------------
 
   modifier nonContract() {
@@ -236,6 +236,7 @@ contract KittyKartAsset is
        *    string background_color,
        *    string external_url,
        *    string animation_url,
+       *    string owner,
        *  );
        */
       string.concat(
@@ -243,7 +244,7 @@ contract KittyKartAsset is
         tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, name text, description text, image text, background_color text, external_url text, animation_url text);"
+        " (id int, name text, description text, image text, background_color text, external_url text, animation_url text, owner text);"
       )
     );
 
@@ -631,5 +632,33 @@ contract KittyKartAsset is
   function _verify(KittyKartAssetVoucher calldata _voucher) internal view returns (address) {
     bytes32 digest = _hash(_voucher);
     return ECDSAUpgradeable.recover(digest, _voucher.signature);
+  }
+
+  /**
+   * @dev We override this function to update owner on tableland table
+   */
+  function _beforeTokenTransfers(
+    address from,
+    address to,
+    uint256 startTokenId,
+    uint256 quantity
+  ) internal override {
+    for (uint256 i = startTokenId; i < quantity; i++) {
+      tableland.runSQL(
+        address(this),
+        metadataTableId,
+        string.concat(
+          "UPDATE ",
+          metadataTable,
+          " SET owner = '",
+          StringsUpgradeable.toHexString(to),
+          "' WHERE id = ",
+          StringsUpgradeable.toString(i),
+          ";"
+        )
+      );
+    }
+
+    super._beforeTokenTransfers(from, to, startTokenId, quantity);
   }
 }
