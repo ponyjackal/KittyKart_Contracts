@@ -2,29 +2,29 @@
   "manifestVersion": "3.2",
   "admin": {
     "address": "0x1E91c71c40F4664C1F2e7191D235dC1AA4F39aa3",
-    "txHash": "0xe140de5fd9854b38e38d95e0988fbe89b9d2ed707116fc4b18dd9decf2218ac6"
+    "txHash": "0xb3aa4667beed0d8981e73249e93539a2d3507350ab74feac6375a10bfee25ec8"
   },
   "proxies": [
     {
       "address": "0x12Adb13Dc47f3DdC9fE0F7A7180312350477d909",
-      "txHash": "0xb2a31b8efbac834641ff9c49236eca28f70448af617bf3480e2e00629e7698b7",
+      "txHash": "0x1d8877f93f55f6410b6d3917558681b621d514085f00ac7c7562040ab6db9ed8",
       "kind": "transparent"
     },
     {
       "address": "0x308889c50F82251004E08a17dbe2b77D580043Ba",
-      "txHash": "0x4181b9f1e261d99d8dab881d28bd9a86ac1e387039cf75c0ebfc7810cbb1e533",
+      "txHash": "0xd27247c88565f270395490111e27554bd62d8f81011ebd9c69b7a4c67c49aee6",
       "kind": "transparent"
     },
     {
       "address": "0x645D9affA48973545520Dd9ad3A094FEDB72dCbC",
-      "txHash": "0xdcb7d496dc2941fdfbf9ccc5483d3c4827cc7402ab9f0cbcc110cd891262ec9b",
+      "txHash": "0x1df6ca754e55fa38e0f0d555b64c93392955b28ddbc10ac8f1fbab3df0c6058d",
       "kind": "transparent"
     }
   ],
   "impls": {
     "85ea7ee4f4554e5e4e88e0603ae24727d84f8e048ecd9943f6a9f21d8179298c": {
       "address": "0xdF5a6d70b40CD9757cF1d4f53d017E6eeC6401bb",
-      "txHash": "0x6ca636512a1e43fc347e8e2cc1d0107f961c1a0ae56031c3331892a4a445c949",
+      "txHash": "0xa58d8141bf89c6f484df0db4d4eb98219a43e5dfc3fa5a17538a66940e0e0a2a",
       "layout": {
         "storage": [
           {
@@ -160,7 +160,7 @@
             "label": "kittyKartGoKart",
             "offset": 0,
             "slot": "306",
-            "type": "t_contract(IKittyKartGoKart)4893",
+            "type": "t_contract(IKittyKartGoKart)5039",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:58"
           },
@@ -168,7 +168,7 @@
             "label": "kittyKartAsset",
             "offset": 0,
             "slot": "307",
-            "type": "t_contract(IKittyKartAsset)4863",
+            "type": "t_contract(IKittyKartAsset)5009",
             "contract": "AutoBodyShop",
             "src": "contracts\\AutoBodyShop.sol:59"
           },
@@ -210,11 +210,11 @@
             "label": "bytes32",
             "numberOfBytes": "32"
           },
-          "t_contract(IKittyKartAsset)4863": {
+          "t_contract(IKittyKartAsset)5009": {
             "label": "contract IKittyKartAsset",
             "numberOfBytes": "20"
           },
-          "t_contract(IKittyKartGoKart)4893": {
+          "t_contract(IKittyKartGoKart)5039": {
             "label": "contract IKittyKartGoKart",
             "numberOfBytes": "20"
           },
@@ -237,9 +237,9 @@
         }
       }
     },
-    "60a23a33f697172213bf3103717b88e1a503f45b302f2f3da761f59b2a348adc": {
+    "2584a97be8740a00ccf9cc82ef351af784fa474cdfe3aa25e3e6781316372e06": {
       "address": "0xFbCc290bA0a06dd4Db22f039bf6442BfD0185533",
-      "txHash": "0xd3c209e4f4005f95e14bfbc9258e4966a0cc40792cbc9aa9ecd1984d68c25725",
+      "txHash": "0xa1332e863926acb9a7a4b8dff1574b8fb7b8ab4435add3c814aceb4f13cbf285",
       "layout": {
         "storage": [
           {
@@ -530,9 +530,9 @@
         }
       }
     },
-    "23d2284d67a3b2f3a7dbe0831c0b0bdc7b6d55ed97ce673834fcf7a6d365db5d": {
+    "a529f325421118e65e38db5c090ddd99d7534765094369dcace91ef573edaf39": {
       "address": "0x41d2333703b2F5c86d4f6b2b72B174f51e586D9E",
-      "txHash": "0x0f7ef81a222eeba3d00623bf6dd5fd673c3e5408c86a3546ef9363e269f508af",
+      "txHash": "0x578d0be6a7d711a9dc51c4706aed17f534e213a2d687674e66e2d83205783bd2",
       "layout": {
         "storage": [
           {
@@ -753,36 +753,36 @@
             "src": "contracts\\KittyKartAsset.sol:67"
           },
           {
-            "label": "autoBodyShop",
-            "offset": 0,
-            "slot": "413",
-            "type": "t_address",
+            "label": "_marketplaceProtection",
+            "offset": 20,
+            "slot": "412",
+            "type": "t_bool",
             "contract": "KittyKartAsset",
             "src": "contracts\\KittyKartAsset.sol:69"
           },
           {
-            "label": "_marketplaceProtection",
-            "offset": 20,
+            "label": "_approvedMarketplaces",
+            "offset": 0,
             "slot": "413",
-            "type": "t_bool",
+            "type": "t_mapping(t_address,t_bool)",
             "contract": "KittyKartAsset",
             "src": "contracts\\KittyKartAsset.sol:71"
           },
           {
-            "label": "_approvedMarketplaces",
+            "label": "nonces",
             "offset": 0,
             "slot": "414",
-            "type": "t_mapping(t_address,t_bool)",
+            "type": "t_mapping(t_address,t_uint256)",
             "contract": "KittyKartAsset",
             "src": "contracts\\KittyKartAsset.sol:73"
           },
           {
-            "label": "nonces",
+            "label": "autoBodyShop",
             "offset": 0,
             "slot": "415",
-            "type": "t_mapping(t_address,t_uint256)",
+            "type": "t_address",
             "contract": "KittyKartAsset",
-            "src": "contracts\\KittyKartAsset.sol:75"
+            "src": "contracts\\KittyKartAsset.sol:76"
           }
         ],
         "types": {
