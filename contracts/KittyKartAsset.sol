@@ -191,7 +191,7 @@ contract KittyKartAsset is
     return
       string.concat(
         base,
-        "SELECT%20json_object(%27id%27,id,%27name%27,name,%27description%27,description",
+        "SELECT%20json_object(%27id%27,id,%27name%27,CONCAT(%27#%27,id),%27description%27,description",
         ",%27image%27,image,%27background_color%27,background_color,%27external_url%27,external_url,%27animation_url%27,animation_url",
         ",%27attributes%27,json_group_array(json_object(%27display_type%27,display_type",
         ",%27trait_type%27,trait_type,%27value%27,value)))",
@@ -230,7 +230,6 @@ contract KittyKartAsset is
       /*
        *  CREATE TABLE prefix_chainId (
        *    int id,
-       *    string name,
        *    string description,
        *    string image,
        *    string background_color,
@@ -244,7 +243,7 @@ contract KittyKartAsset is
         tablePrefix,
         "_",
         StringsUpgradeable.toString(block.chainid),
-        " (id int, name text, description text, image text, background_color text, external_url text, animation_url text, owner text);"
+        " (id int, description text, image text, background_color text, external_url text, animation_url text, owner text);"
       )
     );
 
@@ -501,9 +500,7 @@ contract KittyKartAsset is
       string.concat(
         "INSERT INTO ",
         metadataTable,
-        " (id, name, description, image, external_url, animation_url, owner) VALUES (",
-        StringsUpgradeable.toString(tokenId),
-        ", '#",
+        " (id, description, image, external_url, animation_url, owner) VALUES (",
         StringsUpgradeable.toString(tokenId),
         "', '",
         description,
@@ -514,7 +511,7 @@ contract KittyKartAsset is
         "', '",
         _voucher.animationUrl,
         "', '",
-        StringsUpgradeable.toHexString(uint160(msg.sender), 20),
+        StringsUpgradeable.toHexString(msg.sender),
         "');"
       )
     );
