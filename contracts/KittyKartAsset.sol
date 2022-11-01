@@ -637,7 +637,7 @@ contract KittyKartAsset is
   /**
    * @dev We override this function to update owner on tableland table
    */
-  function _beforeTokenTransfers(
+  function _afterTokenTransfers(
     address from,
     address to,
     uint256 startTokenId,
@@ -659,6 +659,6 @@ contract KittyKartAsset is
       );
     }
 
-    super._beforeTokenTransfers(from, to, startTokenId, quantity);
+    super._afterTokenTransfers(from, to, startTokenId, quantity);
   }
 }
