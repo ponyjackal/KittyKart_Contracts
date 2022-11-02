@@ -484,7 +484,7 @@ contract KittyKartAsset is
    * @dev game server mints assets to the user
    * @param _voucher The KittyKartAssetVoucher
    */
-  function safeMint(KittyKartAssetVoucher calldata _voucher) external nonContract {
+  function safeMint(KittyKartAssetVoucher calldata _voucher) external nonContract nonReentrant {
     address signer = _verify(_voucher);
     require(_voucher.traitTypes.length == _voucher.values.length, "KittyKartAsset: invalid arguments");
     require(signer == gameServer, "KittyKartAsset: invalid signature");

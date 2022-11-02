@@ -419,7 +419,7 @@ contract KittyKartGoKart is
    * @dev Its free mint for test
    * @param _quantity The quantity value to mint
    */
-  function publicMint(uint256 _quantity) external nonContract {
+  function publicMint(uint256 _quantity) external nonContract nonReentrant {
     uint256 tokenId = _nextTokenId();
     for (uint256 i = 0; i < _quantity; i++) {
       tableland.runSQL(
