@@ -14,8 +14,9 @@ export function shouldBehaveLikeKittyInu(): void {
       await this.kittyInu
         .connect(this.signers.deployer)
         .mint(this.signers.bell.address, ethers.utils.parseEther("1000"));
+      // we already mint 1000 tokens to bell in fixture
       const balanceOfBell = await this.kittyInu.balanceOf(this.signers.bell.address);
-      expect(balanceOfBell).to.equal(ethers.utils.parseEther("1000"));
+      expect(balanceOfBell).to.equal(ethers.utils.parseEther("2000"));
     });
   });
 }

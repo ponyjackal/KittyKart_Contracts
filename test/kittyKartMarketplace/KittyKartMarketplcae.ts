@@ -25,34 +25,37 @@ describe("Unit tests", function () {
   });
 
   describe("KittyKartMarketplace", function () {
-    beforeEach(async function () {
-      const { kittyKartGoKart } = await this.loadFixture(deployKittyKartGoKartFixture);
-      this.kittyKartGoKart = kittyKartGoKart;
+    before(async function () {
+      // const { kittyKartGoKart } = await this.loadFixture(deployKittyKartGoKartFixture);
+      // this.kittyKartGoKart = kittyKartGoKart;
 
-      const { kittyKartAsset } = await this.loadFixture(deployKittyKartAssetFixture);
-      this.kittyKartAsset = kittyKartAsset;
+      // const { kittyKartAsset } = await this.loadFixture(deployKittyKartAssetFixture);
+      // this.kittyKartAsset = kittyKartAsset;
 
-      const { kittyInu } = await this.loadFixture(deployKittyInuFixture);
-      this.kittyInu = kittyInu;
+      // const { kittyInu } = await this.loadFixture(deployKittyInuFixture);
+      // this.kittyInu = kittyInu;
 
       const { kittyKartMarketplace } = await this.loadFixture(deployKittyKartMarketplaceFixture);
       this.kittyKartMarketplace = kittyKartMarketplace;
 
-      // set KittyKartGoKart address
-      await this.kittyKartMarketplace.connect(this.signers.deployer).setKittyKartGoKart(this.kittyKartGoKart.address);
-      // set KittyKartAsset address
-      await this.kittyKartMarketplace.connect(this.signers.deployer).setKittyKartAsset(this.kittyKartAsset.address);
-      // set assetAttribute table in KittyKartGoKart
-      const assetAttributeTable = await this.kittyKartAsset.attributeTable();
-      await this.kittyKartGoKart.connect(this.signers.deployer).setAssetAttributeTable(assetAttributeTable);
-      // add kittyKartMarketplace to approved marketplaces
-      await this.kittyKartAsset
-        .connect(this.signers.deployer)
-        .setApprovedMarketplace(this.kittyKartMarketplace.address, true);
-      // alice has some karts and assets tokens
-      // approve asset tokens to kittyKartMarketplace
-      await this.kittyKartGoKart.connect(this.signers.alice).setApprovalForAll(this.kittyKartMarketplace.address, true);
-      await this.kittyKartAsset.connect(this.signers.alice).setApprovalForAll(this.kittyKartMarketplace.address, true);
+      // // set KittyKartGoKart address
+      // await this.kittyKartMarketplace.connect(this.signers.deployer).setKittyKartGoKart(this.kittyKartGoKart.address);
+      // // set KittyKartAsset address
+      // await this.kittyKartMarketplace.connect(this.signers.deployer).setKittyKartAsset(this.kittyKartAsset.address);
+      // // set KittyInu table in KittyKartGoKart
+      // await this.kittyKartMarketplace.connect(this.signers.deployer).setKittyInu(this.kittyInu.address);
+      // // add kittyKartMarketplace to approved marketplaces for kittyKartAsset
+      // await this.kittyKartAsset
+      //   .connect(this.signers.deployer)
+      //   .setApprovedMarketplace(this.kittyKartMarketplace.address, true);
+      // // add kittyKartMarketplace to approved marketplaces for kittyKartGoKart
+      // await this.kittyKartGoKart
+      //   .connect(this.signers.deployer)
+      //   .setApprovedMarketplace(this.kittyKartMarketplace.address, true);
+      // // alice has some karts and assets tokens
+      // // approve asset tokens to kittyKartMarketplace
+      // await this.kittyKartGoKart.connect(this.signers.alice).setApprovalForAll(this.kittyKartMarketplace.address, true);
+      // await this.kittyKartAsset.connect(this.signers.alice).setApprovalForAll(this.kittyKartMarketplace.address, true);
     });
 
     shouldBehaveLikeKittyKartMarketplace();

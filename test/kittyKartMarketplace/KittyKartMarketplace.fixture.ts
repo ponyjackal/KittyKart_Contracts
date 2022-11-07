@@ -3,16 +3,7 @@ import { ethers, upgrades } from "hardhat";
 
 import type { KittyKartMarketplace } from "../../src/types/contracts/KittyKartMarketplace";
 import { KittyKartMarketplace__factory } from "../../src/types/factories/contracts/KittyKartMarketplace__factory";
-import {
-  ALICE_ADDRESS,
-  BASE_URI,
-  DEPLOY_ADDRESS,
-  KART_ANIMATION_URL,
-  KART_DESCRIPTION,
-  KART_EXTERNAL_URL,
-  KART_IMAGE,
-  REGISTRY_ADDRESS,
-} from "../constants";
+import { DEPLOY_ADDRESS, REGISTRY_ADDRESS } from "../constants";
 
 export async function deployKittyKartMarketplaceFixture(): Promise<{ kittyKartMarketplace: KittyKartMarketplace }> {
   const signers: SignerWithAddress[] = await ethers.getSigners();
