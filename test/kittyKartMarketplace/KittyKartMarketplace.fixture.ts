@@ -16,24 +16,20 @@ import {
 
 export async function deployKittyKartMarketplaceFixture(): Promise<{ kittyKartMarketplace: KittyKartMarketplace }> {
   const signers: SignerWithAddress[] = await ethers.getSigners();
-  const admin: SignerWithAddress = signers[0];
   const deployer: SignerWithAddress = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
-  const alice: SignerWithAddress = await ethers.getImpersonatedSigner(ALICE_ADDRESS);
+  const gameSever: SignerWithAddress = signers[1];
   // deploy KittyKartMarketplace
   const kittyKartMarketplaceFactory: KittyKartMarketplace__factory = await ethers.getContractFactory(
     "KittyKartMarketplace",
     deployer,
   );
   const kittyKartMarketplace: KittyKartMarketplace = <KittyKartMarketplace>(
-    await upgrades.deployProxy(kittyKartMarketplaceFactory, [
-      BASE_URI,
-      KART_DESCRIPTION,
-      KART_IMAGE,
-      KART_ANIMATION_URL,
-      KART_EXTERNAL_URL,
-      admin.address,
-    ])
+    await upgrades.deployProxy(kittyKartMarketplaceFactory, [REGISTRY_ADDRESS, REGISTRY_ADDRESS, REGISTRY_ADDRESS])
   );
   await kittyKartMarketplace.deployed();
+
+  // set game server
+  await kittyKartMarketplace.connect(deployer).setGameServer(gameSever.address);
+
   return { kittyKartMarketplace };
 }
