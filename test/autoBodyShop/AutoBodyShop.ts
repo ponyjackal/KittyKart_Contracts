@@ -1,6 +1,5 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
-import { createFixtureLoader } from "ethereum-waffle";
 import { ethers } from "hardhat";
 
 import { ALICE_ADDRESS, DEPLOY_ADDRESS, REGISTRY_ADDRESS } from "../constants";
