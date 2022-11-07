@@ -30,7 +30,6 @@ import "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeab
 import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "erc721a-upgradeable/contracts/IERC721AUpgradeable.sol";
-import "@tableland/evm/contracts/ITablelandTables.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/ECDSAUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 
@@ -50,8 +49,6 @@ contract KittyKartMarketplace is
   bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
   string private constant SIGNING_DOMAIN = "KittyKartMarketplaceVoucher";
   string private constant SIGNATURE_VERSION = "1";
-
-  ITablelandTables public tableland;
 
   IERC721AUpgradeable public kittyKartGoKart; // KittyKartGoKart NFT token
   IERC721AUpgradeable public kittyKartAsset; // KittyKartAsset NFT token
@@ -76,13 +73,11 @@ contract KittyKartMarketplace is
    * @param _kittyKartGoKart KittyKartGoKart address
    * @param _kittyKartAsset kittyKartAsset address
    * @param _kittyKartAsset kittyKartAsset address
-   * @param _registry The registry address
    */
   function initialize(
     IERC721AUpgradeable _kittyKartGoKart,
     IERC721AUpgradeable _kittyKartAsset,
-    IERC20Upgradeable _kittyInu,
-    address _registry
+    IERC20Upgradeable _kittyInu
   ) external initializer {
     __Context_init();
     __Ownable_init();
@@ -94,12 +89,10 @@ contract KittyKartMarketplace is
     require(address(_kittyKartAsset) != address(0), "KittyKartMarketplace: invalid KittyKartGoKart address.");
     require(address(_kittyKartAsset) != address(0), "KittyKartMarketplace: invalid KittyKartAsset address.");
     require(address(_kittyInu) != address(0), "KittyKartMarketplace: invalid KittyInu token address.");
-    require(_registry != address(0), "KittyKartMarketplace: invalid registry address");
 
     kittyKartGoKart = _kittyKartGoKart;
     kittyKartAsset = _kittyKartAsset;
     kittyInu = _kittyInu;
-    tableland = ITablelandTables(_registry);
   }
 
   // -----------------------------------------
@@ -145,6 +138,17 @@ contract KittyKartMarketplace is
   }
 
   /**
+   * @dev set the KittyInu address
+   * @param _kittyInu The KittyInu address
+   */
+  function setKittyInu(address _kittyInu) external onlyOwner {
+    require(_kittyInu != address(0), "KittyKartMarketplace: invalid asset token address");
+    kittyInu = IERC20Upgradeable(_kittyInu);
+
+    emit SetKittyKartAsseet(_kittyInu);
+  }
+
+  /**
    * @dev set the KittyKartAsset address
    * @param _kittyKartAsset The KittyKartAsset address
    */
@@ -152,7 +156,7 @@ contract KittyKartMarketplace is
     require(_kittyKartAsset != address(0), "KittyKartMarketplace: invalid asset token address");
     kittyKartAsset = IERC721AUpgradeable(_kittyKartAsset);
 
-    emit SetKittyAsseet(_kittyKartAsset);
+    emit SetKittyKartAsseet(_kittyKartAsset);
   }
 
   // -----------------------------------------
