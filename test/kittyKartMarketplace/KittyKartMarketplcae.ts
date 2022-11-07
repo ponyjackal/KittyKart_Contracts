@@ -2,7 +2,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { ethers } from "hardhat";
 
-import { ALICE_ADDRESS, DEPLOY_ADDRESS } from "../constants";
+import { ALICE_ADDRESS, DEPLOY_ADDRESS, KITTY_INU_ADDRESS, KITTY_INU_HOLDER } from "../constants";
 import { deployKittyKartAssetFixture } from "../kittyKartAsset/KittyKartAsset.fixture";
 import { deployKittyKartGoKartFixture } from "../kittyKartGoKart/KittyKartGoKart.fixture";
 import type { Signers } from "../types";
@@ -16,7 +16,8 @@ describe("Unit tests", function () {
     const signers: SignerWithAddress[] = await ethers.getSigners();
     // impersonate account on goerli
     this.signers.deployer = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
-    this.signers.alice = await ethers.getImpersonatedSigner(ALICE_ADDRESS);
+    this.signers.alice = await ethers.getImpersonatedSigner(ALICE_ADDRESS); // alice has many KittyKarts and KittyAssets
+    this.signers.bell = await ethers.getImpersonatedSigner(KITTY_INU_HOLDER); // bell has many KittyInu tokens
     this.signers.admin = signers[0];
     this.signers.andy = signers[1];
 
