@@ -17,7 +17,8 @@ interface IKittyKartMarketplace {
   );
   event SetGameServer(address gameServer);
   event SetKittyKartGoKart(address kittyKartGoKart);
-  event SetKittyAsseet(address kittyKartAsset);
+  event SetKittyKartAsseet(address kittyKartAsset);
+  event SetKittyInu(address kittyInu);
 
   struct KittyKartMarketplaceVoucher {
     address user;
@@ -60,4 +61,6 @@ interface IKittyKartMarketplace {
   function setKittyKartGoKart(address _kittyKartGoKart) external;
 
   function setKittyKartAsset(address _kittyKartAsset) external;
+
+  function setKittyInu(address _kittyInu) external;
 }
