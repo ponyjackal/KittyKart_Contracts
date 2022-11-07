@@ -16,7 +16,7 @@ import {
 
 export async function deployKittyKartGoKartFixture(): Promise<{ kittyKartGoKart: KittyKartGoKart }> {
   const signers: SignerWithAddress[] = await ethers.getSigners();
-  const admin: SignerWithAddress = signers[0];
+  const bell: SignerWithAddress = signers[0];
   const deployer: SignerWithAddress = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
   const alice: SignerWithAddress = await ethers.getImpersonatedSigner(ALICE_ADDRESS);
   // deploy KittyKartGoKart
@@ -28,7 +28,7 @@ export async function deployKittyKartGoKartFixture(): Promise<{ kittyKartGoKart:
       KART_IMAGE,
       KART_ANIMATION_URL,
       KART_EXTERNAL_URL,
-      admin.address,
+      bell.address,
     ])
   );
   await kittyKartGoKart.deployed();

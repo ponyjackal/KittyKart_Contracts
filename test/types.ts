@@ -18,7 +18,6 @@ declare module "mocha" {
 
 export interface Signers {
   deployer: SignerWithAddress;
-  admin: SignerWithAddress;
   gameServer: SignerWithAddress;
   alice: SignerWithAddress;
   andy: SignerWithAddress;
