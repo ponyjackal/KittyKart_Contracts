@@ -112,7 +112,7 @@ export function shouldBehaveLikeAutoBodyShop(): void {
         chainId: network.config.chainId,
         verifyingContract: this.autoBodyShop.address,
       };
-      const signature = await this.signers.admin._signTypedData(typedDomain, SIGNING_AUTOBODY_SHOP_TYPES, data);
+      const signature = await this.signers.bell._signTypedData(typedDomain, SIGNING_AUTOBODY_SHOP_TYPES, data);
       const voucher = {
         ...data,
         signature: signature,
@@ -126,7 +126,7 @@ export function shouldBehaveLikeAutoBodyShop(): void {
     it("should revert if invalid data is signed", async function () {
       // sign a message for AutoBodyShopVoucher
       const data = {
-        owner: this.signers.admin.address,
+        owner: this.signers.bell.address,
         kartId: 0,
         assetIds: [0, 1],
         resetQuery: "UPDATE Attribute SET in_use = 2 WHERE id = 0",

@@ -20,19 +20,19 @@ import {
 
 export async function deployKittyKartAssetFixture(): Promise<{ kittyKartAsset: KittyKartAsset }> {
   const signers: SignerWithAddress[] = await ethers.getSigners();
-  const admin: SignerWithAddress = signers[0];
+  const bell: SignerWithAddress = signers[0];
   const deployer: SignerWithAddress = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
   const alice: SignerWithAddress = await ethers.getImpersonatedSigner(ALICE_ADDRESS);
   // deploy kittyKartAsset
   const kittyKartAssetFactory: KittyKartAsset__factory = await ethers.getContractFactory("KittyKartAsset", deployer);
   const kittyKartAsset: KittyKartAsset = <KittyKartAsset>(
-    await upgrades.deployProxy(kittyKartAssetFactory, [BASE_URI, ASSET_DESCRIPTION, ASSET_EXTERNAL_URL, admin.address])
+    await upgrades.deployProxy(kittyKartAssetFactory, [BASE_URI, ASSET_DESCRIPTION, ASSET_EXTERNAL_URL, bell.address])
   );
   await kittyKartAsset.deployed();
   // create table
   await kittyKartAsset.connect(deployer).createMetadataTable(REGISTRY_ADDRESS);
   // set game server
-  await kittyKartAsset.connect(deployer).setGameServer(admin.address);
+  await kittyKartAsset.connect(deployer).setGameServer(bell.address);
   // sign a message for KittyKartAssetVoucher
   const data1 = {
     receiver: alice.address,
@@ -62,7 +62,7 @@ export async function deployKittyKartAssetFixture(): Promise<{ kittyKartAsset: K
     chainId: network.config.chainId,
     verifyingContract: kittyKartAsset.address,
   };
-  const signature1 = await admin._signTypedData(typedDomain, SIGNATURE_ASSET_MINT_TYPES, data1);
+  const signature1 = await bell._signTypedData(typedDomain, SIGNATURE_ASSET_MINT_TYPES, data1);
   const voucher1 = {
     ...data1,
     signature: signature1,
@@ -80,7 +80,7 @@ export async function deployKittyKartAssetFixture(): Promise<{ kittyKartAsset: K
     nonce: 1,
     expiry: 0,
   };
-  const signature2 = await admin._signTypedData(typedDomain, SIGNATURE_ASSET_MINT_TYPES, data2);
+  const signature2 = await bell._signTypedData(typedDomain, SIGNATURE_ASSET_MINT_TYPES, data2);
   const voucher2 = {
     ...data2,
     signature: signature2,

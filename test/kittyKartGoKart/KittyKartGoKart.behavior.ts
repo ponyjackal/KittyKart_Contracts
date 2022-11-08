@@ -170,7 +170,7 @@ export function shouldBehaveLikeKittyKartGoKart(): void {
     it("should return false for other operator addresses", async function () {
       await this.kittyKartGoKart.setAutoBodyShop(this.signers.andy.address);
       expect(
-        await this.kittyKartGoKart.isApprovedForAll(this.signers.alice.address, this.signers.admin.address),
+        await this.kittyKartGoKart.isApprovedForAll(this.signers.alice.address, this.signers.bell.address),
       ).to.be.equal(false);
     });
   });

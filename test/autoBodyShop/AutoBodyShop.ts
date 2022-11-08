@@ -1,6 +1,5 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
-import { createFixtureLoader } from "ethereum-waffle";
 import { ethers } from "hardhat";
 
 import { ALICE_ADDRESS, DEPLOY_ADDRESS, REGISTRY_ADDRESS } from "../constants";
@@ -22,7 +21,7 @@ describe("Unit tests", function () {
     // impersonate account on mainnet
     this.signers.deployer = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
     this.signers.alice = await ethers.getImpersonatedSigner(ALICE_ADDRESS);
-    this.signers.admin = signers[0];
+    this.signers.bell = signers[0];
     this.signers.gameServer = signers[1];
 
     this.loadFixture = loadFixture;

@@ -5,9 +5,11 @@ import { TaskArguments } from "hardhat/types";
 import { AutoBodyShop } from "../../src/types/contracts/AutoBodyShop";
 import { KittyKartAsset } from "../../src/types/contracts/KittyKartAsset";
 import { KittyKartGoKart } from "../../src/types/contracts/KittyKartGoKart";
+import { KittyKartMarketplace } from "../../src/types/contracts/KittyKartMarketplace";
 import { AutoBodyShop__factory } from "../../src/types/factories/contracts/AutoBodyShop__factory";
 import { KittyKartAsset__factory } from "../../src/types/factories/contracts/KittyKartAsset__factory";
 import { KittyKartGoKart__factory } from "../../src/types/factories/contracts/KittyKartGoKart__factory";
+import { KittyKartMarketplace__factory } from "../../src/types/factories/contracts/KittyKartMarketplace__factory";
 import { readContractAddress } from "../deploy/addresses/utils";
 import { readValue, writeValue } from "./values/utils";
 
@@ -52,6 +54,7 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
   const kittyKartGoKartProxyAddress = readContractAddress("kittyKartGoKartProxy");
   const kittyKartAssetProxyAddress = readContractAddress("kittyKartAssetProxy");
   const autoBodyShopProxyAddress = readContractAddress("autoBodyShopProxy");
+  const kittyKartMarketplaceProxyAddress = readContractAddress("kittyKartMarketplaceProxy");
   const gameServerAddress = readValue("gameServer");
 
   // attach KittyKartGoKart
@@ -69,6 +72,13 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
     await ethers.getContractFactory("AutoBodyShop", accounts[0])
   );
   const autoBodyShop: AutoBodyShop = await autoBodyShopFactory.attach(autoBodyShopProxyAddress);
+  // attach KittyKartMarketplace
+  const kittyKartMarketplaceFactory: KittyKartMarketplace__factory = <KittyKartMarketplace__factory>(
+    await ethers.getContractFactory("KittyKartMarketplace", accounts[0])
+  );
+  const kittyKartMarketplace: KittyKartMarketplace = await kittyKartMarketplaceFactory.attach(
+    kittyKartMarketplaceProxyAddress,
+  );
 
   try {
     // get metadata table id for KittyKartGoKart
@@ -148,6 +158,17 @@ task("main:initContracts").setAction(async function (taskArguments: TaskArgument
     // set gameServer in AutoBodyShop
     await autoBodyShop.setGameServer(gameServerAddress);
     console.log("AutoBodyShop:setGameServer success", gameServerAddress);
+
+    /** init marketplace */
+    // set gameServer in KittyKartMarketplace
+    await kittyKartMarketplace.setGameServer(gameServerAddress);
+    console.log("KittyKartMarketplace:setGameServer success");
+    // set KittyKartGoKart address in KittyKartMarketplace
+    await kittyKartMarketplace.setKittyKartGoKart(kittyKartGoKartProxyAddress);
+    console.log("KittyKartMarketplace:setKittyKartGoKart success");
+    // set KittyKartAsset address in KittyKartMarketplace
+    await kittyKartMarketplace.setKittyKartAsset(kittyKartAssetProxyAddress);
+    console.log("KittyKartMarketplace:setKittyKartAsset success");
 
     console.log("main:initContracts success");
   } catch (err) {
