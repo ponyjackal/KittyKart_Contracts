@@ -1,5 +1,4 @@
 import { expect } from "chai";
-import { ethers } from "hardhat";
 
 import { GAME_SERVER_ADDRESS, MARKET_PLACE_1, REGISTRY_ADDRESS, ZERO_ADDRESS } from "../constants";
 
@@ -149,7 +148,7 @@ export function shouldBehaveLikeKittyKartAsset(): void {
     it("should return false for other operator addresses", async function () {
       await this.kittyKartAsset.setAutoBodyShop(this.signers.andy.address);
       expect(
-        await this.kittyKartAsset.isApprovedForAll(this.signers.alice.address, this.signers.admin.address),
+        await this.kittyKartAsset.isApprovedForAll(this.signers.alice.address, this.signers.bell.address),
       ).to.be.equal(false);
     });
   });

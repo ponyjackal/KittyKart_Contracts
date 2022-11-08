@@ -14,8 +14,8 @@ task("deploy:AutoBodyShop").setAction(async function (taskArguments: TaskArgumen
     await ethers.getContractFactory("AutoBodyShop", accounts[0])
   );
   const autoBodyShopProxy = await upgrades.deployProxy(autoBodyShopFactory, [
-    cArguments.KITTY_KART_ADDRESS,
-    cArguments.KITTY_PAINT_ADDRESS,
+    cArguments.KITTY_KART_GO_KART_ADDRESS,
+    cArguments.KITTY_KART_ASSET_ADDRESS,
     cArguments.REGISTRY_ADDRESS,
   ]);
   await autoBodyShopProxy.deployed();
