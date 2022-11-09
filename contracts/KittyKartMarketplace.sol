@@ -57,9 +57,9 @@ contract KittyKartMarketplace is
   // Game server address
   address public gameServer;
   // NFT token contract => token id => NFT
-  mapping(address => mapping(uint256 => NFT)) private _idToNFT;
+  mapping(address => mapping(uint256 => NFT)) public _idToNFT;
   // mapping for bids, NFT token contract => token id => Offer
-  mapping(address => mapping(uint256 => Offer)) private _idToOffer;
+  mapping(address => mapping(uint256 => Offer)) public _idToOffer;
   // KittyKartMarketplace nonces
   mapping(address => uint256) public nonces;
   // KittyKartMarketplace signatures

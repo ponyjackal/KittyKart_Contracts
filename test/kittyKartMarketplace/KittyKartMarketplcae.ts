@@ -16,7 +16,7 @@ describe("Unit tests", function () {
     this.signers.deployer = await ethers.getImpersonatedSigner(DEPLOY_ADDRESS);
     this.signers.alice = await ethers.getImpersonatedSigner(ALICE_ADDRESS); // alice has many KittyKarts and KittyAssets
     this.signers.bell = signers[0]; // bell has many KittyInu tokens
-    this.signers.andy = signers[1];
+    this.signers.gameServer = signers[1];
 
     this.loadFixture = loadFixture;
   });
