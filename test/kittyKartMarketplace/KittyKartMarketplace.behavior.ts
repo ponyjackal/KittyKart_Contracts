@@ -669,14 +669,66 @@ export function shouldBehaveLikeKittyKartMarketplace(): void {
   });
 
   describe("Make Offer", async function () {
-    it("should make an offer", async function () {
+    before(async function () {
+      // transfer some kitty tokens to andy from bell
+      await this.kittyInu.connect(this.signers.bell).transfer(this.signers.andy.address, ethers.utils.parseEther("10"));
+      // andy allows tokens to be spent by marketplace
+      await this.kittyInu
+        .connect(this.signers.andy)
+        .increaseAllowance(this.kittyKartMarketplace.address, ethers.utils.parseEther("10"));
+      // andy is going to make an offer to kart_3
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.andy.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 3,
+        price: ethers.utils.parseEther("0.8"),
+        actionType: 2,
+        nonce: 0,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // make an offer
+      // should transfer KittyInu token from andy to marketplace
+      await expect(() => this.kittyKartMarketplace.connect(this.signers.andy).makeOffer(voucher)).to.changeTokenBalance(
+        this.kittyInu,
+        this.signers.andy,
+        ethers.utils.parseEther("-0.8"),
+      );
+      // check kart is in offers
+      const offer = await this.kittyKartMarketplace._idToOffer(this.kittyKartGoKart.address, 3);
+      expect(offer.exists).to.equal(true);
+      expect(offer.buyer).to.equal(this.signers.andy.address);
+      expect(offer.price).to.equal(ethers.utils.parseEther("0.8"));
+      // token should not be trasferred to andy
+      const kartOwner = await this.kittyKartGoKart.ownerOf(3);
+      expect(kartOwner).to.equal(this.signers.alice.address);
+      // check if nonce is updated
+      const nonce = await this.kittyKartMarketplace.nonces(this.signers.andy.address);
+      expect(nonce).to.equal(1);
+      // check if signature is set as used
+      const isSignatureUsed = await this.kittyKartMarketplace.signatures(signature);
+      expect(isSignatureUsed).to.equal(true);
+    });
+
+    it("should revert if price is lower than existing offer", async function () {
       // bell is going to make an offer to kart_3
       // sign a message for KittyKartMarketplace
       const data = {
         user: this.signers.bell.address,
         collection: this.kittyKartGoKart.address,
         tokenId: 3,
-        price: ethers.utils.parseEther("0.8"),
+        price: ethers.utils.parseEther("0.5"),
         actionType: 2,
         nonce: 2,
         expiry: 0,
@@ -694,22 +746,9 @@ export function shouldBehaveLikeKittyKartMarketplace(): void {
       };
       // make an offer
       // should transfer KittyInu token from bell to marketplace
-      await expect(() => this.kittyKartMarketplace.connect(this.signers.bell).makeOffer(voucher)).to.changeTokenBalance(
-        this.kittyInu,
-        this.signers.bell,
-        ethers.utils.parseEther("-0.8"),
-      );
-      // check kart is in offers
-      const offer = await this.kittyKartMarketplace._idToOffer(this.kittyKartGoKart.address, 3);
-      expect(offer.exists).to.equal(true);
-      expect(offer.buyer).to.equal(this.signers.bell.address);
-      expect(offer.price).to.equal(ethers.utils.parseEther("0.8"));
-      // check if nonce is updated
-      const nonce = await this.kittyKartMarketplace.nonces(this.signers.bell.address);
-      expect(nonce).to.equal(3);
-      // check if signature is set as used
-      const isSignatureUsed = await this.kittyKartMarketplace.signatures(signature);
-      expect(isSignatureUsed).to.equal(true);
+      const tx = this.kittyKartMarketplace.connect(this.signers.bell).makeOffer(voucher);
+      // check revert
+      await expect(tx).be.revertedWith("KittyKartMarketplace: offer price is too low");
     });
 
     // it("should emit an event for list", async function () {
