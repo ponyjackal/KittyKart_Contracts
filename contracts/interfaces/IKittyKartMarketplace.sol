@@ -52,9 +52,9 @@ interface IKittyKartMarketplace {
 
   function listNFT(uint256 _tokenId, address _owner) external;
 
-  function buyNFT(KittyKartMarketplaceVoucher calldata _voucher, uint256 _amount) external;
+  function buyNFT(KittyKartMarketplaceVoucher calldata _voucher) external;
 
-  function makeOffer(KittyKartMarketplaceVoucher calldata _voucher, uint256 _amount) external;
+  function makeOffer(KittyKartMarketplaceVoucher calldata _voucher) external;
 
   function acceptOffer(KittyKartMarketplaceVoucher calldata _voucher) external;
 
