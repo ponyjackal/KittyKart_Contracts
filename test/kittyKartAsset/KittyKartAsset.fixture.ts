@@ -5,13 +5,10 @@ import type { KittyKartAsset } from "../../src/types/contracts/KittyKartAsset";
 import { KittyKartAsset__factory } from "../../src/types/factories/contracts/KittyKartAsset__factory";
 import {
   ALICE_ADDRESS,
-  ASSET_ANIMATION_URL,
   ASSET_DESCRIPTION,
   ASSET_EXTERNAL_URL,
-  ASSET_IMAGE,
   BASE_URI,
   DEPLOY_ADDRESS,
-  GAME_SERVER_ADDRESS,
   REGISTRY_ADDRESS,
   SIGNATURE_ASSET_MINT_TYPES,
   SIGNATURE_ASSET_MINT_VERSION,

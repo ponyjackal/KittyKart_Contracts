@@ -17,7 +17,6 @@ task("deploy:KittyKartMarketplace").setAction(async function (taskArguments: Tas
     cArguments.KITTY_KART_GO_KART_ADDRESS,
     cArguments.KITTY_KART_ASSET_ADDRESS,
     cArguments.KITTY_INU_ADDRESS,
-    cArguments.REGISTRY_ADDRESS,
   ]);
   await kittyKartMarketplaceProxy.deployed();
 

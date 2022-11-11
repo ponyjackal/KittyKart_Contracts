@@ -24,6 +24,7 @@ There are 3 upgradeable smart contracts
 - KittyKartGoKart (ERC721A contract relies on Tableland for metadata)
 - KittyKartAsset (ERC721A contract relies on Tableland for metadata)
 - AutoBodyShop (A smart contract where users can apply assets to the kart, will be deprecated once we build a backend service for shop)
+- KittyKartMarketplace (A smart contract where users can buy and sell Kart tokens and Asset tokens)
 
 ### Sensible Defaults
 
@@ -172,6 +173,15 @@ $ npx hardhat verify:AutoBodyShop
 // upgrade AutoBodyShop
 $ npx hardhat upgrade:AutoBodyShop
 
+// deploy KittyKartMarketplace
+$ npx hardhat deploy:KittyKartMarketplace
+
+// verify KittyKartMarketplace
+$ npx hardhat verify:KittyKartMarketplace
+
+// upgrade KittyKartMarketplace
+$ npx hardhat upgrade:KittyKartMarketplace
+
 ```
 
 ### Interactions to deployed smart contracts
@@ -238,6 +248,15 @@ $ npx hardhat KittyKartGoKart:setAutoBodyShopToApprovedMarketplace
 
 // set AutoBodyShop to approved marketplace in KittyKartAsset
 $ npx hardhat KittyKartAsset:setAutoBodyShopToApprovedMarketplace
+
+// set game server on KittyKartAsset
+$ npx hardhat KittyKartMarketplace:setGameServer
+
+// set KittyKartGoKart on KittyKartMarketplace
+$ npx hardhat KittyKartMarketplace:setKittyKartGoKart
+
+// set setKittyKartAsset on KittyKartMarketplace
+$ npx hardhat KittyKartMarketplace:setKittyKartAsset
 
 ```
 
