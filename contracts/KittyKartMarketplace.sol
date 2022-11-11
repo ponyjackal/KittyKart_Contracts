@@ -181,7 +181,7 @@ contract KittyKartMarketplace is
     require(_voucher.price > 0, "KittyKartMarketplace: invalid KittyInu token price");
     require(_voucher.actionType == 0, "KittyKartMarketplace: invalid action");
     require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: asset is expired");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: signature is expired");
     require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
 
     nonces[_voucher.user]++;
@@ -239,7 +239,7 @@ contract KittyKartMarketplace is
     );
     require(_voucher.actionType == 1, "KittyKartMarketplace: invalid action");
     require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: asset is expired");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: signature is expired");
     require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
 
     nonces[_voucher.user]++;
@@ -274,7 +274,7 @@ contract KittyKartMarketplace is
     );
     require(_voucher.actionType == 2, "KittyKartMarketplace: invalid action");
     require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: asset is expired");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: signature is expired");
     require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
 
     nonces[_voucher.user]++;
@@ -312,7 +312,7 @@ contract KittyKartMarketplace is
     );
     require(_voucher.actionType == 3, "KittyKartMarketplace: invalid action");
     require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
-    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: asset is expired");
+    require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: signature is expired");
     require(
       IERC721AUpgradeable(_voucher.collection).ownerOf(_voucher.tokenId) == msg.sender,
       "KittyKartMarketplace: caller is not the owner of NFT token"
