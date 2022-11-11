@@ -3,6 +3,7 @@ import "@nomiclabs/hardhat-waffle";
 import "@openzeppelin/hardhat-upgrades";
 import "@typechain/hardhat";
 import { config as dotenvConfig } from "dotenv";
+import { utils } from "ethers";
 import "hardhat-gas-reporter";
 import { HardhatUserConfig } from "hardhat/config";
 import { NetworkUserConfig } from "hardhat/types";
@@ -40,6 +41,8 @@ const chainIds = {
   rinkeby: 4,
   goerli: 5,
 };
+
+const defaultBalance = utils.parseEther("1000").toString();
 
 function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
   if (!privateKey1) {
@@ -92,15 +95,15 @@ const config: HardhatUserConfig = {
       accounts: [
         {
           privateKey: privateKey1,
-          balance: "10000000000000000000000000000000000000000000000000000000",
+          balance: defaultBalance,
         },
         {
           privateKey: privateKey2 ?? "",
-          balance: "10000000000000000000000000000000000000000000000000000000",
+          balance: defaultBalance,
         },
         {
           privateKey: privateKey3 ?? "",
-          balance: "10000000000000000000000000000000000000000000000000000000",
+          balance: defaultBalance,
         },
       ],
       chainId: chainIds.hardhat,
