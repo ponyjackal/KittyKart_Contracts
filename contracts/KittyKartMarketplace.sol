@@ -241,6 +241,10 @@ contract KittyKartMarketplace is
     require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
     require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: signature is expired");
     require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
+    require(
+      IERC721AUpgradeable(_voucher.collection).ownerOf(_voucher.tokenId) != msg.sender,
+      "KittyKartMarketplace: the owner of NFT token can not buy"
+    );
 
     nonces[_voucher.user]++;
     signatures[_voucher.signature] = true;
@@ -276,6 +280,10 @@ contract KittyKartMarketplace is
     require(_voucher.nonce == nonces[_voucher.user], "KittyKartMarketplace: invalid nonce");
     require(_voucher.expiry == 0 || block.timestamp <= _voucher.expiry, "KittyKartMarketplace: signature is expired");
     require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
+    require(
+      IERC721AUpgradeable(_voucher.collection).ownerOf(_voucher.tokenId) != msg.sender,
+      "KittyKartMarketplace: the owner of NFT token can not make an offer"
+    );
 
     nonces[_voucher.user]++;
     signatures[_voucher.signature] = true;
