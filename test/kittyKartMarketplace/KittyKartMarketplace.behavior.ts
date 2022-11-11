@@ -1047,4 +1047,331 @@ export function shouldBehaveLikeKittyKartMarketplace(): void {
       await expect(tx).to.be.emit(this.kittyKartMarketplace, "OfferMade");
     });
   });
+
+  describe("Accept Offer", async function () {
+    // alice is the owner of kart_3 and kart_4
+    // bell did make offers to kart_3 and kart_4
+    before(async function () {
+      // andy is going to make an offer to kart_5
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.andy.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 5,
+        price: ethers.utils.parseEther("1"),
+        actionType: 2,
+        nonce: 1,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // make an offer
+      await this.kittyKartMarketplace.connect(this.signers.andy).makeOffer(voucher);
+    });
+
+    it("should revert if user is not owner of the token", async function () {
+      // andy is going to accept an offer for kart_3,
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.andy.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 3,
+        price: ethers.utils.parseEther("0.5"), // price has no meaning here
+        actionType: 3,
+        nonce: 2,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // accept an offer
+      const tx = this.kittyKartMarketplace.connect(this.signers.andy).acceptOffer(voucher);
+      // check revert
+      await expect(tx).be.revertedWith("KittyKartMarketplace: caller is not the owner of NFT token");
+    });
+
+    it("should revert if nonce is not correct", async function () {
+      // alice is going to accept an offer for kart_3,
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.alice.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 3,
+        price: 0, // price has no meaning here
+        actionType: 3,
+        nonce: 2,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // accept an offer
+      const tx = this.kittyKartMarketplace.connect(this.signers.alice).acceptOffer(voucher);
+      // check revert
+      await expect(tx).be.revertedWith("KittyKartMarketplace: invalid nonce");
+    });
+
+    it("should revert if signature is not signed by gameServer", async function () {
+      // alice is going to accept an offer for kart_3,
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.alice.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 3,
+        price: 0, // price has no meaning here
+        actionType: 3,
+        nonce: 2,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.bell._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // accept an offer
+      const tx = this.kittyKartMarketplace.connect(this.signers.alice).acceptOffer(voucher);
+      // check revert
+      await expect(tx).be.revertedWith("KittyKartMarketplace: invalid signature");
+    });
+
+    it("should revert if tx submitter is not valid user", async function () {
+      // alice is going to accept an offer for kart_3,
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.alice.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 3,
+        price: 0, // price has no meaning here
+        actionType: 3,
+        nonce: 4,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // accept an offer
+      const tx = this.kittyKartMarketplace.connect(this.signers.bell).acceptOffer(voucher);
+      // check revert
+      await expect(tx).be.revertedWith("KittyKartMarketplace: invalid user");
+    });
+
+    it("should revert if nft address is not kart or asset", async function () {
+      // alice is going to accept an offer for kart_3,
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.alice.address,
+        collection: this.kittyInu.address,
+        tokenId: 3,
+        price: 0, // price has no meaning here
+        actionType: 3,
+        nonce: 4,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // accept an offer
+      const tx = this.kittyKartMarketplace.connect(this.signers.alice).acceptOffer(voucher);
+      // check revert
+      await expect(tx).be.revertedWith("KittyKartMarketplace: invalid NFT token contract");
+    });
+
+    it("should revert if action type is not correct", async function () {
+      // alice is going to accept an offer for kart_3,
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.alice.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 3,
+        price: 0, // price has no meaning here
+        actionType: 1, // action type for accept offer should be 3
+        nonce: 4,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // accept an offer
+      const tx = this.kittyKartMarketplace.connect(this.signers.alice).acceptOffer(voucher);
+      // check revert
+      await expect(tx).be.revertedWith("KittyKartMarketplace: invalid action");
+    });
+
+    it("should revert if signature is expired", async function () {
+      // alice is going to accept an offer for kart_3,
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.alice.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 3,
+        price: 0, // price has no meaning here
+        actionType: 3,
+        nonce: 4,
+        expiry: 1, // expired
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // accept an offer
+      const tx = this.kittyKartMarketplace.connect(this.signers.alice).acceptOffer(voucher);
+      // check revert
+      await expect(tx).be.revertedWith("KittyKartMarketplace: signature is expired");
+    });
+
+    it("should revert if offer doesn't exist", async function () {
+      // alice is going to accept an offer for kart_6, there is no offer for kart_6
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.alice.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 6,
+        price: 0, // price has no meaning here
+        actionType: 3,
+        nonce: 4,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // accept an offer
+      const tx = this.kittyKartMarketplace.connect(this.signers.alice).acceptOffer(voucher);
+      // check revert
+      await expect(tx).be.revertedWith("KittyKartMarketplace: offer doesn't exist");
+    });
+
+    it("should accept an offer", async function () {
+      // alice is going to accept an offer for kart_3,
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.alice.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 3,
+        price: 0, // price has no meaning here
+        actionType: 3,
+        nonce: 4,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // accept an offer
+      // transfer 1 KittyInu from marketplace to alice
+      await expect(() =>
+        this.kittyKartMarketplace.connect(this.signers.alice).acceptOffer(voucher),
+      ).to.be.changeTokenBalance(this.kittyInu, this.signers.alice, ethers.utils.parseEther("0.95"));
+      // should transfer kart from marketplace to bell
+      expect(await this.kittyKartGoKart.ownerOf(3)).to.equal(this.signers.bell.address);
+      // should update offer info
+      const offer = await this.kittyKartMarketplace._idToOffer(this.kittyKartGoKart.address, 3);
+      expect(offer.price).to.equal(0);
+      expect(offer.exists).to.equal(false);
+    });
+
+    it("should emit an event for offer accepted", async function () {
+      // alice is going to accept an offer for kart_4,
+      // sign a message for KittyKartMarketplace
+      const data = {
+        user: this.signers.alice.address,
+        collection: this.kittyKartGoKart.address,
+        tokenId: 4,
+        price: 0, // price has no meaning here
+        actionType: 3,
+        nonce: 5,
+        expiry: 0,
+      };
+      const typedDomain = {
+        name: SIGNING_MARKETPLACE_DOMAIN,
+        version: SIGNING_MARKETPLACE_VERSION,
+        chainId: network.config.chainId,
+        verifyingContract: this.kittyKartMarketplace.address,
+      };
+      const signature = await this.signers.gameServer._signTypedData(typedDomain, SIGNING_MARKETPLACE_TYPES, data);
+      const voucher = {
+        ...data,
+        signature: signature,
+      };
+      // accept an offer
+      const tx = this.kittyKartMarketplace.connect(this.signers.alice).acceptOffer(voucher);
+      await expect(tx).to.be.emit(this.kittyKartMarketplace, "OfferAccepted");
+    });
+  });
 }
