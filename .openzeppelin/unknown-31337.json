@@ -42,7 +42,7 @@
     },
     {
       "address": "0x87F9415632d54A5Ab95165F2AD80142Fb5061025",
-      "txHash": "0x89180cc1724e79282792fa8411c560bbb2d31aa140c654f5418852f55f0f08b7",
+      "txHash": "0xb9a195e591b374947a162c8e35585364768c5977e17853dd89aa9ecfaa2f41d3",
       "kind": "transparent"
     }
   ],
@@ -1061,9 +1061,9 @@
         }
       }
     },
-    "f22f4df739a4c3b570b5ff825209d3d5ccbfe2efcb47076db3c2ed4950ce3518": {
+    "129ff30b041b25bf9d2d7a27ac849b84d89c7e27c8b07eacf270a24e156b2047": {
       "address": "0xaE20e53FCB2128cfFbB71705de66B33f1933dD5F",
-      "txHash": "0xa534fc0f352ee1a164f08aa5723ffab0dfb5c9cea4c441f2e08b9312b76710ce",
+      "txHash": "0xdefcf5d10242381aceb8765c596a26f37674086786af6581aadd9820954254d9",
       "layout": {
         "storage": [
           {
@@ -1175,7 +1175,7 @@
             "label": "kittyKartGoKart",
             "offset": 0,
             "slot": "303",
-            "type": "t_contract(IERC721AUpgradeable)9626",
+            "type": "t_contract(IERC721AUpgradeable)9656",
             "contract": "KittyKartMarketplace",
             "src": "contracts\\KittyKartMarketplace.sol:53"
           },
@@ -1183,7 +1183,7 @@
             "label": "kittyKartAsset",
             "offset": 0,
             "slot": "304",
-            "type": "t_contract(IERC721AUpgradeable)9626",
+            "type": "t_contract(IERC721AUpgradeable)9656",
             "contract": "KittyKartMarketplace",
             "src": "contracts\\KittyKartMarketplace.sol:54"
           },
@@ -1207,7 +1207,7 @@
             "label": "_idToNFT",
             "offset": 0,
             "slot": "307",
-            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(NFT)7370_storage))",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(NFT)7400_storage))",
             "contract": "KittyKartMarketplace",
             "src": "contracts\\KittyKartMarketplace.sol:60"
           },
@@ -1215,7 +1215,7 @@
             "label": "_idToOffer",
             "offset": 0,
             "slot": "308",
-            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(Offer)7377_storage))",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(Offer)7407_storage))",
             "contract": "KittyKartMarketplace",
             "src": "contracts\\KittyKartMarketplace.sol:62"
           },
@@ -1265,15 +1265,15 @@
             "label": "contract IERC20Upgradeable",
             "numberOfBytes": "20"
           },
-          "t_contract(IERC721AUpgradeable)9626": {
+          "t_contract(IERC721AUpgradeable)9656": {
             "label": "contract IERC721AUpgradeable",
             "numberOfBytes": "20"
           },
-          "t_mapping(t_address,t_mapping(t_uint256,t_struct(NFT)7370_storage))": {
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(NFT)7400_storage))": {
             "label": "mapping(address => mapping(uint256 => struct IKittyKartMarketplace.NFT))",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_mapping(t_uint256,t_struct(Offer)7377_storage))": {
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(Offer)7407_storage))": {
             "label": "mapping(address => mapping(uint256 => struct IKittyKartMarketplace.Offer))",
             "numberOfBytes": "32"
           },
@@ -1285,15 +1285,15 @@
             "label": "mapping(bytes => bool)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(NFT)7370_storage)": {
+          "t_mapping(t_uint256,t_struct(NFT)7400_storage)": {
             "label": "mapping(uint256 => struct IKittyKartMarketplace.NFT)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(Offer)7377_storage)": {
+          "t_mapping(t_uint256,t_struct(Offer)7407_storage)": {
             "label": "mapping(uint256 => struct IKittyKartMarketplace.Offer)",
             "numberOfBytes": "32"
           },
-          "t_struct(NFT)7370_storage": {
+          "t_struct(NFT)7400_storage": {
             "label": "struct IKittyKartMarketplace.NFT",
             "members": [
               {
@@ -1335,7 +1335,7 @@
             ],
             "numberOfBytes": "160"
           },
-          "t_struct(Offer)7377_storage": {
+          "t_struct(Offer)7407_storage": {
             "label": "struct IKittyKartMarketplace.Offer",
             "members": [
               {
