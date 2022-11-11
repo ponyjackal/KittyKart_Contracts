@@ -243,7 +243,7 @@ contract KittyKartMarketplace is
     require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
     require(
       IERC721AUpgradeable(_voucher.collection).ownerOf(_voucher.tokenId) != msg.sender,
-      "KittyKartMarketplace: the owner of NFT token can not buy"
+      "KittyKartMarketplace: caller is the owner of NFT"
     );
 
     nonces[_voucher.user]++;
@@ -282,7 +282,7 @@ contract KittyKartMarketplace is
     require(!signatures[_voucher.signature], "KittyKartMarketplace: signature is used");
     require(
       IERC721AUpgradeable(_voucher.collection).ownerOf(_voucher.tokenId) != msg.sender,
-      "KittyKartMarketplace: the owner of NFT token can not make an offer"
+      "KittyKartMarketplace: call is the owner of NFT"
     );
 
     nonces[_voucher.user]++;

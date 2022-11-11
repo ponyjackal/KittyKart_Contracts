@@ -664,7 +664,7 @@ export function shouldBehaveLikeKittyKartMarketplace(): void {
       // buy nft
       const tx = this.kittyKartMarketplace.connect(this.signers.bell).buyNFT(voucher);
       // check revert
-      await expect(tx).be.revertedWith("KittyKartMarketplace: the owner of NFT token can not buy");
+      await expect(tx).be.revertedWith("KittyKartMarketplace: caller is the owner of NFT");
     });
 
     it("should revert if trying to buy non-listed nft", async function () {
@@ -805,7 +805,7 @@ export function shouldBehaveLikeKittyKartMarketplace(): void {
       // make an offer
       const tx = this.kittyKartMarketplace.connect(this.signers.bell).makeOffer(voucher);
       // check revert
-      await expect(tx).be.revertedWith("KittyKartMarketplace: the owner of NFT token can not make an offer");
+      await expect(tx).be.revertedWith("KittyKartMarketplace: call is the owner of NFT");
     });
 
     it("should revert if nonce is not correct", async function () {
