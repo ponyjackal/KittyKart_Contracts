@@ -92,15 +92,15 @@ const config: HardhatUserConfig = {
       accounts: [
         {
           privateKey: privateKey1,
-          balance: "100",
+          balance: "10000000000000000000000000000000000000000000000000000000",
         },
         {
           privateKey: privateKey2 ?? "",
-          balance: "100",
+          balance: "10000000000000000000000000000000000000000000000000000000",
         },
         {
           privateKey: privateKey3 ?? "",
-          balance: "100",
+          balance: "10000000000000000000000000000000000000000000000000000000",
         },
       ],
       chainId: chainIds.hardhat,
