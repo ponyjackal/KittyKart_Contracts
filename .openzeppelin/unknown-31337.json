@@ -42,7 +42,7 @@
     },
     {
       "address": "0x87F9415632d54A5Ab95165F2AD80142Fb5061025",
-      "txHash": "0xb73d1bb8d699fba340d75f79ddd1064e9f4bff5fbfab4f265a87ca187d73dcd1",
+      "txHash": "0xde9c467ced3e25ddb41670b2177c594ac36b0f752aaca70272bc0ae8ac60c442",
       "kind": "transparent"
     }
   ],
@@ -1061,9 +1061,9 @@
         }
       }
     },
-    "d15928109566562a5377214034e4de068b89d0b8bfb747661f792bc82c2e70d5": {
+    "f82aa16be78d7dd4b11b6469c4c59c04ab1102f9f308118ea4b2f5e6925f4ce9": {
       "address": "0xaE20e53FCB2128cfFbB71705de66B33f1933dD5F",
-      "txHash": "0x716fb76b8f166c982246017ffdde1134168a2f645c2e1176684c9c4b1504c8d3",
+      "txHash": "0xd87e1ec7eb43e3692881552a76c26bfea45b0768573d15ee9c73a0eedc62f811",
       "layout": {
         "storage": [
           {
@@ -1207,7 +1207,7 @@
             "label": "_idToNFT",
             "offset": 0,
             "slot": "307",
-            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(NFT)7366_storage))",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(NFT)7370_storage))",
             "contract": "KittyKartMarketplace",
             "src": "contracts\\KittyKartMarketplace.sol:60"
           },
@@ -1215,7 +1215,7 @@
             "label": "_idToOffer",
             "offset": 0,
             "slot": "308",
-            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(Offer)7373_storage))",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(Offer)7377_storage))",
             "contract": "KittyKartMarketplace",
             "src": "contracts\\KittyKartMarketplace.sol:62"
           },
@@ -1269,11 +1269,11 @@
             "label": "contract IERC721AUpgradeable",
             "numberOfBytes": "20"
           },
-          "t_mapping(t_address,t_mapping(t_uint256,t_struct(NFT)7366_storage))": {
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(NFT)7370_storage))": {
             "label": "mapping(address => mapping(uint256 => struct IKittyKartMarketplace.NFT))",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_mapping(t_uint256,t_struct(Offer)7373_storage))": {
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(Offer)7377_storage))": {
             "label": "mapping(address => mapping(uint256 => struct IKittyKartMarketplace.Offer))",
             "numberOfBytes": "32"
           },
@@ -1285,15 +1285,15 @@
             "label": "mapping(bytes => bool)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(NFT)7366_storage)": {
+          "t_mapping(t_uint256,t_struct(NFT)7370_storage)": {
             "label": "mapping(uint256 => struct IKittyKartMarketplace.NFT)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(Offer)7373_storage)": {
+          "t_mapping(t_uint256,t_struct(Offer)7377_storage)": {
             "label": "mapping(uint256 => struct IKittyKartMarketplace.Offer)",
             "numberOfBytes": "32"
           },
-          "t_struct(NFT)7366_storage": {
+          "t_struct(NFT)7370_storage": {
             "label": "struct IKittyKartMarketplace.NFT",
             "members": [
               {
@@ -1335,7 +1335,7 @@
             ],
             "numberOfBytes": "160"
           },
-          "t_struct(Offer)7373_storage": {
+          "t_struct(Offer)7377_storage": {
             "label": "struct IKittyKartMarketplace.Offer",
             "members": [
               {
