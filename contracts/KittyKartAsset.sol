@@ -643,7 +643,7 @@ contract KittyKartAsset is
     uint256 startTokenId,
     uint256 quantity
   ) internal override {
-    for (uint256 i = startTokenId; i < quantity; i++) {
+    for (uint256 i = 0; i < quantity; i++) {
       tableland.runSQL(
         address(this),
         metadataTableId,
@@ -653,7 +653,7 @@ contract KittyKartAsset is
           " SET owner = '",
           StringsUpgradeable.toHexString(to),
           "' WHERE id = ",
-          StringsUpgradeable.toString(i),
+          StringsUpgradeable.toString(startTokenId + i),
           ";"
         )
       );
